@@ -11,6 +11,7 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
+	    echo 'working';
 		$sql = "SELECT * FROM user";
 		$stmt = $this->_conn->query($sql);
 		while ($row = $stmt->fetch()) {
