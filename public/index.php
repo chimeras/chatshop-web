@@ -9,14 +9,18 @@ defined('APPLICATION_ENV')
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../library/Doctrine'),
     realpath(APPLICATION_PATH . '/../library'),
+    realpath(APPLICATION_PATH . '/../library/Doctrine'),
     get_include_path(),
 )));
 
+
+var_dump(get_include_path());
+echo '<br />';
+
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
-
 // Create application, bootstrap, and run
 $application = new Zend_Application(
     APPLICATION_ENV,
