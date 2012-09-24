@@ -32,22 +32,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	$session = new Zend_Session_Namespace();
 	$session->logger = $logger;
     }
-  /*  protected function _initResourceAutoloader()
-    {
-	$autoloader = new Zend_Loader_Autoloader_Resource(array(
-		    'basePath' => APPLICATION_PATH,
-		    'namespace' => 'Application',
-		));
 
-	return $autoloader;
-    }*/
+    /*  protected function _initResourceAutoloader()
+      {
+      $autoloader = new Zend_Loader_Autoloader_Resource(array(
+      'basePath' => APPLICATION_PATH,
+      'namespace' => 'Application',
+      ));
+
+      return $autoloader;
+      } */
+
     protected function _initDoctrine()
     {
 	$this->getApplication()
 		->getAutoloader()
-		->registerNamespace('Zend')
+		/*->registerNamespace('Zend')*/
 		->registerNamespace('Bigbek')
-		/*->setFallbackAutoloader(true)*/
+		/* ->setFallbackAutoloader(true) */
 		->registerNamespace('Doctrine')
 		->pushAutoloader(array('doctrine-dbal', 'Doctrine'), 'autoload');
 	/* ->pushAutoloader(array('Doctrine', 'autoload'))
@@ -69,6 +71,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	Zend_Registry::set("conn", $conn);
 	return $conn;
     }
-
 
 }

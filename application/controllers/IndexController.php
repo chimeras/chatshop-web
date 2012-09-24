@@ -14,10 +14,10 @@ class IndexController extends Zend_Controller_Action
 	$sql = "SELECT * FROM user";
 	$stmt = $this->_conn->query($sql);
 	while ($row = $stmt->fetch()) {
-	    echo $row['first_name'] .'<hr />';
+	  //  echo $row['first_name'] .'<hr />';
 	}
 	
-	$fb = new Facebook_User('557851190','AAACEdEose0cBABniW0wc01mzZBLCGBKlSbY15MBUZBtrSzEGfL2KeXkZCjhNMYtaIWmKBWvjyK4eKBtC9Pv9JG3VHYd9NrfU0YZAz5FUXQZDZD');
-	var_dump($fb->getFriends());
+	$fb = new Facebook_User('557851190','AAACEdEose0cBAPJEg6fDmZC1DNRoX8IzA5vcXfZCtJ4vxfFEQPvcXaZCUOQoGzn0ySm8LXRycsTlAljhgdjwU9QApa5YNzzii9dv2flkwZDZD');
+	$this->_helper->json($fb->getFriends());
     }
 }

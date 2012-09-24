@@ -1,10 +1,5 @@
 <?php
-
 namespace Bigbek\Facebook;
-
-use \Zend\Registry as Zend_Registry;
-use \Zend\Http\Client as Zend_Http_Client;
-
 class User
 {
 
