@@ -23,7 +23,11 @@ class User
 			    'timeout' => 30));
 	$responseBody = $httpClient->request()->getBody();
 	$responseBodyArray = \Zend_Json::decode($responseBody);
-	return $responseBodyArray['data'];
+	if(isset($responseBodyArray['data'])){
+	    return $responseBodyArray['data'];
+	}else{
+	    return array('error'=>'');
+	}
     }
 
 }

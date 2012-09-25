@@ -1,6 +1,8 @@
 <?php
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Configuration as ORM_Configuration;
+use Doctrine\ORM\EntityManager;
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
@@ -47,7 +49,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
 	$this->getApplication()
 		->getAutoloader()
-		/*->registerNamespace('Zend')*/
+		/* ->registerNamespace('Zend') */
 		->registerNamespace('Bigbek')
 		/* ->setFallbackAutoloader(true) */
 		->registerNamespace('Doctrine')
@@ -67,9 +69,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	    'driver' => $config->resources->db->adapter,
 	);
 
+
 	$conn = DriverManager::getConnection($connectionParams, $dConfig);
 	Zend_Registry::set("conn", $conn);
-	return $conn;
+
+
+
+	if (APPLICATION_ENV == "development") {
+	    $cache = new \Doctrine\Common\Cache\ArrayCache;
+	} else {
+	    $cache = new \Doctrine\Common\Cache\ApcCache;
+	}
+
+	$ormConfig = new ORM_Configuration();
+	$ormConfig->setMetadataCacheImpl($cache);
+	$driverImpl = $ormConfig->newDefaultAnnotationDriver(APPLICATION_PATH . '/../library/Entities');
+	$ormConfig->setMetadataDriverImpl($driverImpl);
+	$ormConfig->setQueryCacheImpl($cache);
+	$ormConfig->setProxyDir(APPLICATION_PATH . '/../library/Proxies');
+	$ormConfig->setProxyNamespace('Bigbek\Proxies');
+	$em = EntityManager::create($connectionParams, $ormConfig);
+	Zend_Registry::set("em", $em);
     }
 
 }
