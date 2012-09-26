@@ -4,20 +4,18 @@ class User
 {
 
     protected $_fbUrl = null;
-    protected $_uid = null;
     protected $_access_token = null;
 
-    public function __construct($uid, $accessToken = null)
+    public function __construct($accessToken)
     {
 	$config = \Zend_Registry::get('config')->facebook;
 	$this->_fbUrl = $config->uri;
-	$this->_uid = $uid;
 	$this->_access_token = $accessToken;
     }
 
     public function getFriends()
     {
-	$httpClient = new \Zend_Http_Client($this->_fbUrl .$this->_uid . '/friends?access_token=' . $this->_access_token,
+	$httpClient = new \Zend_Http_Client($this->_fbUrl .'me/friends?access_token=' . $this->_access_token,
 			array(
 			    'maxredirects' => 0,
 			    'timeout' => 30));
@@ -25,6 +23,21 @@ class User
 	$responseBodyArray = \Zend_Json::decode($responseBody);
 	if(isset($responseBodyArray['data'])){
 	    return $responseBodyArray['data'];
+	}else{
+	    return array('error'=>'');
+	}
+    }
+
+    public function getInfo()
+    {
+	$httpClient = new \Zend_Http_Client($this->_fbUrl .'me/?access_token=' . $this->_access_token,
+			array(
+			    'maxredirects' => 0,
+			    'timeout' => 30));
+	$responseBody = $httpClient->request()->getBody();
+	$responseBodyArray = \Zend_Json::decode($responseBody);
+	if(is_array($responseBodyArray)){
+	    return $responseBodyArray;
 	}else{
 	    return array('error'=>'');
 	}

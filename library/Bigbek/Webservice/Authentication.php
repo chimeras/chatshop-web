@@ -32,9 +32,9 @@ class Authentication extends BaseWebservice
      */
     public function fbSignUp($accessToken, $expirationDate)
     {
-	//$fb = new Facebook_User($uid, $accessToken);
-	return \Zend_Json::encode(array('session' => 'asdfasdfasdfasdfasdfasdf'));
-	//return true;
+	$fb = new Facebook_User($accessToken);
+	$userInfo = $fb->getInfo();
+	return \Zend_Json::encode(array('session' => 'asdfasdfasdfasdfasdfasdf', 'info'=>$userInfo));
     }
 
     /**
