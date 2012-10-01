@@ -47,7 +47,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$layout = $this->getResource('layout');
 		$view = $layout->getView();
 		$view->doctype('XHTML1_STRICT');
-		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/json;charset=utf-8');
+		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
 	}
 
 	/* protected function _initDbUpdate()
@@ -62,7 +62,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	protected function _initConfig()
 	{
-		
+		$config = new Zend_Config($this->getOptions(), true);
+		Zend_Registry::set('config', $config);
+		return $config;
 	}
 
 }

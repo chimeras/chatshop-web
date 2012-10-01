@@ -12,20 +12,13 @@ use \Zend_Registry;
 class BaseWebservice
 {
 
-    /**
-     *
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     *
-     * @var EntityManager
-     */
-    public function __construct()
-    {
-	$registry = Zend_Registry::getInstance();
-	$this->em = $registry->entitymanager;
-    }
+	/**
+	 *
+	 * @var EntityManager
+	 */
+	public function __construct()
+	{
+		$registry = Zend_Registry::getInstance();
+	}
 
 }

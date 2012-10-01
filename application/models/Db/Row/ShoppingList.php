@@ -1,5 +1,5 @@
 <?php
-class Application_Model_Db_Row_ShoppingList extends Zend_Db_Table_Row_Abstract{
+abstract class Application_Model_Db_Row_ShoppingList extends Zend_Db_Table_Row_Abstract{
 
 	public function __construct(array $config = array())
 	{
@@ -19,10 +19,7 @@ class Application_Model_Db_Row_ShoppingList extends Zend_Db_Table_Row_Abstract{
 		return $this;
 	}
 
-	public function getId()
-	{
-		return $this->id;
-	}
+
 
 	public function getUserId()
 	{
