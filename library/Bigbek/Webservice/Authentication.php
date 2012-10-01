@@ -13,11 +13,7 @@ use Bigbek\Facebook\User as Facebook_User;
 class Authentication extends BaseWebservice
 {
 
-    /**
-     *
-     * @var EntityManager
-     */
-    protected $em;
+    
 
     public function __construct()
     {
@@ -33,8 +29,12 @@ class Authentication extends BaseWebservice
     public function fbSignUp($accessToken, $expirationDate)
     {
 	$fb = new Facebook_User($accessToken);
-	$userInfo = $fb->getInfo();
-	return \Zend_Json::encode(array('session' => 'asdfasdfasdfasdfasdfasdf', 'info'=>$userInfo));
+	
+	$userFbInfo = $fb->getInfo();
+	$userFbInfo['first_name'];
+	$userFbInfo['last_name'];
+	
+	return \Zend_Json::encode(array('session' => 'asdfasdfasdfasdfasdfasdf', 'first_name'=>$userFbInfo['first_name']));
     }
 
     /**
@@ -44,8 +44,19 @@ class Authentication extends BaseWebservice
      */
     public function signIn($session)
     {
-
-	 var_dump($this->em->find('User', 1));
+	//$user = new \Application_Model_User;
+	//var_dump($user);
+	$user = $this->em->find('Application_Model_User', 1);
+	/*$user->firstName = 'Vardan';
+	$this->em->flush();*/
+	echo $user->getFirstName();
+	$userFb = $this->em->find('Application_Model_UserFacebook', 1);
+	
+	$userFacebooks = $user->getUserFacebooks();
+	// var_dump($userFacebooks[0]->getAccessToken());
+	 //var_dump($userFb->getAccessToken());
+	 var_dump($userFb->getUser()->getFirstName());
+	 return;
 	  $fb = new Facebook_User($uid, $accessToken);
 	if ($session == 'asdfasdfasdfasdfasdfasdf') {
 	    return \Zend_Json::encode(array('result' => 'success'));

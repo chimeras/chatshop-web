@@ -1,0 +1,540 @@
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Brand.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Brands.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brands.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brand.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Category.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Categorys.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Categorys.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Category.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/CategoryProduct.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/CategoryProducts.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProducts.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProduct.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Interest.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Interests.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interests.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interest.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Location.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Locations.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Locations.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Location.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Picture.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Pictures.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Pictures.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Picture.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Product.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Products.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Products.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Product.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ProductLocation.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ProductLocations.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocations.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocation.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ProductRelation.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ProductRelations.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelations.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelation.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Reccomendation.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Reccomendations.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendations.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendation.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Retailer.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Retailers.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailers.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailer.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ShoppingList.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ShoppingLists.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingLists.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingList.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ShoppingListItem.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ShoppingListItems.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItems.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItem.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Theme.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Themes.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Themes.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Theme.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ThemeCategory.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ThemeCategorys.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategorys.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategory.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/User.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Users.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Users.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/User.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/UserFacebook.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/UserFacebooks.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebooks.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebook.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/UserInterest.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/UserInterests.php): failed to open stream: No such file or directory
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterests.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterest.php): failed to open stream: Permission denied
+2012-10-01T12:33:51+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:33:51+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Brand.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Brands.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brands.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brand.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Category.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Categorys.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Categorys.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Category.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/CategoryProduct.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/CategoryProducts.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProducts.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProduct.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Interest.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Interests.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interests.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interest.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Location.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Locations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Locations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Location.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Picture.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Pictures.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Pictures.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Picture.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Product.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Products.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Products.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Product.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ProductLocation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ProductLocations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ProductRelation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ProductRelations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Reccomendation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Reccomendations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendations.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendation.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Retailer.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Retailers.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailers.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailer.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ShoppingList.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ShoppingLists.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingLists.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingList.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ShoppingListItem.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ShoppingListItems.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItems.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItem.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/Theme.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Themes.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Themes.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Theme.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/ThemeCategory.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/ThemeCategorys.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategorys.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategory.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/User.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/Users.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Users.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/User.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/UserFacebook.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/UserFacebooks.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebooks.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebook.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Row/UserInterest.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Db/Table/UserInterests.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterests.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterest.php): failed to open stream: Permission denied
+2012-10-01T12:35:02+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:35:02+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brands.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Brand.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Categorys.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Category.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProducts.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/CategoryProduct.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interests.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Interest.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Locations.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Location.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Pictures.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Picture.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Products.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Product.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocations.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductLocation.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelations.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ProductRelation.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendations.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Reccomendation.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailers.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Retailer.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingLists.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingList.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItems.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ShoppingListItem.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Themes.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Theme.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategorys.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/ThemeCategory.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/Users.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/User.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebooks.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserFacebook.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterests.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fopen(/home/vahram/www/shopbrag/application/models/UserInterest.php): failed to open stream: Permission denied
+2012-10-01T12:36:11+04:00 WARN (4): fwrite() expects parameter 1 to be resource, boolean given
+2012-10-01T12:36:11+04:00 WARN (4): fclose() expects parameter 1 to be resource, boolean given
