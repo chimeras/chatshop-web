@@ -54,7 +54,7 @@ class UserWebservice extends BaseWebservice
 		if (is_object($shoplist)) {
 			$shoplist->delete();
 		}
-		return \Zend_Json::encode(array('action' => 'deleted', 'id' => $list->getId()));
+		return \Zend_Json::encode(array('action' => 'deleted'));
 	}
 
 	/**
