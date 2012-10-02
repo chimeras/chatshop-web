@@ -77,18 +77,4 @@ class Authentication extends BaseWebservice
 			return \Zend_Json::encode(array('error' => 'wrong session'));
 		}
 	}
-
-	/**
-	 * 
-	 * @param integer $uid
-	 * @param string $accessToken
-	 * @return boolean
-	 */
-	public function fbTest($uid, $accessToken)
-	{
-		$fb = new Facebook_User($uid, $accessToken);
-		echo \Zend_Json::encode($fb->getFriends());
-		return true;
-	}
-
 }

@@ -67,4 +67,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		return $config;
 	}
 
+	public function _initRequest()
+{
+    $this->bootstrap('frontController');
+    $front = $this->getResource('frontController');
+    $front->setRequest(new Zend_Controller_Request_Http());
+
+    $request = $front->getRequest();
+	Zend_Registry::set('request', $request);
+}
 }
