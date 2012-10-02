@@ -24,7 +24,7 @@ class AuthController extends Zend_Controller_Action
 			$smd = $server->getServiceMap();
 
 			// Return the SMD to the client
-			header('Content-Type: application/json');
+			header('Content-Type: application/text');
 			echo $smd;
 			return;
 		}
