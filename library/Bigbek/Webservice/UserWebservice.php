@@ -59,12 +59,15 @@ class UserWebservice extends BaseWebservice
 
 	/**
 	 * 
-	 * @param string $name
-	 * @param string private|public $privacy
+	 * @param string/json $params
 	 * @return text/json (action, new shoplist id)
 	 */
-	public function createShoppingList($name, $privacy = \Application_Model_ShoppingList::VISIBILITY_PRIVATE)
+	public function createShoppingList($params = null)
 	{
+		$params = \Zend_Json::decode($params);
+		$name = $params['name'];
+		$privacy = isset($params['privacy']) ? $params['privacy'] : \Application_Model_ShoppingList::VISIBILITY_PRIVATE;
+		$privacy = isset($params['state']) ? $params['state'] : \Application_Model_ShoppingList::STATE_ACTIVE;
 		if ($this->currentUser == null) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
