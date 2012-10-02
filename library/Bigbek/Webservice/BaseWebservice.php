@@ -22,9 +22,6 @@ class BaseWebservice
 	{
 		$registry = Zend_Registry::getInstance();
 		$request = Zend_Registry::get('request');
-		if($request->getParam('session') != null){
-			$this->setUser($request->getParam('session'));
-		}
 	}
 
 	/**

@@ -25,29 +25,29 @@ class UserWebservice extends BaseWebservice
 	}
 
 	/**
-	 * 
+	 * @param string $session
 	 * @param integer $count
 	 * @param integer $offset
 	 * @return string JSON
 	 */
-	public function getShoppingLists($count = null, $offset = null)
+	public function getShoppingLists($session, $count = null, $offset = null)
 	{
-		if ($this->currentUser == null) {
+		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
-
-		$lists = $this->_shoplists->fetchAll('user_id='.$this->currentUser->getId(), array('name'), $count, $offset);
+		$lists = $this->_shoplists->fetchAll('user_id=' . $this->currentUser->getId(), array('name'), $count, $offset);
 		return \Zend_Json::encode(array('shoplists' => $lists->toArray(), 'message' => 'successfully retreived'));
 	}
 
 	/**
-	 * 
+	 *
+	 * @param string $session 
 	 * @param integer $id
 	 * @return text/json (action, deleted shoplist id)
 	 */
-	public function deleteShoppingList($id)
+	public function deleteShoppingList($session, $id)
 	{
-		if ($this->currentUser == null) {
+		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
 		$shoplist = $this->_shoplists->fetch($id);
@@ -58,12 +58,15 @@ class UserWebservice extends BaseWebservice
 	}
 
 	/**
-	 * 
+	 * @param string $session
 	 * @param string/json $params(name, privacy, state)
 	 * @return text/json (action, new shoplist id)
 	 */
-	public function createShoppingList($shoplist = null)
+	public function createShoppingList($session, $shoplist = null)
 	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
 		$params = \Zend_Json::decode($shoplist);
 		$name = $params['name'];
 		$privacy = isset($params['privacy']) ? $params['privacy'] : \Application_Model_ShoppingList::VISIBILITY_PRIVATE;
