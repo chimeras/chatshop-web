@@ -1,7 +1,5 @@
 <?php
-
-//use Facebook\User as Facebook_User;
-class AuthController extends Zend_Controller_Action
+class ShopController extends Zend_Controller_Action
 {
 
 	public function init()
@@ -13,7 +11,7 @@ class AuthController extends Zend_Controller_Action
 	public function indexAction()
 	{
 		$server = new Zend_Json_Server();
-		$server->setClass('Bigbek\Webservice\AuthWebservice');
+		$server->setClass('Bigbek\Webservice\ShopWebservice');
 
 		if ('GET' == $_SERVER['REQUEST_METHOD']) {
 			// Indicate the URL endpoint, and the JSON-RPC version used:

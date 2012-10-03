@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Row_ProductRelation extends Zend_Db_Table_Row_Abstract{
+abstract class Application_Model_Db_Row_ProductXProduct extends Zend_Db_Table_Row_Abstract{
 
 	public function __construct(array $config = array())
 	{
