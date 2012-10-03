@@ -9,7 +9,7 @@ class Application_Model_ThemeXCategories extends Application_Model_Db_Table_Them
 			'refColumns' => array('id') /*primary key of parent table*/
 		),
 		'Category' => array(
-			'columns' => array('cateogry_id'), /*foreign key*/
+			'columns' => array('category_id'), /*foreign key*/
 			'refTableClass' => 'Application_Model_Categories',
 			'refColumns' => array('id') /*primary key of parent table*/
 		)

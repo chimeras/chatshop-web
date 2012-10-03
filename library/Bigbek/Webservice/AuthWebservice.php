@@ -9,7 +9,7 @@ use Bigbek\Facebook\User as Facebook_User;
  *
  * @author vahram
  */
-class Authentication extends BaseWebservice
+class AuthWebservice extends BaseWebservice
 {
 
 	public function __construct()

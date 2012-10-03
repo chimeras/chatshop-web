@@ -567,3 +567,5 @@
 2012-10-01T18:04:02+04:00 NOTICE (5): Undefined variable: session
 2012-10-01T18:13:56+04:00 NOTICE (5): Undefined index: user_id
 2012-10-01T18:13:56+04:00 NOTICE (5): Undefined index: user_id
+2012-10-03T12:49:37+04:00 WARN (4): include_once(Application/Model/ThemeXCategories.php): failed to open stream: No such file or directory
+2012-10-03T12:49:37+04:00 WARN (4): include_once(): Failed opening 'Application/Model/ThemeXCategories.php' for inclusion (include_path='/home/vahram/www/shopbrag/application/../library:/home/vahram/www/shopbrag/library:.:/usr/share/php:/usr/share/pear')
