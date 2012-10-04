@@ -8,16 +8,26 @@ namespace Bigbek\Webservice;
  */
 class ShopWebservice extends BaseWebservice
 {
-
-	private $_shoplists;
+	/**
+	 *
+	 * @var \Application_Model_Themes 
+	 */
+	private $_themes;
+	/**
+	 *
+	 * @var \Application_Model_Categories
+	 */
+	private $_categories;
+	
 	protected $errorMessage = array(
 		'2001' => 'no session or user',
 		'2002' => 'Shopping List doesn\'t exist'
 	);
-
+	
 	public function __construct()
 	{
 		$this->_themes = new \Application_Model_Themes;
+		$this->_categories = new \Application_Model_Categories;
 		parent::__construct();
 	}
 
@@ -34,6 +44,7 @@ class ShopWebservice extends BaseWebservice
 
 	public function getCagetoryProducts($id)
 	{
-		
+		$category = $this->_categories->fetch($id);
+		return \Zend_Json::encode(array('products' => $category->getProductsArray(), 'message' => 'successfully retreived'));
 	}
 }
