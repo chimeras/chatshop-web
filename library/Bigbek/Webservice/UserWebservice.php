@@ -59,7 +59,7 @@ class UserWebservice extends BaseWebservice
 
 	/**
 	 * @param string $session
-	 * @param string/json $params(name, privacy, state)
+	 * @param string/json $shoplist(name, privacy, state)
 	 * @return text/json (action, new shoplist id)
 	 */
 	public function createShoppingList($session, $shoplist = null)
@@ -74,13 +74,42 @@ class UserWebservice extends BaseWebservice
 		if ($this->currentUser == null) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
+		
 		$list = $this->_shoplists->fetchNew();
 		$list->setUserId($this->currentUser->getId());
 		$list->setName($name);
 		$list->setPrivacy($privacy);
 		$list->setState($state);
+		
 		$list->save();
 		return \Zend_Json::encode(array('action' => 'saved', 'id' => $list->getId()));
 	}
 
+	
+	public function getShoppingListItems($session, $id)
+	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
+		
+		$shoppingList = $this->_shoplists->fetch($id);
+		return $shoppingList->getAllItemsArray();
+	}
+	
+	
+	/**
+	 * 
+	 * @param string $session
+	 * @param int $shoppingListId
+	 * @param string/json $item
+	 * @return int
+	 */
+	public function addShoppingListItem($session, $shoppingListId, $item)
+	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
+		$shoppingList = $this->_shoplists->fetch($shoppingListId);
+		return $shoppingList->addItem(\Zend_Json::decode($item));
+	}
 }

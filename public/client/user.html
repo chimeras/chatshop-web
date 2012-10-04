@@ -38,7 +38,7 @@
 								$('#console').append('<br />');
 								eval('var result = testBasic.'+index+'('+paramsStr+');');
 								if(result && result.length > 0){
-									$('#console').append(result);
+									$('#console').append(result.toString());
 								}else{
 									$('#console').append('<strong />').text('Error occured');
 								}

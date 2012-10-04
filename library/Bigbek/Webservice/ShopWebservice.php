@@ -32,4 +32,8 @@ class ShopWebservice extends BaseWebservice
 		return \Zend_Json::encode(array('themes' => $themesArray, 'message' => 'successfully retreived'));
 	}
 
+	public function getCagetoryProducts($id)
+	{
+		
+	}
 }
