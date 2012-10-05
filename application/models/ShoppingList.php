@@ -46,7 +46,7 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 	public function toArray()
 	{
 		$return = parent::toArray();
-		$return['items'] = $this->getItemsArray();
+		$return['items'] = $this->getAllItemsArray();
 
 		return $return;
 	}
