@@ -64,6 +64,9 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 		$item = $this->itemsTable->fetchNew();
 		$item->setShoppingListId($this->getId());
 		$item->setProductId($itemArray['product_id']);
+		if(isset($itemArray['reminder'])){
+			$item->setReminder((bool) $itemArray['reminder']);
+		}
 		$item->save();
 		return $item->getId();
 	}

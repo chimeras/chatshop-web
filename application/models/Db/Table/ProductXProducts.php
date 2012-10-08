@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_ProductXProducts extends Zend_Db_Table
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_ProductXProduct 
 	 */
 	public function fetch($id)
 	{

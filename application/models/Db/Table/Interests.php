@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_Interests extends Zend_Db_Table_Abstra
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_Interest 
 	 */
 	public function fetch($id)
 	{

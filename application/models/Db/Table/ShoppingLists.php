@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_ShoppingLists extends Zend_Db_Table_Ab
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_ShoppingList 
 	 */
 	public function fetch($id)
 	{

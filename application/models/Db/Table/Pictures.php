@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_Pictures extends Zend_Db_Table_Abstrac
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_Picture 
 	 */
 	public function fetch($id)
 	{

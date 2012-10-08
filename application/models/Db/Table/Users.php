@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_Users extends Zend_Db_Table_Abstract
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_User 
 	 */
 	public function fetch($id)
 	{

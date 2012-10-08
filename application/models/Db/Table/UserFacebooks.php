@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_UserFacebooks extends Zend_Db_Table_Ab
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_UserFacebook 
 	 */
 	public function fetch($id)
 	{

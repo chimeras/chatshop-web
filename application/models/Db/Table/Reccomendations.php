@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_Reccomendations extends Zend_Db_Table_
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_Reccomendation 
 	 */
 	public function fetch($id)
 	{

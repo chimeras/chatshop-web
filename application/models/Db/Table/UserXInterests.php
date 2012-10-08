@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_UserXInterests extends Zend_Db_Table_A
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_UserXInterest 
 	 */
 	public function fetch($id)
 	{

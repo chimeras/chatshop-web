@@ -8,7 +8,7 @@ abstract class Application_Model_Db_Table_ProductXLocations extends Zend_Db_Tabl
 /**
 	 *
 	 * @param integer $id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_ProductXLocation 
 	 */
 	public function fetch($id)
 	{

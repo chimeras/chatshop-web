@@ -11,16 +11,29 @@ use Bigbek\Facebook\User as Facebook_User;
  */
 class UserWebservice extends BaseWebservice
 {
-
+	/**
+	 *
+	 * @var type Application_Model_ShoppingLists
+	 */
 	private $_shoplists;
+	
+	/**
+	 *
+	 * @var type Application_Model_ShoppingListItems;
+	 */
+	private $_shoplistItems;
+	
 	protected $errorMessage = array(
 		'2001' => 'no session or user',
-		'2002' => 'Shopping List doesn\'t exist'
+		'2002' => 'Shopping List doesn\'t exist',
+		'2003' => 'Item is not from Shopping List',
+		'2004' => 'User is not shopping list owner'
 	);
 
 	public function __construct()
 	{
 		$this->_shoplists = new \Application_Model_ShoppingLists;
+		$this->_shoplistItems = new \Application_Model_ShoppingListItems;
 		parent::__construct();
 	}
 
@@ -111,5 +124,33 @@ class UserWebservice extends BaseWebservice
 		}
 		$shoppingList = $this->_shoplists->fetch($shoppingListId);
 		return $shoppingList->addItem(\Zend_Json::decode($item));
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param string $session
+	 * @param int $shoppingListId
+	 * @param int $itemId
+	 * @return bool
+	 */
+	public function deleteShoppingListItem($session, $shoppingListId, $itemId)
+	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
+		$shoppingList = $this->_shoplists->fetch($shoppingListId);
+		if($shoppingList->getUserId() != $this->currentUser->getId()){
+			return \Zend_Json::encode(array('error' => '2004', 'message' => $this->errorMessage['2004']));
+		} 
+		$shoppingListItem = $this->_shoplistItems->fetch($shoppingListId);
+		if($shoppingListItem->getShopList() == $shoppingList){
+			$shoppingListItem->delete();
+			return \Zend_Json::encode(array('action' => 'removed'));
+		}else{
+			return \Zend_Json::encode(array('error' => '2003', 'message' => $this->errorMessage['2003']));
+		}
+		
 	}
 }

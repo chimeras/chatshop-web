@@ -40,10 +40,11 @@ class Setup
 			$fp = fopen(APPLICATION_PATH . '/models/Db/Row/' . $this->toCamelCase($table) . ".php", "w");
 			fwrite($fp, $this->_generateRowClass($table));
 			fclose($fp);
-			$fp = fopen(APPLICATION_PATH . '/models/Db/Table/' . $this->toCamelCase($table) . "s.php", "w");
+			$tableName = substr($table, -1)== 'y' ? $this->toCamelCase(substr($table, 0, strlen($table)-1))."ie" : $this->toCamelCase($table);
+			$fp = fopen(APPLICATION_PATH . '/models/Db/Table/' . $tableName . "s.php", "w");
 			fwrite($fp, $this->_generateTableClass($table));
 			fclose($fp);
-			$filename = APPLICATION_PATH . '/models/' . $this->toCamelCase($table) . "s.php";
+			$filename = APPLICATION_PATH . '/models/' . $tableName . "s.php";
 			if (!is_file($filename)) {
 				$fp = fopen($filename, "w");
 				fwrite($fp, $this->_generateTableModelClass($table));
@@ -109,7 +110,7 @@ abstract class Application_Model_Db_Table_{$this->toCamelCase($name)}s extends Z
 /**
 	 *
 	 * @param integer \$id
-	 * @return Application_Model_Thread 
+	 * @return Application_Model_{$this->toCamelCase($name)} 
 	 */
 	public function fetch(\$id)
 	{
