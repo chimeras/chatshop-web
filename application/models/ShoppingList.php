@@ -61,6 +61,10 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 		if(!isset($itemArray['product_id'])){
 			return FALSE;
 		}
+		$existing = $this->itemsTable->fetchRow('`shopping_list_id`='.$this->getId() .' AND `product_id`='.(int)$itemArray['product_id']);
+		if(is_object($existing)){
+			return TRUE;
+		}
 		$item = $this->itemsTable->fetchNew();
 		$item->setShoppingListId($this->getId());
 		$item->setProductId($itemArray['product_id']);
