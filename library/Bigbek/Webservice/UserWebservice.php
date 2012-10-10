@@ -152,7 +152,7 @@ class UserWebservice extends BaseWebservice
 		}
 		
 		$shoppingList = $this->_shoplists->fetch($id);
-		return $shoppingList->getAllItemsArray();
+		return \Zend_Json::encode(array('list' => $shoppingList->getAllItemsArray()));
 	}
 	
 	
@@ -162,8 +162,7 @@ class UserWebservice extends BaseWebservice
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
 		
-		\Zend_Json::encode(array('list' => $this->currentUser->getUnclassifiedIetms()));
-		return $shoppingList->getAllItemsArray();
+		return \Zend_Json::encode(array('list' => $this->currentUser->getUnclassifiedIetms()));
 	}
 	
 	/**
