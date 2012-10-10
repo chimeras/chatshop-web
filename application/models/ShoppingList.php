@@ -3,10 +3,13 @@
 class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingList
 {
 
-	const VISIBILITY_PUBLIC = 'public';
-	const VISIBILITY_PRIVATE = 'private';
-	const STATE_ACTIVE = 'active';
-	const STATE_ARCHIVED = 'archived';
+	const VISIBILITY_PUBLIC = 1;
+	const VISIBILITY_PRIVATE = 2;
+	const STATE_ACTIVE = 1;
+	const STATE_ARCHIVED = 2;
+	const TYPE_NORMAL = 1;
+	const TYPE_UNCLASSIFIED = 2;
+	const TYPE_PAST = 3;
 
 	/**
 	 *
@@ -73,6 +76,11 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 		}
 		$item->save();
 		return $item->getId();
+	}
+	
+	public function getUser()
+	{
+		return $this->findParentRow('Application_Model_Users');
 	}
 
 }

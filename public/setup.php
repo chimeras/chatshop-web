@@ -99,9 +99,10 @@ MMMM;
 
 	private function _generateTableClass($name)
 	{
+		$tableName = substr($name, -1)== 'y' ? $this->toCamelCase(substr($name, 0, strlen($name)-1))."ie" : $this->toCamelCase($name);
 		$class = <<<CLSS
 <?php
-abstract class Application_Model_Db_Table_{$this->toCamelCase($name)}s extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_{$this->toCamelCase($tableName)}s extends Zend_Db_Table_Abstract
 {
 	protected \$_name = '$name';
 	protected \$_rowClass = 'Application_Model_{$this->toCamelCase($name)}';

@@ -50,7 +50,7 @@ class UserWebservice extends BaseWebservice
 		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
-		$lists = $this->_shoplists->fetchAll('user_id=' . $this->currentUser->getId(), array('name'), $count, $offset);
+		$lists = $this->_shoplists->fetchAll('`user_id`=' . $this->currentUser->getId() .' AND `state`='.  \Application_Model_ShoppingList::STATE_ACTIVE, array('name'), $count, $offset);
 		return \Zend_Json::encode(array('shoplists' => $lists->toArray(), 'message' => 'successfully retreived'));
 	}
 
@@ -156,6 +156,16 @@ class UserWebservice extends BaseWebservice
 	}
 	
 	
+	public function getUnclassifiedItems($session)
+	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
+		
+		\Zend_Json::encode(array('list' => $this->currentUser->getUnclassifiedIetms()));
+		return $shoppingList->getAllItemsArray();
+	}
+	
 	/**
 	 * 
 	 * @param string $session
@@ -172,6 +182,20 @@ class UserWebservice extends BaseWebservice
 		return $shoppingList->addItem(\Zend_Json::decode($item));
 	}
 	
+	
+	public function archiveItem($session, $id)
+	{
+		if (!$this->setUser($session)) {
+			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+		}
+		$item = $this->_shoplistItems->fetch($id);
+		$shoppingList = $item->getShopList();
+		if($shoppingList->getUser()->getId() == $this->currentUser->getId()){
+			$pastItemsList = $this->currentUser->getShoppingPastList();
+			$item->setShoppingListId($pastItemsList->getId());
+		}
+		
+	}
 	
 	
 	/**

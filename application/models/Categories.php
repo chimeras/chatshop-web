@@ -1,6 +1,6 @@
 <?php
 
-class Application_Model_Categories extends Application_Model_Db_Table_Categorys
+class Application_Model_Categories extends Application_Model_Db_Table_Categories
 {
 
 	protected $_name = 'category';

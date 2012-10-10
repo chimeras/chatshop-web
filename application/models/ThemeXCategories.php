@@ -1,5 +1,5 @@
 <?php
-class Application_Model_ThemeXCategories extends Application_Model_Db_Table_ThemeXCategorys
+class Application_Model_ThemeXCategories extends Application_Model_Db_Table_ThemeXCategories
 {
 	protected $_referenceMap = array(
 		'Theme' => array(
