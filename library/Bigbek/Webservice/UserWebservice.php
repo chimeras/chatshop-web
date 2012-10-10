@@ -161,9 +161,8 @@ class UserWebservice extends BaseWebservice
 		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
+		return \Zend_Json::encode(array('list' => $this->currentUser->getUnclassifiedIetms()));
 		
-		\Zend_Json::encode(array('list' => $this->currentUser->getUnclassifiedIetms()));
-		return $shoppingList->getAllItemsArray();
 	}
 	
 	/**
