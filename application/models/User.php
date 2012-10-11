@@ -29,7 +29,17 @@ class Application_Model_User extends Application_Model_Db_Row_User
 	{
 		$table = new Application_Model_ShoppingLists;
 		$select = $table->select()->where('`type`=?', Application_Model_ShoppingList::TYPE_PAST);
-		return $this->findDependentRowset('Application_Model_ShoppingLists', 'Users', $select);
+		$lists = $this->findDependentRowset('Application_Model_ShoppingLists', 'Users', $select);
+		if(isset($lists[0])){
+			$list = $lists[0];
+		}else{
+			$list = $table->fetchNew();
+			$list->setUserId($this->getId());
+			$list->setType(Application_Model_ShoppingList::TYPE_PAST);
+			$list->setName('archived items');
+			$list->save();
+		}
+		return $list;
 	}
 
 	public function getUnclassifiedIetms()

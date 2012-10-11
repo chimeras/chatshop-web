@@ -29,7 +29,8 @@ class UserWebservice extends BaseWebservice
 		'2003' => 'Item is not from Shopping List',
 		'2004' => 'User is not shopping list owner',
 		'2005' => 'Shopping list id is not specified',
-		'2006' => 'Shopping list not found by specified ID'
+		'2006' => 'Shopping list not found by specified ID',
+		'2007' => 'Item owner is not the specified user'
 	);
 
 	public function __construct()
@@ -192,6 +193,10 @@ class UserWebservice extends BaseWebservice
 		if($shoppingList->getUser()->getId() == $this->currentUser->getId()){
 			$pastItemsList = $this->currentUser->getShoppingPastList();
 			$item->setShoppingListId($pastItemsList->getId());
+			$item->save();
+			return \Zend_Json::encode(array('action' => 'archived'));
+		}else{
+			return \Zend_Json::encode(array('error' => '2007', 'message' => $this->errorMessage['2007']));
 		}
 		
 	}
@@ -213,7 +218,7 @@ class UserWebservice extends BaseWebservice
 		if($shoppingList->getUserId() != $this->currentUser->getId()){
 			return \Zend_Json::encode(array('error' => '2004', 'message' => $this->errorMessage['2004']));
 		} 
-		$shoppingListItem = $this->_shoplistItems->fetch($shoppingListId);
+		$shoppingListItem = $this->_shoplistItems->fetch($itemId);
 		if($shoppingListItem->getShopList() == $shoppingList){
 			$shoppingListItem->delete();
 			return \Zend_Json::encode(array('action' => 'removed'));
@@ -222,4 +227,7 @@ class UserWebservice extends BaseWebservice
 		}
 		
 	}
+	
+	
+	
 }
