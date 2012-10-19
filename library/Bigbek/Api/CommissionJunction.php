@@ -29,7 +29,9 @@ class CommissionJunction
 
 	public function getProducts($query = array())
 	{
-		
+		if(!is_array($query)){
+			return false;
+		}
 		$targeturl = self::$_targetUrl."product-search?";
 		$targeturl .= "website-id=". self::$_websiteId;
 		/*$advs = "joined"; // results from (joined), (CIDs), (Empty String), (notjoined)

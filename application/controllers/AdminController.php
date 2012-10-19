@@ -113,7 +113,7 @@ class AdminController extends Zend_Controller_Action
 				}
 				$query[$key] = $post;
 			}
-			$xml = $comissionJunction->getProducts($_POST);
+			$xml = $comissionJunction->getProducts($query);
 			if (is_object($xml)) {
 				foreach ($xml->products->product as $item) {
 					$link = $item->xpath('buy-url');
