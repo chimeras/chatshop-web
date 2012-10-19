@@ -1,0 +1,36 @@
+<?php
+$fields = array(
+	'advertiser-ids',
+	'advertiser-sku',
+	'currency',
+	'high-price',
+	'high-sale-price',
+	'isbn',
+	'keywords',
+	'low-price',
+	'low-sale-price',
+	'manufacturer-name',
+	'manufacturer-sku',
+	'page-number',
+	'records-per-page',
+	'serviceable-area',
+	'sort-by',
+	'sort-order',
+	'upc'
+);
+?>
+
+<form method="POST">
+	<ul>
+<?php foreach ($fields as $name) {
+	?>
+			<li>
+			<?php echo $name ?> <input name="<?php echo $name ?>" />
+			</li>
+				<?php }
+			?>
+
+	</ul>
+	
+	<input type="submit" />
+</form>
