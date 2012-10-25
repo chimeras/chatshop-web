@@ -41,10 +41,22 @@ class ShopWebservice extends BaseWebservice
 		//return \Zend_Json::encode(array('theme' => $themes[0]->toArray(), 'message' => 'successfully retreived'));
 		return \Zend_Json::encode(array('themes' => $themesArray, 'message' => 'successfully retreived'));
 	}
-
+/*
 	public function getCategoryProducts($id)
 	{
 		$category = $this->_categories->fetch($id);
 		return \Zend_Json::encode(array('products' => $category->getProductsArray(), 'message' => 'successfully retreived'));
+	}*/
+	
+	public function getCategories()
+	{
+		$categoriesTable = new \Bigbek\Api\CommissionJunction;
+		return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived'));
+	}
+	
+	public function getCategoryProducts($name)
+	{
+		$apProducts = new \Bigbek\Api\CommissionJunction;
+		return \Zend_Json::encode(array('products' => $apProducts->getProductsArray($name), 'message' => 'successfully retreived'));
 	}
 }

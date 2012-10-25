@@ -2,7 +2,7 @@
 
 namespace Bigbek\Api;
 
-use \Zend_Registry;
+//use \Zend_Registry;
 
 /**
  * Commission junction wrapper class
@@ -62,6 +62,37 @@ class CommissionJunction
 		return $result;
 	}
 
+	public function getCategories()
+	{
+		$targeturl = 'https://support-services.api.cj.com/v2/categories';
+		$targeturl .= "?website-id=". self::$_websiteId;
+		
+		return $this->__executeCall($targeturl);
+		
+	}
+	
+	public function getProductsArray()
+	{
+		$targeturl = 'https://product-search.api.cj.com/v2/product-search';
+		$targeturl .= "?website-id=". self::$_websiteId;
+		
+		return $this->__executeCall($targeturl);
+		
+	}
+	
+	private function __executeCall($targeturl)
+	{
+		$ch = curl_init($targeturl);
+		curl_setopt($ch, CURLOPT_POST, FALSE);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: ' . self::$_cjDevKey)); // send development key
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		$response = curl_exec($ch);
+		$result = new \SimpleXMLElement($response);
+		curl_close($ch);
+		return $result;
+		
+	}
 }
 
 //http://api-product.skimlinks.com/query?q=%2Bcountry:US%20manufacturer:Samsung%20q.op=AND%20title:galaxy%20df=title%2&version=3&key=d417381991e9c817add3b6179f1f71e8&start=1000
