@@ -37,8 +37,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/app.log');
 		$logger->addWriter($writer);
 		$logger->registerErrorHandler();
-		$session = new Zend_Session_Namespace();
-		$session->logger = $logger;
+		Zend_Registry::set('logger', $logger);
+		return $logger;
 	}
 
 	protected function _initViewHelpers()
@@ -48,6 +48,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$view = $layout->getView();
 		$view->doctype('XHTML1_STRICT');
 		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+		
 	}
 
 	/* protected function _initDbUpdate()
