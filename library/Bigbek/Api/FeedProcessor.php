@@ -25,7 +25,7 @@ class FeedProcessor
 
 	public function process()
 	{
-		$files = 
+		//$files = 
 	}
 	
 }
