@@ -4,7 +4,8 @@ class FeedController extends Zend_Controller_Action
 	
 	public function cjHandleTestAction()
 	{
-		
+		$feedProcessor = new Bigbek\Api\FeedProcessor;
+		$feedProcessor->process();
 	}
 
 	public function cjHandleAction()
