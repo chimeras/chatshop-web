@@ -40,10 +40,14 @@ class FeedProcessor
 		'buy_url'		=> 'BUYURL',
 		'impression_url'=> 'IMPRESSIONURL',
 		'image_url'		=> 'IMAGEURL'
-		
-		
-		
 	);
+	
+	private $_cjObjects = array(
+		'Brand'				=> 'MANUFACTURER',
+		'Retailer'			=> 'PROGRAMNAME',
+		'AdvertiserCategory'=> 'ADVERTISERCATEGORY'
+	);
+	
 	public function __construct()
 	{
 		$this->_logger = Zend_Registry::get('logger');
@@ -56,6 +60,7 @@ class FeedProcessor
 		$files = $this->_getFiles();
 		foreach ($files as $file) {
 			echo ' '.$file->getFilename();
+			
 			$fileData = $this->_getData($file);
 			$this->_writeToDb($fileData);
 		}
@@ -106,13 +111,35 @@ class FeedProcessor
 	private function _writeToDb($data)
 	{
 		$productTable = new \Application_Model_Products;
+		$max = 1000;
 		foreach ($data as $row){
+		/*	foreach(array_keys($row) as $key){
+				echo $key .'<br />';
+			}
+			break;*/
 			$product = $productTable->fetchNew();
 			
 			foreach($this->_cjFields as $dbField => $cjField){
+				if(!isset($row[$cjField])){
+					break;
+				}
 				$product->$dbField = $row[$cjField];
 			}
 			$product->save();
+			foreach($this->_cjObjects as $obj => $cjField){
+				if(!isset($row[$cjField])){
+					break;
+				}
+				$setterName = 'set'.$obj;
+				$product->$setterName($row[$cjField]);
+				echo ":\n";
+			}
+			
+			$product->save();
+			if(--$max<=0){
+				break;
+				
+			}
 		}
 		return TRUE;
 	}

@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_AdvertiserCategories extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_AdvertiserCategories extends Application_Model_BaseCollection
 {
 	protected $_name = 'advertiser_category';
 	protected $_rowClass = 'Application_Model_AdvertiserCategory';

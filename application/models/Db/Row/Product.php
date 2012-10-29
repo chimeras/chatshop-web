@@ -1,6 +1,7 @@
 <?php
-abstract class Application_Model_Db_Row_Product extends Zend_Db_Table_Row_Abstract{
-
+abstract class Application_Model_Db_Row_Product extends Application_Model_BaseItem
+{
+	protected $_table = 'Application_Model_Products';
 	public function __construct(array $config = array())
 	{
 		parent::__construct($config);
@@ -120,14 +121,14 @@ abstract class Application_Model_Db_Row_Product extends Zend_Db_Table_Row_Abstra
 		return $this;
 	}
 
-	public function getUps()
+	public function getUpc()
 	{
-		return $this->ups;
+		return $this->upc;
 	}
 
-	public function setUps($ups)
+	public function setUpc($upc)
 	{
-		$this->ups = $ups;
+		$this->upc = $upc;
 		return $this;
 	}
 

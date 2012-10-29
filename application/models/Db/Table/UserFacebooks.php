@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_UserFacebooks extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_UserFacebooks extends Application_Model_BaseCollection
 {
 	protected $_name = 'user_facebook';
 	protected $_rowClass = 'Application_Model_UserFacebook';

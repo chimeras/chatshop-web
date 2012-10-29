@@ -1,6 +1,7 @@
 <?php
-abstract class Application_Model_Db_Row_ProductXProduct extends Zend_Db_Table_Row_Abstract{
-
+abstract class Application_Model_Db_Row_ProductXProduct extends Application_Model_BaseItem
+{
+	protected $_table = 'Application_Model_ProductXProducts';
 	public function __construct(array $config = array())
 	{
 		parent::__construct($config);

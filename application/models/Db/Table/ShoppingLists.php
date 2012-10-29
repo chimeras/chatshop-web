@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_ShoppingLists extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_ShoppingLists extends Application_Model_BaseCollection
 {
 	protected $_name = 'shopping_list';
 	protected $_rowClass = 'Application_Model_ShoppingList';

@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_Retailers extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_Retailers extends Application_Model_BaseCollection
 {
 	protected $_name = 'retailer';
 	protected $_rowClass = 'Application_Model_Retailer';

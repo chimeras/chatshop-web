@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_Reccomendations extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_Reccomendations extends Application_Model_BaseCollection
 {
 	protected $_name = 'reccomendation';
 	protected $_rowClass = 'Application_Model_Reccomendation';

@@ -1,5 +1,5 @@
 <?php
-abstract class Application_Model_Db_Table_Themes extends Zend_Db_Table_Abstract
+abstract class Application_Model_Db_Table_Themes extends Application_Model_BaseCollection
 {
 	protected $_name = 'theme';
 	protected $_rowClass = 'Application_Model_Theme';
