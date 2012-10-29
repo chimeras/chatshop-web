@@ -50,13 +50,21 @@ class ShopWebservice extends BaseWebservice
 	
 	public function getCategories()
 	{
-		$categoriesTable = new \Bigbek\Api\CommissionJunction;
-		return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived'));
+		/*$categoriesTable = new \Bigbek\Api\CommissionJunction;
+		return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived'));*/
+		
+		$categoriesTable = new \Application_Model_AdvertiserCategories;
+		return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
 	}
 	
-	public function getCategoryProducts($name)
+	public function getCategoryProducts($id)
 	{
-		$apProducts = new \Bigbek\Api\CommissionJunction;
-		return \Zend_Json::encode(array('products' => $apProducts->getProductsArray($name), 'message' => 'successfully retreived'));
+		$productTable = new \Application_Model_Products;
+		$products = $productTable->fetchBy(array('advertiser_category_id'=>$id));
+		$arrProducts = array();
+		foreach($products as $product){
+			$arrProducts[] = $product->toArray();
+		}
+		return \Zend_Json::encode(array('products' => $arrProducts, 'message' => 'successfully retreived'));
 	}
 }

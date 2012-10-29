@@ -20,4 +20,15 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 			'refColumns' => array('id') /* primary key of parent table */
 		)
 	);
+	
+	
+	
+	public function fetchAllArray()
+	{
+		$objects = $this->fetchAll();
+		$array = array();
+		foreach($objects as $object){
+			$array[] = $object->toArray();
+		}
+	}
 }
