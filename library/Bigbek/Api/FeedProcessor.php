@@ -137,7 +137,7 @@ class FeedProcessor
 			
 			$product->save();
 			if(--$max<=0){
-				break;
+				//break;
 				
 			}
 		}
