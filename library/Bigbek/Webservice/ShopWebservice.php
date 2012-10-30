@@ -35,10 +35,22 @@ class ShopWebservice extends BaseWebservice
 	 */
 	public function getThemes()
 	{
-		$themesArray = $this->_themes->fetchAllArray();
+		//$themesArray = $this->_themes->fetchAllArray();
 		
 		//return \Zend_Json::encode(array('theme' => $themes[0]->toArray(), 'message' => 'successfully retreived'));
-		return \Zend_Json::encode(array('themes' => $themesArray, 'message' => 'successfully retreived'));
+		$themes = $this->_themes->fetchAll();
+		$return = array();
+		foreach ($themes as $theme){
+			$themeArray = $theme->toArray();
+			$themeArray['categories'] = $theme->getCategoriesArray();
+			$return[] = $themeArray;
+			
+		}
+		
+		
+		
+		
+		return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
 	}
 /*
 	public function getCategoryProducts($id)
