@@ -2,12 +2,12 @@
 abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 {
 
-	public function __call($name, $arguments)
+	public function __call($method, array $args)
 	{
 		$setters = $this->_getReferencedSetters();
-		if (array_key_exists($name, $setters)) {
-			$object = $this->_setGenerated($setters[$name], $arguments);
-			foreach($this->getFieldNames($setters[$name]) as $column){
+		if (array_key_exists($method, $setters)) {
+			$object = $this->_setGenerated($setters[$method], $args);
+			foreach($this->getFieldNames($setters[$method]) as $column){
 				$methodName = 'set'.$this->toCamelCase($column);
 				$this->$methodName($object->getId());
 			}
