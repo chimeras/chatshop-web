@@ -1,5 +1,4 @@
 <?php
-exit('test');
 namespace Bigbek\Webservice;
 /**
  * Authentication handler class
