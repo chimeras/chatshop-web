@@ -14,7 +14,7 @@ class Application_Model_AdvertiserCategory extends Application_Model_Db_Row_Adve
 	public function getProducts()
 	{
 		$table = new Application_Model_Products;
-		$select = $table->select()->limit(50);
+		$select = $table->select()->limit(20);
 		return $this->findDependentRowset('Application_Model_Products', 'AdvertiserCategory', $select);
 	}
 }
