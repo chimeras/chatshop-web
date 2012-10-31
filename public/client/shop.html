@@ -23,54 +23,60 @@
 							
 							form.append($('<h2></h2>').text(index));
 							$.each(member.parameters, function(pindex, param){
+								console.log(param);
 								form.append($('<input type="text" />').attr('name', param.name).attr('id', 'param_'+index+'__'+param.name));
-								form.append($('<span></span>').text(param.name));
-								form.append($('<br/>'));
-								params.push('$("#param_'+index+'__'+param.name+'").val()');
-							});
-							form.append($('<input />').attr('type', 'button').attr('id', 'submit_'+index));
-							$('body').append(form);
-							//console.log(index);
-							
-							$('#submit_'+index).click(function(){
+								var label = $('<span></span>').html(param.name + ':<i>' + param.type +'</i>');
 								
-								var paramsStr = params.join(',');
-								$('#console').append('var result = testBasic.'+index+'('+paramsStr+');');
-								$('#console').append('<br />');
-								eval('var result = testBasic.'+index+'('+paramsStr+');');
-								if(result && result.length > 0){
-									$('#console').append(result);
-								}else{
-									$('#console').append('<strong />').text('Error occured');
-								}
-								$('#console').append('<hr />');
+								if(param.optional){
+									label.append($('<span></span>').text(' (optional, default:'+ param.default +')'));
+									}
+									form.append(label);
+									form.append($('<br/>'));
+									params.push('$("#param_'+index+'__'+param.name+'").val()');
+								});
+								form.append($('<input />').attr('type', 'button').attr('id', 'submit_'+index));
+								$('body').append(form);
+								//console.log(index);
+							
+								$('#submit_'+index).click(function(){
+								
+									var paramsStr = params.join(',');
+									$('#console').append('var result = testBasic.'+index+'('+paramsStr+');');
+									$('#console').append('<br />');
+									eval('var result = testBasic.'+index+'('+paramsStr+');');
+									if(result && result.length > 0){
+										$('#console').append(result);
+									}else{
+										$('#console').append('<strong />').text('Error occured');
+									}
+									$('#console').append('<hr />');
+								});
 							});
-						});
 						
-					}
-				});
+						}
+					});
 
 
 				
 
 				
 		
-			});
+				});
 
 
-			function getParameters() {
-				var searchString = window.location.search.substring(1)
-				, params = searchString.split("&")
-				, hash = {}
-				;
+				function getParameters() {
+					var searchString = window.location.search.substring(1)
+					, params = searchString.split("&")
+					, hash = {}
+					;
 
-				for (var i = 0; i < params.length; i++) {
-					var val = params[i].split("=");
-					hash[unescape(val[0])] = unescape(val[1]);
+					for (var i = 0; i < params.length; i++) {
+						var val = params[i].split("=");
+						hash[unescape(val[0])] = unescape(val[1]);
+					}
+					return hash;
 				}
-				return hash;
-			}
-			-->
+				-->
 		</SCRIPT>
 
     </head>

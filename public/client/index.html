@@ -1,70 +1,76 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang='en' xml:lang='en' xmlns="http://www.w3.org/1999/xhtml">
     <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<SCRIPT LANGUAGE="javascript" SRC="js/jquery-1.3.min.js"></SCRIPT>
-	<SCRIPT LANGUAGE="javascript" SRC="js/json2.js"></SCRIPT>
-	<SCRIPT LANGUAGE="javascript" SRC="js/jquery.zend.jsonrpc.js"></SCRIPT>
-	<link rel="stylesheet" href="css.css" />
-	<SCRIPT>
-	    <!--
-	    $(document).ready(function(){
-		var url = '/auth/';
-		$.ajax({
-		    url: url,
-		    dataType: 'json',
-		    success:function(data){
-			var testBasic = jQuery.Zend.jsonrpc({url: url});
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<SCRIPT LANGUAGE="javascript" SRC="js/jquery-1.3.min.js"></SCRIPT>
+		<SCRIPT LANGUAGE="javascript" SRC="js/json2.js"></SCRIPT>
+		<SCRIPT LANGUAGE="javascript" SRC="js/jquery.zend.jsonrpc.js"></SCRIPT>
+		<link rel="stylesheet" href="css.css" />
+		<SCRIPT>
+			<!--
+			$(document).ready(function(){
+				var url = '/auth/';
+				$.ajax({
+					url: url,
+					dataType: 'json',
+					success:function(data){
+						var testBasic = jQuery.Zend.jsonrpc({url: url});
 						
-			$.each(data.methods, function(index, member){
-			    var params = [];
+						$.each(data.methods, function(index, member){
+							var params = [];
 							
-			    var form = $('<form></form>').attr('action', url);
+							var form = $('<form></form>').attr('action', url);
 							
-			    form.append($('<h2></h2>').text(index));
-			    $.each(member.parameters, function(pindex, param){
-				form.append($('<input type="text" />').attr('name', param.name).attr('id', 'param_'+index+'__'+param.name));
-				form.append($('<span></span>').text(param.name));
-				form.append($('<br/>'));
-				params.push('$("#param_'+index+'__'+param.name+'").val()');
-			    });
-			    form.append($('<input />').attr('type', 'button').attr('id', 'submit_'+index));
-			    $('body').append(form);
-			    //console.log(index);
-							
-			    $('#submit_'+index).click(function(){
+							form.append($('<h2></h2>').text(index));
+							$.each(member.parameters, function(pindex, param){
+								console.log(param);
+								form.append($('<input type="text" />').attr('name', param.name).attr('id', 'param_'+index+'__'+param.name));
+								var label = $('<span></span>').html(param.name + ':<i>' + param.type +'</i>');
 								
-				var paramsStr = params.join(',');
-				$('#console').append('var result = testBasic.'+index+'('+paramsStr+');');
-				$('#console').append('<br />');
-				eval('var result = testBasic.'+index+'('+paramsStr+');');
-				if(result && result.length > 0){
-				    $('#console').append(result);
-				}else{
-				    $('#console').append('<strong />').text('Error occured');
-				}
-				$('#console').append('<hr />');
-			    });
-			});
+								if(param.optional){
+									label.append($('<span></span>').text(' (optional, default:'+ param.default +')'));
+									}
+									form.append(label);
+									form.append($('<br/>'));
+									params.push('$("#param_'+index+'__'+param.name+'").val()');
+								});
+								form.append($('<input />').attr('type', 'button').attr('id', 'submit_'+index));
+								$('body').append(form);
+								//console.log(index);
+							
+								$('#submit_'+index).click(function(){
+								
+									var paramsStr = params.join(',');
+									$('#console').append('var result = testBasic.'+index+'('+paramsStr+');');
+									$('#console').append('<br />');
+									eval('var result = testBasic.'+index+'('+paramsStr+');');
+									if(result && result.length > 0){
+										$('#console').append(result);
+									}else{
+										$('#console').append('<strong />').text('Error occured');
+									}
+									$('#console').append('<hr />');
+								});
+							});
 						
-		    }
-		});
+						}
+					});
 
 
 				
 
 				
 		
-	    });
+				});
 
-	    -->
-	</SCRIPT>
+				-->
+		</SCRIPT>
 
     </head>
     <body>
 		<a href="user.html">User client</a>
 		<a href="shop.html">Shop client</a>
 		<pre id="console"></pre>
-	
+
     </body>
 </html>
