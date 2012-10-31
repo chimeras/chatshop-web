@@ -68,10 +68,17 @@ class ShopWebservice extends BaseWebservice
 		return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
 	}
 	
-	public function getCategoryProducts($id)
+	/**
+	 * 
+	 * @param integer $id
+	 * @param integer $page
+	 * @param integer $limit
+	 * @return JSON
+	 */
+	public function getCategoryProducts($id, $page, $limit = 50)
 	{
 		$productTable = new \Application_Model_Products;
-		$products = $productTable->fetchBy(array('advertiser_category_id'=>$id));
+		$products = $productTable->fetchBy(array('advertiser_category_id'=>$id), $limit, $page*$limit);
 		$arrProducts = array();
 		foreach($products as $product){
 			$arrProducts[] = $product->toArray();

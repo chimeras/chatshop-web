@@ -17,11 +17,14 @@ abstract class Application_Model_BaseCollection extends Zend_Db_Table_Abstract
 	/**
 	 * 
 	 * @param array $fields
+	 * @param integer $count
+	 * @param integer $offset
 	 * @return array($_rowClass)
+	 * 
 	 */
-	public function fetchBy($fields)
+	public function fetchBy($fields, $count=0, $offset=0)
 	{
-		return $this->fetchAll(implode(' AND ', $this->_getWhereConditions($fields)));
+		return $this->fetchAll(implode(' AND ', $this->_getWhereConditions($fields)), null, $count, $offset);
 	}
 
 	/**
