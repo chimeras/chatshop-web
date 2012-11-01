@@ -99,4 +99,10 @@ class ShopWebservice extends BaseWebservice
 		return \Zend_Json::encode(array('products' => $arrProducts, 'message' => 'successfully retreived'));
 	}
 
+	public function getReccomendations($keywords)
+	{
+		$apAdapter = new \Bigbek\Api\CommissionJunction;
+		$products = $apAdapter->getProducts(array('keywords'=>$keywords));
+		var_dump($products);
+	}
 }

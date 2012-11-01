@@ -44,7 +44,7 @@ class CommissionJunction
 			$parts[] = $key .'='. $value;
 		}
 		$targeturl .= '&'. implode('&', $parts);
-		echo $targeturl .'<hr />';
+		//echo $targeturl .'<hr />';
 		$ch = curl_init($targeturl);
 		curl_setopt($ch, CURLOPT_POST, FALSE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: ' . self::$_cjDevKey)); // send development key
@@ -56,12 +56,26 @@ class CommissionJunction
 			$result = array('error'=>$response);
 		}else{*/
 			$result = new \SimpleXMLElement($response);
+			if(isset($result->products)){
+				$products = array();
+				foreach ($result->products->product as $xmlProd){
+					$products = $this->getProduct($xmlProd);
+				}
+			}
 		/*}*/
 		
 		curl_close($ch);
-		return $result;
+		return $products;
 	}
 
+	public function getProduct($xml)
+	{
+		$arr = (array) $xml;
+		var_dump($arr);
+		$prototype = new \Application_Model_Product;
+		return $prototype;
+		
+	}
 	public function getCategories()
 	{
 		$targeturl = 'https://support-services.api.cj.com/v2/categories';
