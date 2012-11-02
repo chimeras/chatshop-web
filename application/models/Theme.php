@@ -21,7 +21,7 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 	}
 	
 	
-	public function toArray()
+	public function toCombinedArray()
 	{
 		$array = parent::toArray();
 		$array['categories'] = $this->getCategories()->toArray();
