@@ -102,7 +102,9 @@ class ShopWebservice extends BaseWebservice
 	public function getReccomendations($keywords)
 	{
 		$apAdapter = new \Bigbek\Api\CommissionJunction;
-		$products = $apAdapter->getProducts(array('keywords'=>$keywords));
+		$productsArray = $apAdapter->getProducts(array('keywords'=>$keywords));
+		$cjProcessor = new \Bigbek\Api\CjProcessor;
+		$products = $cjProcessor->generateFromArray($productsArray);
 		var_dump($products);
 	}
 }
