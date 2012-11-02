@@ -105,6 +105,6 @@ class ShopWebservice extends BaseWebservice
 		$productsArray = $apAdapter->getProducts(array('keywords'=>$keywords));
 		$cjProcessor = new \Bigbek\Api\CjProcessor;
 		$products = $cjProcessor->generateFromArray($productsArray);
-		var_dump($products);
+		var_dump($productsArray);
 	}
 }
