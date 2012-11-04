@@ -18,6 +18,11 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 			'columns' => array('advertiser_category_id'), /* foreign key */
 			'refTableClass' => 'Application_Model_AdvertiserCategories',
 			'refColumns' => array('id') /* primary key of parent table */
+		),
+		'Category' => array(
+			'columns' => array('advertiser_category_id'), /* foreign key */
+			'refTableClass' => 'Application_Model_Categories',
+			'refColumns' => array('id') /* primary key of parent table */
 		)
 	);
 	

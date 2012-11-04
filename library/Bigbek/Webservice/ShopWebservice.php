@@ -82,16 +82,16 @@ class ShopWebservice extends BaseWebservice
 		$categories = $theme->getCategoriesArray();
 		return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retreived'));
 	}
-
+/*
 	public function getCategories()
 	{
-		/* $categoriesTable = new \Bigbek\Api\CommissionJunction;
-		  return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived')); */
+		// $categoriesTable = new \Bigbek\Api\CommissionJunction;
+		//  return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived')); 
 
 		$categoriesTable = new \Application_Model_AdvertiserCategories;
 		return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
 	}
-
+*/
 	/**
 	 * 
 	 * @param integer $id
@@ -101,6 +101,13 @@ class ShopWebservice extends BaseWebservice
 	 */
 	public function getCategoryProducts($id, $page, $limit = 50)
 	{
+		$categoriesTable = new \Application_Model_Categories;
+		$Category = $categoriesTable->fetch($id);
+		if(!is_object($Category)){
+			return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
+		}
+		$Category->getProducts($limit, $page*$limit);
+		
 		$productTable = new \Application_Model_Products;
 		$products = $productTable->fetchBy(array('advertiser_category_id' => $id), $limit, $page * $limit);
 		$arrProducts = array();

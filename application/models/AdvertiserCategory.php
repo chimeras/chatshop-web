@@ -1,20 +1,21 @@
 <?php
+
 class Application_Model_AdvertiserCategory extends Application_Model_Db_Row_AdvertiserCategory
 {
-
-	public function getProductsArray()
-	{
-		$return = array();
-		foreach($this->getProducts() as $Product){
-			$return[] = $Product->toArray();
-		}
-		return $return;
-	}
-	
-	public function getProducts()
+	public function getProducts($count = 20, $offset = 0)
 	{
 		$table = new Application_Model_Products;
-		$select = $table->select()->limit(20);
+		$select = $table->select()->limit($count, $offset);
 		return $this->findDependentRowset('Application_Model_Products', 'AdvertiserCategory', $select);
 	}
+	
+	public function getProductsArray($count = 20, $offset = 0){
+		$Products = $this->getProducts($count, $offset);
+		$products = array();
+		foreach($Products as $Product){
+			$products[] = $Product->toArray();
+		}
+		return $products;
+	}
+
 }

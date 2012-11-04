@@ -22,6 +22,17 @@ abstract class Application_Model_Db_Row_Category extends Application_Model_BaseI
 
 
 
+	public function getParentId()
+	{
+		return $this->parent_id;
+	}
+
+	public function setParentId($parent_id)
+	{
+		$this->parent_id = $parent_id;
+		return $this;
+	}
+
 	public function getName()
 	{
 		return $this->name;
