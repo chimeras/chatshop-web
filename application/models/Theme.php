@@ -36,7 +36,7 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 	public function getCategoriesArray()
 	{
 		$return = array();
-		foreach ($this->categories as $Category) {
+		foreach ($this->_fetchCategories(false) as $Category) {
 			$return[] = $Category->toCombinedArray(20);
 		}
 		return $return;
