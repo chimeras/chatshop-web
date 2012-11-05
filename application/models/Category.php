@@ -57,18 +57,19 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	{
 
 		$ids = array();
-		$ids[] = $this->getId();
+		foreach($this->getAdvertiserCategories() as $cACategory){
+			$ids[] = $cACategory->getId();
+		}
+		
 		foreach ($this->getSubcategories() as $sub){
-			$ids[] = $sub->getId();
+			foreach($sub->getAdvertiserCategories() as $subACategory){
+				$ids[] = $subACategory->getId();
+			}
+			
 		}
 		$table = new Application_Model_Products;
-		$select = $table->select('*');
-		$select->setIntegrityCheck(false);
-		$select->join('advertiser_category', 'advertiser_category_id = advertiser_category.id')
-				->where('`advertiser_category`.`category_id` IN('. $this->getId() .')')
-				->limit($count, $offset);
-
-		return $this->findDependentRowset('Application_Model_Products', 'Category', $select);
+		return $table->fetchAll('`advertiser_category_id` IN('. implode(',', $ids) .')', null, $count, $offset);
+		
 	}
 
 	

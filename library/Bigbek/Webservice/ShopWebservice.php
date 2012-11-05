@@ -106,10 +106,8 @@ class ShopWebservice extends BaseWebservice
 		if(!is_object($Category)){
 			return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
 		}
-		$Category->getProducts($limit, $page*$limit);
+		$products = $Category->getProducts($limit, $page*$limit);
 		
-		$productTable = new \Application_Model_Products;
-		$products = $productTable->fetchBy(array('advertiser_category_id' => $id), $limit, $page * $limit);
 		$arrProducts = array();
 		foreach ($products as $product) {
 			$arrProducts[] = $product->toArray();
