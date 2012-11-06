@@ -59,7 +59,7 @@ class FeedProcessor
 	{
 		$files = $this->_getFiles();
 		foreach ($files as $file) {
-			echo ' '.$file->getFilename();
+			echo 'processing: '.$file->getFilename() ."\n";
 			
 			$fileData = $this->_getData($file);
 			$this->_writeToDb($fileData);
@@ -113,11 +113,19 @@ class FeedProcessor
 		$productTable = new \Application_Model_Products;
 		$max = 1000;
 		foreach ($data as $row){
+			if(!isset($row['SKU'])){
+				var_dump($row);
+				continue;
+			}
 		/*	foreach(array_keys($row) as $key){
 				echo $key .'<br />';
 			}
 			break;*/
-			$product = $productTable->fetchNew();
+			$product = $productTable->fetchUniqueBy(array('sku'=>$row['SKU']));
+			if(!is_object($product)){
+				$product = $productTable->fetchNew();
+			}
+			
 			
 			foreach($this->_cjFields as $dbField => $cjField){
 				if(!isset($row[$cjField])){
