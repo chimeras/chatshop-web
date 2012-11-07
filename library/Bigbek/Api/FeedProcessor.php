@@ -131,7 +131,7 @@ class FeedProcessor
 				if(!isset($row[$cjField])){
 					break;
 				}
-				$product->$dbField = $row[$cjField];
+				$product->$dbField = mysql_real_escape_string($row[$cjField]);
 			}
 			$product->save();
 			foreach($this->_cjObjects as $obj => $cjField){
