@@ -7,6 +7,7 @@ class CronController extends Zend_Controller_Action
 	{
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->_helper->layout->disableLayout();
+		set_time_limit(60);
 	}
 
 	public function bringFeedAction()
