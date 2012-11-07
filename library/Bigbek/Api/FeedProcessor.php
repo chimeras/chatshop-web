@@ -112,11 +112,14 @@ class FeedProcessor
 	{
 		$productTable = new \Application_Model_Products;
 		$max = 1000;
+		$count = $sourse = 0;
 		foreach ($data as $row){
+			$sourse ++;
 			if(!isset($row['SKU'])){
 				var_dump($row);
 				continue;
 			}
+			$count ++;
 		/*	foreach(array_keys($row) as $key){
 				echo $key .'<br />';
 			}
@@ -140,7 +143,6 @@ class FeedProcessor
 				}
 				$setterName = 'set'.$obj;
 				$product->$setterName($row[$cjField]);
-				echo ":\n";
 			}
 			
 			$product->save();
@@ -149,6 +151,7 @@ class FeedProcessor
 				
 			}
 		}
+		echo 'processed : from :'.$sourse .', successed:'.$cound.'products;'."\n"; 
 		return TRUE;
 	}
 }

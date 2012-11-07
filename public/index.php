@@ -21,5 +21,6 @@ $application = new Zend_Application(
     APPLICATION_PATH . '/configs/application.ini'
 );
 
-$application->bootstrap()
-            ->run();
+if(!defined('DONT_RUN_APP') || DONT_RUN_APP == false) {  
+    $application->bootstrap()->run();
+}
