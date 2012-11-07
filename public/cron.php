@@ -1,6 +1,5 @@
 <?php
-
-define("APPLICATION_ENV", 'development');
+require('mode.php');
 define("DONT_RUN_APP", true);
 require('index.php');
 $application->bootstrap();
