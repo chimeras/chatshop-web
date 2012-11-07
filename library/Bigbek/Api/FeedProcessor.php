@@ -142,7 +142,7 @@ class FeedProcessor
 					break;
 				}
 				$setterName = 'set'.$obj;
-				$product->$setterName(mysql_real_escape_string($row[$cjField]));
+				$product->$setterName($row[$cjField]);
 			}
 			
 			$product->save();
