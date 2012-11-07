@@ -142,7 +142,7 @@ class FeedProcessor
 					break;
 				}
 				$setterName = 'set'.$obj;
-				$product->$setterName($row[$cjField]);
+				$product->$setterName(mysql_real_escape_string($row[$cjField]));
 			}
 			
 			$product->save();
@@ -151,7 +151,7 @@ class FeedProcessor
 				
 			}
 		}
-		echo 'processed : from :'.$sourse .', successed:'.$cound.'products;'."\n"; 
+		echo 'processed -> from :'.$sourse .', successed:'.$count.'products;'."\n"; 
 		return TRUE;
 	}
 }
