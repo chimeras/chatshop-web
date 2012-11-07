@@ -134,7 +134,7 @@ class FeedProcessor
 				if(!isset($row[$cjField])){
 					break;
 				}
-				$product->$dbField = mysql_real_escape_string($row[$cjField]);
+				$product->$dbField = addslashes($row[$cjField]);
 			}
 			$product->save();
 			foreach($this->_cjObjects as $obj => $cjField){
@@ -142,7 +142,7 @@ class FeedProcessor
 					break;
 				}
 				$setterName = 'set'.$obj;
-				$product->$setterName($row[$cjField]);
+				$product->$setterName(addcslashes($row[$cjField]));
 			}
 			
 			$product->save();
