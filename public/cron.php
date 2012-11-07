@@ -8,7 +8,7 @@ $application->bootstrap();
 /* bring feed */
 
 $ftpProcessor = new \Bigbek\Api\FtpProcessor;
-$files = $ftpProcessor->processDownload(false);
+$files = $ftpProcessor->processDownload(TRUE);
 $targetDir = APPLICATION_PATH . '/../data/';
 $filter = new Zend_Filter_Decompress(array('options' => array(
 				'target' => $targetDir,
