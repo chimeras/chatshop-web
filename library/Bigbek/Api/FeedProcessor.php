@@ -142,7 +142,7 @@ class FeedProcessor
 					break;
 				}
 				$setterName = 'set'.$obj;
-				$product->$setterName(addcslashes($row[$cjField]));
+				$product->$setterName(addslashes($row[$cjField]));
 			}
 			
 			$product->save();
