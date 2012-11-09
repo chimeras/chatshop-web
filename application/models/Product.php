@@ -23,6 +23,6 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
 	
 	public function getSimilarItemsCount()
 	{
-		return $this->getSimilarItems()->count();
+		return $this->getSimilarItems()->count()-1;
 	}
 }
