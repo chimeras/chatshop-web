@@ -109,8 +109,10 @@ class ShopWebservice extends BaseWebservice
 		$products = $Category->getProducts($limit, $page*$limit);
 		
 		$arrProducts = array();
-		foreach ($products as $product) {
-			$arrProducts[] = $product->toArray();
+		foreach ($products as $Product) {
+			$productArray = $Product->toArray();
+			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
+			$arrProducts[] = $productArray;
 		}
 		return \Zend_Json::encode(array('products' => $arrProducts, 'message' => 'successfully retreived'));
 	}

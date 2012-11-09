@@ -136,6 +136,8 @@ class FeedProcessor
 				}
 				$product->$dbField = addslashes($row[$cjField]);
 			}
+			$product->setBrandName($row[$this->_cjObjects['Brand']]);
+			$product->setSimilarity();
 			$product->save();
 			foreach($this->_cjObjects as $obj => $cjField){
 				if(!isset($row[$cjField])){

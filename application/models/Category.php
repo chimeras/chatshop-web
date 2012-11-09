@@ -34,25 +34,15 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
 	public function toCombinedArray($productsCount = 20)
 	{
+		
 		$category = $this->toArray();
 		$category['products'] = array();
-		foreach ($this->getProducts($productsCount, 0) as $product){
-			$category['products'][] = $product->toArray();
+		foreach ($this->getProducts($productsCount, 0) as $Product){
+			$productArray = $Product->toArray();
+			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
+			$category['products'][] = $productArray;
 		}
-		/*if (is_numeric($productsCount)) {
-			$AdvertiserCategories = $this->getAdvertiserCategories();
-			$advCount = count($AdvertiserCategories);
-			if ($advCount > 0) {
-				$productsCount = ceil(20 / $advCount);
-			} else {
-				$productsCount = 0;
-			}
-			$category['products'] = array();
-			foreach ($AdvertiserCategories as $AdvertiserCategory) {
-				$category['products'] = array_merge($category['products'], $AdvertiserCategory->getProductsArray($productsCount));
-			}
-		}*/
-
+		
 		return $category;
 	}
 
@@ -74,8 +64,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 			return array();
 		}
 		$table = new Application_Model_Products;
-		return $table->fetchAll('`advertiser_category_id` IN('. implode(',', $ids) .')', null, $count, $offset);
-		
+		$select = $table->select('*')
+				->group('similarity')
+				->where('`advertiser_category_id` IN('. implode(',', $ids) .')');
+		return $table->fetchAll($select, null, $count, $offset);
 	}
 
 	

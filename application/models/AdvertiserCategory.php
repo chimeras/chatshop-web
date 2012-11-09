@@ -2,7 +2,7 @@
 
 class Application_Model_AdvertiserCategory extends Application_Model_Db_Row_AdvertiserCategory
 {
-	public function getProducts($count = 20, $offset = 0)
+	/*public function getProducts($count = 20, $offset = 0)
 	{
 		$table = new Application_Model_Products;
 		$select = $table->select()->limit($count, $offset);
@@ -13,9 +13,11 @@ class Application_Model_AdvertiserCategory extends Application_Model_Db_Row_Adve
 		$Products = $this->getProducts($count, $offset);
 		$products = array();
 		foreach($Products as $Product){
-			$products[] = $Product->toArray();
+			$productArray = $Product->toArray();
+			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
+			$products[] = $productArray;
 		}
 		return $products;
 	}
-
+*/
 }
