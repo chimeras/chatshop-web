@@ -38,19 +38,18 @@ class ShopWebservice extends BaseWebservice
 	 */
 	public function getThemes()
 	{
-		
-		$themes = $this->_themes->fetchAll();
-		  $return = array();
-		  foreach ($themes as $theme){
-		  $themeArray = $theme->toArray();
-		  $return[] = $themeArray;
 
-		  }
-		  return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
-		 
-		  
-		/*$themesArray = $this->_themes->fetchAllArray();
-		return \Zend_Json::encode(array('theme' => $themesArray, 'message' => 'successfully retreived'));*/
+		$themes = $this->_themes->fetchAll();
+		$return = array();
+		foreach ($themes as $theme) {
+			$themeArray = $theme->toArray();
+			$return[] = $themeArray;
+		}
+		return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
+
+
+		/* $themesArray = $this->_themes->fetchAllArray();
+		  return \Zend_Json::encode(array('theme' => $themesArray, 'message' => 'successfully retreived')); */
 		/*
 		  $themes = $this->_themes->fetchAll();
 		  $return = array();
@@ -82,16 +81,18 @@ class ShopWebservice extends BaseWebservice
 		$categories = $theme->getCategoriesArray();
 		return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retreived'));
 	}
-/*
-	public function getCategories()
-	{
-		// $categoriesTable = new \Bigbek\Api\CommissionJunction;
-		//  return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived')); 
 
-		$categoriesTable = new \Application_Model_AdvertiserCategories;
-		return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
-	}
-*/
+	/*
+	  public function getCategories()
+	  {
+	  // $categoriesTable = new \Bigbek\Api\CommissionJunction;
+	  //  return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived'));
+
+	  $categoriesTable = new \Application_Model_AdvertiserCategories;
+	  return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
+	  }
+	 */
+
 	/**
 	 * 
 	 * @param integer $id
@@ -99,30 +100,33 @@ class ShopWebservice extends BaseWebservice
 	 * @param integer $limit
 	 * @return JSON
 	 */
-	public function getCategoryProducts($id, $page, $limit = 50)
+	public function getCategoryProducts($id, $page = 1, $limit = 50)
 	{
+		$page = $page > 0 ? (int) $page : 1;
+		$limit = (int) $limit;
+		
 		$categoriesTable = new \Application_Model_Categories;
 		$Category = $categoriesTable->fetch($id);
-		if(!is_object($Category)){
+		if (!is_object($Category)) {
 			return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
 		}
-		$products = $Category->getProducts($limit, $page*$limit);
 		
-		$arrProducts = array();
-		foreach ($products as $Product) {
-			$productArray = $Product->toArray();
-			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
-			$arrProducts[] = $productArray;
-		}
-		return \Zend_Json::encode(array('products' => $arrProducts, 'message' => 'successfully retreived'));
+		$arrCategory = $Category->toCombinedArray($limit, $page);
+
+		return \Zend_Json::encode(
+						array('products' => $arrCategory['products'],
+							'products_qty' => $arrCategory['products_qty'],
+							'message' => 'successfully retreived')
+		);
 	}
 
 	public function getReccomendations($keywords)
 	{
 		$apAdapter = new \Bigbek\Api\CommissionJunction;
-		$productsArray = $apAdapter->getProducts(array('keywords'=>$keywords));
+		$productsArray = $apAdapter->getProducts(array('keywords' => $keywords));
 		$cjProcessor = new \Bigbek\Api\CjProcessor;
 		$products = $cjProcessor->generateFromArray($productsArray);
 		var_dump($productsArray);
 	}
+
 }

@@ -32,23 +32,21 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		return $this->findDependentRowset('Application_Model_Categories');
 	}
 
-	public function toCombinedArray($productsCount = 20)
+	public function toCombinedArray($productsCount = 20, $offset = 0)
 	{
-		
 		$category = $this->toArray();
 		$category['products'] = array();
-		foreach ($this->getProducts($productsCount, 0) as $Product){
+		foreach ($this->getProducts($productsCount, $offset) as $Product){
 			$productArray = $Product->toArray();
 			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
 			$category['products'][] = $productArray;
 		}
-		
+		$category['products_qty'] = count($category['products']);
 		return $category;
 	}
 
-	public function getProducts($count, $offset)
+	public function getProducts($rowCount, $page)
 	{
-
 		$ids = array();
 		foreach($this->getAdvertiserCategories() as $cACategory){
 			$ids[] = $cACategory->getId();
@@ -66,8 +64,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$table = new Application_Model_Products;
 		$select = $table->select('*')
 				->group('similarity')
-				->where('`advertiser_category_id` IN('. implode(',', $ids) .')');
-		return $table->fetchAll($select, null, $count, $offset);
+				->where('`advertiser_category_id` IN('. implode(',', $ids) .')')
+				->limitPage($page, $rowCount);
+		return $table->fetchAll($select);
 	}
 
 	
