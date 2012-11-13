@@ -22,7 +22,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	{
 		$products = array();
 		foreach ($this->getProducts() as $product) {
-			$products[] = $product->toArray();
+			$prod = $product->toArray();
+			$prod['parent_category_id'] = $this->getId();
+			$products[] = $prod;
 		}
 		return $products;
 	}
@@ -38,10 +40,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$category['products'] = array();
 		foreach ($this->getProducts($productsCount, $offset) as $Product){
 			$productArray = $Product->toArray();
+			$productArray['parent_category_id'] = $Product->parent_category_id;
 			$productArray['similar_items_count'] = $Product->getSimilarItemsCount();
 			$category['products'][] = $productArray;
 		}
-		
 		$category['subcategories'] = $this->getSubcategoriesArray();
 		$category['products_qty'] = $this->getProductsCount();
 		return $category;
@@ -63,6 +65,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	public function getProducts($rowCount, $page)
 	{
 		$ids = array();
+		$subIds = array();
 		foreach($this->getAdvertiserCategories() as $cACategory){
 			$ids[] = $cACategory->getId();
 		}
@@ -70,6 +73,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		foreach ($this->getSubcategories() as $sub){
 			foreach($sub->getAdvertiserCategories() as $subACategory){
 				$ids[] = $subACategory->getId();
+				$subIds[$subACategory->getId()] = $sub->getId();
 			}
 			
 		}
@@ -81,7 +85,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->group('similarity')
 				->where('`advertiser_category_id` IN('. implode(',', $ids) .')')
 				->limitPage($page, $rowCount);
-		return $table->fetchAll($select);
+		$results = array();
+		foreach($table->fetchAll($select) as $Product){
+			$Product->parent_category_id = $subIds[$Product->getAdvertiserCategoryId()];
+			$results[] = $Product;
+		}
+		return $results;
 	}
 
 	

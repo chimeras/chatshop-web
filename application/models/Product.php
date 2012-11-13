@@ -1,6 +1,7 @@
 <?php
 class Application_Model_Product extends Application_Model_Db_Row_Product
 {
+	public $parent_category_id = 0;
 	public function setSimilarity($similarity = NULL)
 	{
 		if($similarity == NULL){
