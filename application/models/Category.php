@@ -68,6 +68,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$subIds = array();
 		foreach($this->getAdvertiserCategories() as $cACategory){
 			$ids[] = $cACategory->getId();
+			$subIds[$cACategory->getId()] = $this->getId();
 		}
 		
 		foreach ($this->getSubcategories() as $sub){
