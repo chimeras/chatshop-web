@@ -24,7 +24,7 @@ class Application_Model_Uploads
 		
 		$logger->log('addImage: save image as '. $fileName, \Zend_Log::DEBUG);
 		
-		$data = base64_decode($imageData);
+		$data = /*base64_decode*/($imageData);
 		$im = imagecreatefromstring($data);
 		
 		$file = fopen($fileName, "w");
