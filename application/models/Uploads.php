@@ -5,9 +5,8 @@ class Application_Model_Uploads
 
 	public $config = array();
 
-	public function __construct($config = array())
+	public function __construct()
 	{
-		parent::__construct($config);
 		$this->config = Zend_Registry::get('config');
 	}
 
@@ -21,14 +20,15 @@ class Application_Model_Uploads
 		}
 		$fileName = $destinationDir . '/reminder_'. $id .'.png';
 		$logger = \Zend_Registry::get('logger');
-		
+		echo $fileName;
 		$logger->log('addImage: save image as '. $fileName, \Zend_Log::DEBUG);
 		
-		$data = /*base64_decode*/($imageData);
-		$im = imagecreatefromstring($data);
+		$data = gzuncompress(base64_decode($imageData));
+		$im = $data;
 		
 		$file = fopen($fileName, "w");
-		fwrite($file, $data);
+		fwrite($file, $im);
+		fclose($file);
 		return $fileName;
 	}
 

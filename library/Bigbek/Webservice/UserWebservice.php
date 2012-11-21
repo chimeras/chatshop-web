@@ -223,7 +223,7 @@ class UserWebservice extends BaseWebservice
 	public function addReminder($session, $reminder)
 	{
 		$logger = \Zend_Registry::get('logger');
-		$logger->log('addReminder:'.print_r($reminder, 1), \Zend_Log::DEBUG);
+		$logger->log('addReminder:'.substr($reminder, 0, 100), \Zend_Log::DEBUG);
 		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
@@ -235,6 +235,8 @@ class UserWebservice extends BaseWebservice
 			$Reminder->save();
 			if (isset($data['imagedata'])) {
 				$uploadManager = new \Application_Model_Uploads;
+				$data['imagedata'] = base64_encode(gzcompress(file_get_contents($data['imagedata']/*'test.png'*/)));
+				
 				$image = $uploadManager->addImage($Reminder->getId(), $data['imagedata']);
 				if (is_string($image)) {
 					$Reminder->setImageUrl($image);
