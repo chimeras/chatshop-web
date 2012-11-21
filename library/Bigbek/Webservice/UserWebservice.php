@@ -223,7 +223,7 @@ class UserWebservice extends BaseWebservice
 	public function addReminder($session, $reminder)
 	{
 		$logger = \Zend_Registry::get('logger');
-		$logger->log('addReminder:'.$reminder, \Zend_Log::DEBUG);
+		$logger->log('addReminder:'.print_r($reminder, 1), \Zend_Log::DEBUG);
 		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
