@@ -14,22 +14,25 @@ class Application_Model_Uploads
 	{
 		$mediaDir = $this->config->imagesPathPrivate;
 		$destinationDir = $mediaDir . floor($id / 100);
-		
+
 		if (!is_dir($destinationDir)) {
 			mkdir($destinationDir);
 		}
-		$fileName = $destinationDir . '/reminder_'. $id .'.png';
+		$fileName = $destinationDir . '/reminder_' . $id . '.png';
 		$logger = \Zend_Registry::get('logger');
 		echo $fileName;
-		$logger->log('addImage: save image as '. $fileName, \Zend_Log::DEBUG);
-		
+		$logger->log('addImage: save image as ' . $fileName, \Zend_Log::DEBUG);
+
 		$data = gzuncompress(base64_decode($imageData));
 		$im = $data;
-		
-		$file = fopen($fileName, "w");
-		fwrite($file, $im);
-		fclose($file);
-		return $fileName;
+		try {
+			$file = fopen($fileName, "w");
+			fwrite($file, $im);
+			fclose($file);
+			return $fileName;
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
 	}
 
 }
