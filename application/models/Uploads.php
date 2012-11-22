@@ -31,6 +31,7 @@ class Application_Model_Uploads
 			fclose($file);
 			return $fileName;
 		} catch (Exception $e) {
+			$logger->log('addImage: ' . $e->getMessage(), \Zend_Log::ERR);
 			return $e->getMessage();
 		}
 	}
