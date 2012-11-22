@@ -52,8 +52,10 @@ abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 			throw new Exception($refTableClass .' must have at least one unique field');
 		}
 		$unique = array_combine($table->uniqueFields, $arguments);
+		
 		$object = $table->fetchUniqueBy($unique);
 		if(!is_object($object)){
+			echo "\t {$refTableClass}: new sub item ". print_r($unique, 1) ."\n";
 			$object = $table->fetchNew();
 			$object->setFromArray($unique);
 			$object->save();
