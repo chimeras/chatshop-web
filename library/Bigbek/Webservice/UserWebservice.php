@@ -235,7 +235,7 @@ class UserWebservice extends BaseWebservice
 			$Reminder->save();
 			if (isset($data['imagedata'])) {
 				$uploadManager = new \Application_Model_Uploads;
-				$data['imagedata'] = base64_encode(gzcompress($data['imagedata']));
+				
 				
 				$image = $uploadManager->addImage($Reminder->getId(), $data['imagedata']);
 				if (is_string($image)) {
