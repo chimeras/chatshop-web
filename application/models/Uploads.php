@@ -18,7 +18,7 @@ class Application_Model_Uploads
 		if (!is_dir($destinationDir)) {
 			mkdir($destinationDir);
 		}
-		$fileName = $destinationDir . '/reminder_' . $id . '.png';
+		$fileName = $destinationDir . '/reminder_' . $id . '.jpeg';
 		$logger = \Zend_Registry::get('logger');
 		echo $fileName;
 		$logger->log('addImage: save image as ' . $fileName, \Zend_Log::DEBUG);
