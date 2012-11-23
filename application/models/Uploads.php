@@ -22,10 +22,10 @@ class Application_Model_Uploads
 		$logger = \Zend_Registry::get('logger');
 		echo $fileName;
 		$logger->log('addImage: save image as ' . $fileName, \Zend_Log::DEBUG);
-		$logger->log('$imageData: ' . substr($imageData, 0, 50) ."\n". substr($imageData, -50), \Zend_Log::ERR);
+		$logger->log('$imageData: ' . substr($imageData, 0, 50) . "\n" . substr($imageData, -50), \Zend_Log::ERR);
 		$gzFileData = base64_decode($imageData);
-		$logger->log('gzcompressed: ' . substr($gzFileData, 0, 50) ."\n". substr($gzFileData, -50), \Zend_Log::ERR);
-		$data = gzuncompress($gzFileData);
+		$logger->log('gzcompressed: ' . substr($gzFileData, 0, 50) . "\n" . substr($gzFileData, -50), \Zend_Log::ERR);
+		$data = $this->decompress($gzFileData);
 		$im = $data;
 		try {
 			$file = fopen($fileName, "w");
@@ -36,6 +36,22 @@ class Application_Model_Uploads
 			$logger->log('addImage: ' . $e->getMessage(), \Zend_Log::ERR);
 			return $e->getMessage();
 		}
+	}
+
+	public function decompress($compressed, $length = null)
+	{
+
+		if (false !== ($decompressed = @gzinflate($compressed) ))
+			return $decompressed;
+		
+		if (false !== ( $decompressed = @gzuncompress($compressed) ))
+			return $decompressed;
+		if (function_exists('gzdecode')) {
+			$decompressed = @gzdecode($compressed);
+			if (false !== $decompressed)
+				return $decompressed;
+		}
+		return $compressed;
 	}
 
 }
