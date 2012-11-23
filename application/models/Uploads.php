@@ -20,7 +20,6 @@ class Application_Model_Uploads
 		}
 		$fileName = $destinationDir . '/reminder_' . $id . '.jpeg';
 		$logger = \Zend_Registry::get('logger');
-		echo $fileName;
 		$logger->log('addImage: save image as ' . $fileName, \Zend_Log::DEBUG);
 		//$logger->log('$imageData: ' . substr($imageData, 0, 50) . "\n" . substr($imageData, -50), \Zend_Log::ERR);
 		//$gzFileData = base64_decode($imageData);
