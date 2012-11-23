@@ -41,10 +41,10 @@ class Application_Model_Uploads
 	public function decompress($compressed, $length = null)
 	{
 
-		if (false !== ($decompressed = @gzinflate($compressed) ))
+		if (false !== ($decompressed = gzinflate($compressed) ))
 			return $decompressed;
 		
-		if (false !== ( $decompressed = @gzuncompress($compressed) ))
+		if (false !== ( $decompressed = gzuncompress($compressed) ))
 			return $decompressed;
 		if (function_exists('gzdecode')) {
 			$decompressed = @gzdecode($compressed);
