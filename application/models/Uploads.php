@@ -22,8 +22,9 @@ class Application_Model_Uploads
 		$logger = \Zend_Registry::get('logger');
 		echo $fileName;
 		$logger->log('addImage: save image as ' . $fileName, \Zend_Log::DEBUG);
-
-		$data = gzuncompress(base64_decode($imageData));
+		$gzFileData = base64_decode($imageData);
+		$logger->log('gzcompressed: ' . substr($gzFileData, 0, 50) ."\n". substr($gzFileData, -50), \Zend_Log::ERR);
+		$data = gzuncompress();
 		$im = $data;
 		try {
 			$file = fopen($fileName, "w");
