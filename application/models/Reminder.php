@@ -9,9 +9,11 @@ class Application_Model_Reminder extends Application_Model_Db_Row_Reminder
 		$error = array();
 		if (!isset($data['shoplistId'])) {
 			$error[] = 'shoplistId : shopping list id missed';
+			return $error;
 		}
 		if (!isset($data['name'])) {
 			$error[] = 'name : reminder name missed';
+			return $error;
 		}
 		$this->setShoplistId($data['shoplistId']);
 		$this->setName($data['name']);
