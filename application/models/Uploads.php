@@ -26,7 +26,7 @@ class Application_Model_Uploads
 		$gzFileData = base64_decode($imageData);
 		$logger->log('gzcompressed: ' . substr($gzFileData, 0, 50) . "\n" . substr($gzFileData, -50), \Zend_Log::ERR);
 		$data = $this->decompress($gzFileData);
-		$im = $data;
+		$im = base64_decode($imageData); //$data;
 		try {
 			$file = fopen($fileName, "w");
 			fwrite($file, $im);
