@@ -132,6 +132,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		}else{
 			$where = 'category_id IS NULL OR category_id = '. $this->getId();
 		}
+		$where .= " AND state != 'disabled'";
 		foreach ($Table->fetchAll($where) as $retailer){
 			$result[] = $retailer->getId();
 		}
