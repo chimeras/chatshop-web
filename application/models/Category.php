@@ -86,7 +86,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$table = new Application_Model_Products;
 		$select = $table->select('*')
 				->group('similarity')
-				->where('`visibile`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
 				->where('`advertiser_category_id` IN(' . implode(',', $ids) . ')')
 				->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
 				->limitPage($page, $rowCount);
