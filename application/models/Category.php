@@ -71,21 +71,16 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$retailersIds = $this->_getRetailersIds();
 		$subIds = array();
         $keywords = array();
-        $keywords[] = $this->getName();
-       /* foreach ($this->getAdvertiserCategories() as $cACategory) {
-		//	$ids[] = $cACategory->getId();
-			$subIds[$cACategory->getId()] = $this->getId();
-		}*/
+        $mandatoryKeywords = array();
+        if(is_object($this->getParent())){
+            $mandatoryKeywords[] = $this->getParent()->getName();
+        }
+        $mandatoryKeywords[] = $this->getName();
+
 		foreach ($this->getSubcategories() as $sub) {
-			/*foreach ($sub->getAdvertiserCategories() as $subACategory) {
-		//		$ids[] = $subACategory->getId();
-				$subIds[$subACategory->getId()] = $sub->getId();
-			}*/
             $keywords[] = $sub->getName();
 		}
-		/*if (count($ids) == 0 || count($retailersIds)==0) {
-			return array();
-		}*/
+
 		if (count($keywords) == 0 || count($retailersIds)==0) {
 			return array();
 		}
@@ -94,13 +89,15 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         foreach($keywords as $keyword){
             $keywordCondition->orWhere("`keywords` LIKE ?", '%'.$keyword.'%');
         }
+        $mandatoryKeywordCondition = $table->select();
+        foreach($mandatoryKeywords as $keyword){
+            $mandatoryKeywordCondition->Where("`keywords` LIKE ?", '%'.$keyword.'%');
+        }
         $select = $table->select('*')
 				->group('similarity')
 				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
-				/*->where('`advertiser_category_id` IN(' . implode(',', $ids) . ')')*/
 				->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
-				///////////////////////////////////////->where('`keywords` LIKE ?', '%'. $this->getName() .'%')
-                //->reset(Zend_Db_Select::WHERE)
+				->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
         //echo $select; exit();
@@ -166,4 +163,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		return $result;
 	}
 
+    private function getParent()
+    {
+        $table = new Application_Model_Categories;
+        return $table->fetch($this->getParentId());
+    }
 }
