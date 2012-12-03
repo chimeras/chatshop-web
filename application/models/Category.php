@@ -70,15 +70,15 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$retailersIds = $this->_getRetailersIds();
 		$subIds = array();
         $keywords = array();
-        foreach ($this->getAdvertiserCategories() as $cACategory) {
+       /* foreach ($this->getAdvertiserCategories() as $cACategory) {
 		//	$ids[] = $cACategory->getId();
 			$subIds[$cACategory->getId()] = $this->getId();
-		}
+		}*/
 		foreach ($this->getSubcategories() as $sub) {
-			foreach ($sub->getAdvertiserCategories() as $subACategory) {
+			/*foreach ($sub->getAdvertiserCategories() as $subACategory) {
 		//		$ids[] = $subACategory->getId();
 				$subIds[$subACategory->getId()] = $sub->getId();
-			}
+			}*/
             $keywords[] = $sub->getName();
 		}
 		/*if (count($ids) == 0 || count($retailersIds)==0) {
@@ -103,11 +103,23 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->limitPage($page, $rowCount);
 		$results = array();
 		foreach ($table->fetchAll($select) as $Product) {
-			$Product->parent_category_id = $subIds[$Product->getAdvertiserCategoryId()];
+			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
 			$results[] = $Product;
 		}
 		return $results;
 	}
+
+    private function _getParentCategoryId($advertiserCategoryId)
+    {
+        $this->parentIds = array();
+        if(!isset($this->parentIds[$advertiserCategoryId])){
+            $table = new Application_Model_AdvertiserCategories();
+            $advCategory = $table->fetch($advertiserCategoryId);
+            $this->parentIds[$advertiserCategoryId] = $advCategory->getCategoryId();
+
+        }
+        return $this->parentIds[$advertiserCategoryId];
+    }
 
 	public function getProductsCount()
 	{
