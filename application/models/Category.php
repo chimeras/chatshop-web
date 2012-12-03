@@ -22,7 +22,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	public function getProductsArray()
 	{
 		$products = array();
-		foreach ($this->getProducts() as $product) {
+		foreach ($this->getProducts(1000, 1) as $product) {
 			$prod = $product->toArray();
 			$prod['parent_category_id'] = $this->getId();
 			$products[] = $prod;
@@ -66,29 +66,40 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
 	public function getProducts($rowCount, $page)
 	{
-		$ids = array();
+		/*$ids = array();*/
 		$retailersIds = $this->_getRetailersIds();
-		$subIds = array();
-		foreach ($this->getAdvertiserCategories() as $cACategory) {
+		/*$subIds = array();*/
+        $keywords = array();
+        /*foreach ($this->getAdvertiserCategories() as $cACategory) {
 			$ids[] = $cACategory->getId();
 			$subIds[$cACategory->getId()] = $this->getId();
-		}
-
+		}*/
 		foreach ($this->getSubcategories() as $sub) {
-			foreach ($sub->getAdvertiserCategories() as $subACategory) {
+			/*foreach ($sub->getAdvertiserCategories() as $subACategory) {
 				$ids[] = $subACategory->getId();
 				$subIds[$subACategory->getId()] = $sub->getId();
-			}
+			}*/
+            $keywords[] = $sub->getName();
 		}
-		if (count($ids) == 0 || count($retailersIds)==0) {
+		/*if (count($ids) == 0 || count($retailersIds)==0) {
+			return array();
+		}*/
+		if (count($keywords) == 0 || count($retailersIds)==0) {
 			return array();
 		}
 		$table = new Application_Model_Products;
-		$select = $table->select('*')
+        $keywordCondition = $table->select();
+        foreach($keywords as $keyword){
+            $keywordCondition->orWhere("`keywords` LIKE ?", '%'.$keyword.'%');
+        }
+        $select = $table->select('*')
 				->group('similarity')
 				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
-				->where('`advertiser_category_id` IN(' . implode(',', $ids) . ')')
+				/*->where('`advertiser_category_id` IN(' . implode(',', $ids) . ')')*/
 				->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
+				->where('`keywords` LIKE ?', '%'. $this->getName() .'%')
+                //->reset(Zend_Db_Select::WHERE)
+				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
 		$results = array();
 		foreach ($table->fetchAll($select) as $Product) {
