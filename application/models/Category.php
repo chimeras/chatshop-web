@@ -87,11 +87,13 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$table = new Application_Model_Products;
         $keywordCondition = $table->select();
         foreach($keywords as $keyword){
-            $keywordCondition->orWhere("`keywords` LIKE ?", '%'.$keyword.'%');
+            $keywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
+            $keywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
         }
         $mandatoryKeywordCondition = $table->select();
         foreach($mandatoryKeywords as $keyword){
-            $mandatoryKeywordCondition->Where("`keywords` LIKE ?", '%'.$keyword.'%');
+            $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
+            $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
         }
         $select = $table->select('*')
 				->group('similarity')
