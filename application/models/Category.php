@@ -113,7 +113,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     private function _getParentCategoryId($advertiserCategoryId)
     {
         $this->_parentIds = array();
-        if(!isset($this->parentIds[$advertiserCategoryId])){
+        if(!isset($this->_parentIds[$advertiserCategoryId])){
             $table = new Application_Model_AdvertiserCategories();
             $advCategory = $table->fetch($advertiserCategoryId);
             $this->_parentIds[$advertiserCategoryId] = $advCategory->getCategoryId();
