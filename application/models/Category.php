@@ -68,17 +68,17 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	{
 		/*$ids = array();*/
 		$retailersIds = $this->_getRetailersIds();
-		/*$subIds = array();*/
+		$subIds = array();
         $keywords = array();
-        /*foreach ($this->getAdvertiserCategories() as $cACategory) {
-			$ids[] = $cACategory->getId();
+        foreach ($this->getAdvertiserCategories() as $cACategory) {
+		//	$ids[] = $cACategory->getId();
 			$subIds[$cACategory->getId()] = $this->getId();
-		}*/
+		}
 		foreach ($this->getSubcategories() as $sub) {
-			/*foreach ($sub->getAdvertiserCategories() as $subACategory) {
-				$ids[] = $subACategory->getId();
+			foreach ($sub->getAdvertiserCategories() as $subACategory) {
+		//		$ids[] = $subACategory->getId();
 				$subIds[$subACategory->getId()] = $sub->getId();
-			}*/
+			}
             $keywords[] = $sub->getName();
 		}
 		/*if (count($ids) == 0 || count($retailersIds)==0) {
