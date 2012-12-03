@@ -5,6 +5,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
 	public $products = array();
 	private $_subcategories = null;
+	private $_parentIds = array();
 
 	/**
 	 * 
@@ -111,14 +112,14 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
     private function _getParentCategoryId($advertiserCategoryId)
     {
-        $this->parentIds = array();
+        $this->_parentIds = array();
         if(!isset($this->parentIds[$advertiserCategoryId])){
             $table = new Application_Model_AdvertiserCategories();
             $advCategory = $table->fetch($advertiserCategoryId);
-            $this->parentIds[$advertiserCategoryId] = $advCategory->getCategoryId();
+            $this->_parentIds[$advertiserCategoryId] = $advCategory->getCategoryId();
 
         }
-        return $this->parentIds[$advertiserCategoryId];
+        return $this->_parentIds[$advertiserCategoryId];
     }
 
 	public function getProductsCount()
