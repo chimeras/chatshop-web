@@ -71,6 +71,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$retailersIds = $this->_getRetailersIds();
 		$subIds = array();
         $keywords = array();
+        $keywords[] = $this->getName();
        /* foreach ($this->getAdvertiserCategories() as $cACategory) {
 		//	$ids[] = $cACategory->getId();
 			$subIds[$cACategory->getId()] = $this->getId();
@@ -98,11 +99,11 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
 				/*->where('`advertiser_category_id` IN(' . implode(',', $ids) . ')')*/
 				->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
-				->where('`keywords` LIKE ?', '%'. $this->getName() .'%')
+				///////////////////////////////////////->where('`keywords` LIKE ?', '%'. $this->getName() .'%')
                 //->reset(Zend_Db_Select::WHERE)
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
-        echo $select; exit();
+        //echo $select; exit();
 		$results = array();
 		foreach ($table->fetchAll($select) as $Product) {
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
