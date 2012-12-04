@@ -76,11 +76,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $mandatoryKeywords[] = $this->getParent()->getName();
         }
         $mandatoryKeywords[] = $this->getName();
-var_dump($mandatoryKeywords);
+
 		foreach ($this->getSubcategories() as $sub) {
             $keywords[] = $sub->getName();
 		}
-
+        var_dump($keywords);
+        var_dump($retailersIds);
 		if (count($keywords) == 0 || count($retailersIds)==0) {
 			return array();
 		}
