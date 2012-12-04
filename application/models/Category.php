@@ -83,11 +83,16 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		if (count($retailersIds)==0) {
 			return array();
 		}
+
+
 		$table = new Application_Model_Products;
         $keywordCondition = $table->select();
         foreach($keywords as $keyword){
             $keywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
             $keywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
+        }
+        if(count($keywords) == 0){
+            $keywordCondition->orWhere("true");
         }
         $mandatoryKeywordCondition = $table->select();
         foreach($mandatoryKeywords as $keyword){
