@@ -38,6 +38,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
 	public function toCombinedArray($productsCount = 20, $offset = 0)
 	{
+        var_dump($this->getProducts(1000,1));
 		$category = $this->toArray();
 		$category['products'] = array();
 		foreach ($this->getProducts($productsCount, $offset) as $Product) {
