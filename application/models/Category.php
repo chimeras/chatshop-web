@@ -103,20 +103,22 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", '% '.$keyword.'%');
             $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", $keyword.'%');
         }
-        $select = $table->select('*')
-            ->group('similarity')
-            ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
-            ->where('`retailer_id` IN(' . implode(',', $specificRetailersIds) . ')')
-            ->where(implode (' ', $mandatoryKeywordInverseCondition->getPart(Zend_Db_Select::WHERE)))
-            ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
-            ->limitPage($page, $rowCount);
-        //echo $select; exit();
         $results = array();
-        foreach ($table->fetchAll($select) as $Product) {
-            $Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
-            $results[] = $Product;
-        }
+        if(count($specificRetailersIds)>0){
+            $select = $table->select('*')
+                ->group('similarity')
+                ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+                ->where('`retailer_id` IN(' . implode(',', $specificRetailersIds) . ')')
+                ->where(implode (' ', $mandatoryKeywordInverseCondition->getPart(Zend_Db_Select::WHERE)))
+                ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
+                ->limitPage($page, $rowCount);
+            //echo $select; exit();
 
+            foreach ($table->fetchAll($select) as $Product) {
+                $Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
+                $results[] = $Product;
+            }
+        }
         $select = $table->select('*')
 				->group('similarity')
 				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
@@ -124,7 +126,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
-        //echo $select; exit();
+    //    echo $select; exit();
 		foreach ($table->fetchAll($select) as $Product) {
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
 			$results[] = $Product;
