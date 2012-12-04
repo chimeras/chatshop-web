@@ -69,6 +69,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 	{
 		/*$ids = array();*/
 		$retailersIds = $this->_getRetailersIds();
+		$specificRetailersIds = $this->_getSpecificRetailersIds();
 		$subIds = array();
         $keywords = array();
         $mandatoryKeywords = array();
@@ -95,10 +96,27 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $keywordCondition->orWhere("true");
         }
         $mandatoryKeywordCondition = $table->select();
+        $mandatoryKeywordInverseCondition = $table->select();
         foreach($mandatoryKeywords as $keyword){
             $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
             $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
+            $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", '% '.$keyword.'%');
+            $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", $keyword.'%');
         }
+        $select = $table->select('*')
+            ->group('similarity')
+            ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+            ->where('`retailer_id` IN(' . implode(',', $specificRetailersIds) . ')')
+            ->where(implode (' ', $mandatoryKeywordInverseCondition->getPart(Zend_Db_Select::WHERE)))
+            ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
+            ->limitPage($page, $rowCount);
+        //echo $select; exit();
+        $results = array();
+        foreach ($table->fetchAll($select) as $Product) {
+            $Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
+            $results[] = $Product;
+        }
+
         $select = $table->select('*')
 				->group('similarity')
 				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
@@ -107,7 +125,6 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
         //echo $select; exit();
-		$results = array();
 		foreach ($table->fetchAll($select) as $Product) {
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
 			$results[] = $Product;
@@ -166,6 +183,23 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 			$result[] = $retailer->getId();
 		}
 		
+		return $result;
+	}
+    private function _getSpecificRetailersIds()
+	{
+		$Table = new Application_Model_Retailers;
+		$result = array();
+
+		if($this->getParentId() > 0){
+			$where = '(category_id = '. $this->getParentId() .')';
+		}else{
+			$where = '(category_id = '. $this->getId() .')';
+		}
+		$where .= " AND state is null";
+		foreach ($Table->fetchAll($where) as $retailer){
+			$result[] = $retailer->getId();
+		}
+
 		return $result;
 	}
 
