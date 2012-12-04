@@ -25,7 +25,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		$products = array();
 		foreach ($this->getProducts(1000, 1) as $product) {
 			$prod = $product->toArray();
-			$prod['parent_category_id'] = $this->getId();
+		//	$prod['parent_category_id'] = $this->getId();
 			$products[] = $prod;
 		}
 		return $products;
