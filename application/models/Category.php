@@ -102,7 +102,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
-        echo $select; exit();
+        //echo $select; exit();
 		$results = array();
 		foreach ($table->fetchAll($select) as $Product) {
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
