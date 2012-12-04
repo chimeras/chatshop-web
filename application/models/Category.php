@@ -80,9 +80,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		foreach ($this->getSubcategories() as $sub) {
             $keywords[] = $sub->getName();
 		}
-        var_dump($keywords);
-        var_dump($retailersIds);
-		if (count($keywords) == 0 || count($retailersIds)==0) {
+		if (count($retailersIds)==0) {
 			return array();
 		}
 		$table = new Application_Model_Products;
