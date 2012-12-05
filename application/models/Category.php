@@ -128,11 +128,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
 				->limitPage($page, $rowCount);
         echo $select; //exit();
-        exit(count($results));
+
 		foreach ($table->fetchAll($select) as $Product) {
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
 			$results[] = $Product;
 		}
+        exit(count($results));
 		return $results;
 	}
 
