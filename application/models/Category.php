@@ -133,7 +133,8 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
 			$results[] = $Product;
 		}
-        exit(count($results));
+        var_dump(count($results));
+        exit();
 		return $results;
 	}
 
