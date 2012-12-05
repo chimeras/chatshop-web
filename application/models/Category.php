@@ -188,7 +188,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		foreach ($Table->fetchAll($where) as $retailer){
 			$result[] = $retailer->getId();
 		}
-		var_Dump($result); exit();
+		var_Dump($where); exit();
 		return $result;
 	}
     private function _getSpecificRetailersIds()
