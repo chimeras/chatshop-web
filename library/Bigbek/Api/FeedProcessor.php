@@ -112,7 +112,7 @@ class FeedProcessor
     {
         $productTable = new \Application_Model_Products;
         $indexerTable = new \Application_Model_Indexers;
-        $max = 1000;
+        $max = 10000;
         $count = $source = 0;
         foreach ($data as $row) {
             $source++;

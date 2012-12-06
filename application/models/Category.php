@@ -86,7 +86,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		}
 
 
-		$table = new Application_Model_Indexers;
+		$table = new Application_Model_Products;
         $keywordCondition = $table->select();
         foreach($keywords as $keyword){
             $keywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
@@ -104,7 +104,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", $keyword.'%');
         }
         $results = array();
-        if(count($specificRetailersIds)>0){
+        if(count($retailersIds)>0){
             $select = $table->select('*')
                 ->group('similarity')
                 ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
@@ -112,7 +112,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
                 ->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
                 ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
                 ->limitPage($page, $rowCount);
-            //echo $select; //exit();
+         //   echo $select; //exit();
 
             foreach ($table->fetchAll($select) as $Product) {
                 $Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
@@ -121,8 +121,8 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         }
 
 
-        //var_dump(count($results));
-        //exit();
+       // var_dump(count($results));
+       // exit();
 		return $results;
 	}
 
