@@ -86,7 +86,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 		}
 
 
-		$table = new Application_Model_Products;
+		$table = new Application_Model_Indexers;
         $keywordCondition = $table->select();
         foreach($keywords as $keyword){
             $keywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');

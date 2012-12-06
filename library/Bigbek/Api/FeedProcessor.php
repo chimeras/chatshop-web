@@ -111,10 +111,11 @@ class FeedProcessor
 	private function _writeToDb($data)
 	{
 		$productTable = new \Application_Model_Products;
+		$indexerTable = new \Application_Model_Indexers;
 		$max = 1000;
-		$count = $sourse = 0;
+		$count = $source = 0;
 		foreach ($data as $row){
-			$sourse ++;
+			$source ++;
 			if(!isset($row['SKU'])){
 				var_dump($row);
 				continue;
@@ -127,7 +128,9 @@ class FeedProcessor
 			$product = $productTable->fetchUniqueBy(array('sku'=>$row['SKU']));
 			if(!is_object($product)){
 				$product = $productTable->fetchNew();
-			}
+			}elseif(strtotime($product->getUpdatedAt()) + 3600 > time()){
+                continue;
+            }
 			
 			
 			foreach($this->_cjFields as $dbField => $cjField){
@@ -138,6 +141,7 @@ class FeedProcessor
 			}
 			$product->setBrandName($row[$this->_cjObjects['Brand']]);
 			$product->setSimilarity();
+
 			$product->save();
 			foreach($this->_cjObjects as $obj => $cjField){
 				if(!isset($row[$cjField])){
@@ -146,14 +150,22 @@ class FeedProcessor
 				$setterName = 'set'.$obj;
 				$product->$setterName(addslashes($row[$cjField]));
 			}
-			
+            $product->setUpdatedAt(date("Y-m-d H:i:s"));
 			$product->save();
+            $indexer = $indexerTable->fetch($product->getId());
+            if(!is_object($indexer)){
+                $indexer = $indexerTable->fetchNew();
+            }
+            $indexer->setId($product->getId());
+            $indexer->setRetailerId($product->getRetailerId());
+            $indexer->setKeywords($product->getKeywords());
+            $indexer->setAdvertiserKeywords($row['ADVERTISERCATEGORY']);
+            $indexer->save();
 			if(--$max<=0){
 				break;
-				
 			}
 		}
-		echo 'processed -> from :'.$sourse .', successed:'.$count.'products;'."\n"; 
+		echo 'processed -> from :'.$source .', successed:'.$count.'products;'."\n";
 		return TRUE;
 	}
 }

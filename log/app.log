@@ -5320,3 +5320,4 @@ Stack Trace:
 2012-11-22T12:46:52+04:00 WARN (4): addcslashes() expects exactly 2 parameters, 1 given
 2012-11-22T12:46:52+04:00 WARN (4): addcslashes() expects exactly 2 parameters, 1 given
 2012-11-22T12:46:53+04:00 WARN (4): addcslashes() expects exactly 2 parameters, 1 given
+2012-12-06T13:02:39+04:00 WARN (4): Invalid argument supplied for foreach()
