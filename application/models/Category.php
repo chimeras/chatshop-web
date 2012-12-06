@@ -107,7 +107,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         if(count($specificRetailersIds)>0){
             $select = $table->select('*')
                 ->group('similarity')
-                ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+                /*->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)*/
                 ->where('`retailer_id` IN(' . implode(',', $specificRetailersIds) . ')')
                 ->where(implode (' ', $mandatoryKeywordInverseCondition->getPart(Zend_Db_Select::WHERE)))
                 ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
@@ -120,19 +120,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             }
         }
 
-        $select = $table->select('*')
-				->group('similarity')
-				->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
-				->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
-				->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
-				->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
-				->limitPage($page, $rowCount);
-        //echo $select; //exit();
 
-		foreach ($table->fetchAll($select) as $Product) {
-			$Product->parent_category_id = $this->_getParentCategoryId($Product->getAdvertiserCategoryId());
-			$results[] = $Product;
-		}
         //var_dump(count($results));
         //exit();
 		return $results;
