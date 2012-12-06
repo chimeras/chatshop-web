@@ -107,9 +107,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         if(count($specificRetailersIds)>0){
             $select = $table->select('*')
                 ->group('similarity')
-                /*->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)*/
-                ->where('`retailer_id` IN(' . implode(',', $specificRetailersIds) . ')')
-                ->where(implode (' ', $mandatoryKeywordInverseCondition->getPart(Zend_Db_Select::WHERE)))
+                ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+                ->where('`retailer_id` IN(' . implode(',', $retailersIds) . ')')
+                ->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
                 ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
                 ->limitPage($page, $rowCount);
             //echo $select; //exit();
