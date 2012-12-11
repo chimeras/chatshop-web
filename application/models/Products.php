@@ -36,4 +36,54 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 			$array[] = $object->toArray();
 		}
 	}
+
+
+
+    public function getCategorySpecificSelect(Application_Model_Category $category, $rowCount, $page)
+    {
+        $retailersIds = $category->getRetailersIds();
+      //  var_dump($retailersIds);
+        if(count($retailersIds) > 0){
+            $retailersIdsString = '`retailer_id` IN(' . implode(',', $retailersIds) . ')';
+        }else{
+            $retailersIdsString = 'false';
+        }
+        $subIds = array();
+        $keywords = array();
+        $mandatoryKeywords = array();
+        if(is_object($category->getParent())){
+            $mandatoryKeywords[] = $category->getParent()->getName();
+        }
+        $mandatoryKeywords[] = $category->getName();
+
+        foreach ($category->getSubcategories() as $sub) {
+            $keywords[] = $sub->getName();
+        }
+
+        $keywordCondition = $this->select();
+        foreach($keywords as $keyword){
+            $keywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
+            $keywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
+        }
+        if(count($keywords) == 0){
+            $keywordCondition->orWhere("true");
+        }
+        $mandatoryKeywordCondition = $this->select();
+        $mandatoryKeywordInverseCondition = $this->select();
+        foreach($mandatoryKeywords as $keyword){
+            $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", '% '.$keyword.'%');
+            $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", $keyword.'%');
+            $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", '% '.$keyword.'%');
+            $mandatoryKeywordInverseCondition->Where("`keywords` NOT LIKE ?", $keyword.'%');
+        }
+            $select = $this->select('*')
+                ->group('similarity')
+                ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
+                ->where($retailersIdsString)
+                ->where(implode (' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
+                ->where(implode (' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
+                ->limitPage($page, $rowCount);
+       /// echo $select ."\n\n\n";
+        return $this->fetchAll($select);
+    }
 }
