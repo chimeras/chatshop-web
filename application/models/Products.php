@@ -48,7 +48,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
         }
         $subIds = array();
         $keywords = array();
-        $mandatoryKeywords = array();
+        $mandatoryKeywords = explode(', ', $category->getKeywords());
         if (is_object($category->getParent())) {
             $mandatoryKeywords = array_merge($mandatoryKeywords, explode(', ', $category->getParent()->getKeywords()));
         }
