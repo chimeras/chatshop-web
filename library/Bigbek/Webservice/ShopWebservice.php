@@ -18,6 +18,12 @@ class ShopWebservice extends BaseWebservice
 
     /**
      *
+     * @var \Application_Model_Themes
+     */
+    private $_logger;
+
+    /**
+     *
      * @var \Application_Model_Categories
      */
     private $_categories;
@@ -31,6 +37,12 @@ class ShopWebservice extends BaseWebservice
         $this->_themes = new \Application_Model_Themes;
         $this->_categories = new \Application_Model_Categories;
         parent::__construct();
+
+        $this->_logger = new Zend_Log();
+        $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
+        $this->_logger->addWriter($writer);
+        $this->_registerErrorHandler();
+
     }
 
     /**
@@ -56,6 +68,7 @@ class ShopWebservice extends BaseWebservice
      */
     public function getThemeCategories($id)
     {
+        $this->_logger->log('getThemeCategories for id='. $id, Zend_Log::INFO);
         $theme = $this->_themes->fetch($id);
         $categories = $theme->getCategoriesArray();
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
@@ -71,6 +84,7 @@ class ShopWebservice extends BaseWebservice
      */
     public function getCategoryProducts($id, $page = 1, $limit = 50)
     {
+        $this->_logger->log('getCategoryProducts for id='. $id .',$page = '.$page.', $limit = '. $limit, Zend_Log::INFO);
         $page = $page > 0 ? (int)$page : 1;
         $limit = (int)$limit;
 
