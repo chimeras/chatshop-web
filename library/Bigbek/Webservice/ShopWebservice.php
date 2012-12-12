@@ -18,7 +18,7 @@ class ShopWebservice extends BaseWebservice
 
     /**
      *
-     * @var \Application_Model_Themes
+     * @var \Zend_Log
      */
     private $_logger;
 
@@ -38,9 +38,7 @@ class ShopWebservice extends BaseWebservice
         $this->_categories = new \Application_Model_Categories;
         parent::__construct();
 
-        $this->_logger = new \Zend_Log();
-        $writer = new \Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
-        $this->_logger->addWriter($writer);
+        $this->_logger = \Zend_Registry::get('calls_logger');
 
     }
 
@@ -67,7 +65,7 @@ class ShopWebservice extends BaseWebservice
      */
     public function getThemeCategories($id)
     {
-        $this->_logger->log('getThemeCategories for id='. $id, Zend_Log::INFO);
+        $this->_logger->log('getThemeCategories for id='. $id, \Zend_Log::INFO);
         $theme = $this->_themes->fetch($id);
         $categories = $theme->getCategoriesArray();
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));

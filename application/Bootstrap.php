@@ -31,17 +31,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		}
 	}
 
-	protected function _initLogging()
-	{
-		$logger = new Zend_Log();
-		$writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/app.log');
-		$logger->addWriter($writer);
-		$logger->registerErrorHandler();
-		Zend_Registry::set('logger', $logger);
-		return $logger;
-	}
 
-	protected function _initViewHelpers()
+    protected function _initLogging()
+    {
+        $logger = new Zend_Log();
+        $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/app.log');
+        $logger->addWriter($writer);
+        $logger->registerErrorHandler();
+        Zend_Registry::set('logger', $logger);
+        return $logger;
+    }
+
+    protected function _initCallsLogging()
+    {
+        $logger = new Zend_Log();
+        $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
+        $logger->addWriter($writer);
+        $logger->registerErrorHandler();
+        Zend_Registry::set('calls_logger', $logger);
+        return $logger;
+    }
+    protected function _initViewHelpers()
 	{
 		$this->bootstrap('layout');
 		$layout = $this->getResource('layout');
