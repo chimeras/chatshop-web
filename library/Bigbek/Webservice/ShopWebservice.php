@@ -10,123 +10,97 @@ namespace Bigbek\Webservice;
 class ShopWebservice extends BaseWebservice
 {
 
-	/**
-	 *
-	 * @var \Application_Model_Themes 
-	 */
-	private $_themes;
+    /**
+     *
+     * @var \Application_Model_Themes
+     */
+    private $_themes;
 
-	/**
-	 *
-	 * @var \Application_Model_Categories
-	 */
-	private $_categories;
-	protected $errorMessage = array(
-		'2001' => 'no session or user',
-		'2002' => 'Shopping List doesn\'t exist'
-	);
+    /**
+     *
+     * @var \Application_Model_Categories
+     */
+    private $_categories;
+    protected $errorMessage = array(
+        '2001' => 'no session or user',
+        '2002' => 'Shopping List doesn\'t exist'
+    );
 
-	public function __construct()
-	{
-		$this->_themes = new \Application_Model_Themes;
-		$this->_categories = new \Application_Model_Categories;
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        $this->_themes = new \Application_Model_Themes;
+        $this->_categories = new \Application_Model_Categories;
+        parent::__construct();
+    }
 
-	/**
-	 * @return string JSON
-	 */
-	public function getThemes()
-	{
+    /**
+     * @return string JSON
+     */
+    public function getThemes()
+    {
 
-		$themes = $this->_themes->fetchAll();
-		$return = array();
-		foreach ($themes as $theme) {
-			$themeArray = $theme->toArray();
-			$return[] = $themeArray;
-		}
-		return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
+        $themes = $this->_themes->fetchAll();
+        $return = array();
+        foreach ($themes as $theme) {
+            $themeArray = $theme->toArray();
+            $return[] = $themeArray;
+        }
+        return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
+    }
 
 
-		/* $themesArray = $this->_themes->fetchAllArray();
-		  return \Zend_Json::encode(array('theme' => $themesArray, 'message' => 'successfully retreived')); */
-		/*
-		  $themes = $this->_themes->fetchAll();
-		  $return = array();
-		  foreach ($themes as $theme){
-		  $themeArray = $theme->toArray();
-		  $themeArray['categories'] = $theme->getCategoriesArray();
-		  $return[] = $themeArray;
+    /**
+     *
+     * @param integer $id
+     * @return JSON array
+     */
+    public function getThemeCategories($id)
+    {
+        $theme = $this->_themes->fetch($id);
+        $categories = $theme->getCategoriesArray();
+        return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
+    }
 
-		  }
-		  return \Zend_Json::encode(array('themes' => $return, 'message' => 'successfully retreived'));
-		 * */
-	}
 
-	/*
-	  public function getCategoryProducts($id)
-	  {
-	  $category = $this->_categories->fetch($id);
-	  return \Zend_Json::encode(array('products' => $category->getProductsArray(), 'message' => 'successfully retreived'));
-	  } */
+    /**
+     *
+     * @param integer $id
+     * @param integer $page
+     * @param integer $limit
+     * @return JSON
+     */
+    public function getCategoryProducts($id, $page = 1, $limit = 50)
+    {
+        $page = $page > 0 ? (int)$page : 1;
+        $limit = (int)$limit;
 
-	/**
-	 * 
-	 * @param integer $id
-	 * @return JSON array
-	 */
-	public function getThemeCategories($id)
-	{
-		$theme = $this->_themes->fetch($id);
-		$categories = $theme->getCategoriesArray();
-		return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retreived'));
-	}
+        $categoriesTable = new \Application_Model_Categories;
+        $Category = $categoriesTable->fetch($id);
+        if (!is_object($Category)) {
+            return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
+        }
 
-	/*
-	  public function getCategories()
-	  {
-	  // $categoriesTable = new \Bigbek\Api\CommissionJunction;
-	  //  return \Zend_Json::encode(array('products' => $categoriesTable->getCategories(), 'message' => 'successfully retreived'));
+        $arrCategory = $Category->toCombinedArray($limit, $page);
 
-	  $categoriesTable = new \Application_Model_AdvertiserCategories;
-	  return \Zend_Json::encode(array('categories' => $categoriesTable->fetchAllArray(), 'message' => 'successfully retreived'));
-	  }
-	 */
+        return \Zend_Json::encode(
+            array('products' => $arrCategory['products'],
+                'products_qty' => $arrCategory['products_qty'],
+                'message' => 'successfully retreived')
+        );
+    }
 
-	/**
-	 * 
-	 * @param integer $id
-	 * @param integer $page
-	 * @param integer $limit
-	 * @return JSON
-	 */
-	public function getCategoryProducts($id, $page = 1, $limit = 50)
-	{
-		$page = $page > 0 ? (int) $page : 1;
-		$limit = (int) $limit;
-		
-		$categoriesTable = new \Application_Model_Categories;
-		$Category = $categoriesTable->fetch($id);
-		if (!is_object($Category)) {
-			return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
-		}
-		
-		$arrCategory = $Category->toCombinedArray($limit, $page);
 
-		return \Zend_Json::encode(
-						array('products' => $arrCategory['products'],
-							'products_qty' => $arrCategory['products_qty'],
-							'message' => 'successfully retreived')
-		);
-	}
-
-	public function getReccomendations($keywords)
-	{
-		$apAdapter = new \Bigbek\Api\CommissionJunction;
-		$productsArray = $apAdapter->getProducts(array('keywords' => $keywords));
-		$cjProcessor = new \Bigbek\Api\CjProcessor;
-		$products = $cjProcessor->generateFromArray($productsArray);
-		var_dump($productsArray);
-	}
+    /**
+     * @todo finish this service
+     *
+     */
+    public function getRecommendations($keywords)
+    {
+        $apAdapter = new \Bigbek\Api\CommissionJunction;
+        $productsArray = $apAdapter->getProducts(array('keywords' => $keywords));
+        $cjProcessor = new \Bigbek\Api\CjProcessor;
+        $products = $cjProcessor->generateFromArray($productsArray);
+        var_dump($productsArray);
+    }
 
 }
