@@ -41,7 +41,6 @@ class ShopWebservice extends BaseWebservice
         $this->_logger = new \Zend_Log();
         $writer = new \Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
         $this->_logger->addWriter($writer);
-        $this->_registerErrorHandler();
 
     }
 
