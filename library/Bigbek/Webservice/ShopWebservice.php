@@ -38,8 +38,8 @@ class ShopWebservice extends BaseWebservice
         $this->_categories = new \Application_Model_Categories;
         parent::__construct();
 
-        $this->_logger = new Zend_Log();
-        $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
+        $this->_logger = new \Zend_Log();
+        $writer = new \Zend_Log_Writer_Stream(APPLICATION_PATH . '/../log/calls.log');
         $this->_logger->addWriter($writer);
         $this->_registerErrorHandler();
 
