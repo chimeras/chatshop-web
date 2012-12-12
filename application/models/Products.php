@@ -83,6 +83,8 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->limitPage($page, $rowCount);
       //  echo $select . "\n\n\n";
+        $this->_logger = \Zend_Registry::get('calls_logger');
+        $this->_logger->log('get products sql for category id'. $category->getId() .'; sql='.$select, \Zend_Log::DEBUG);
         return $this->fetchAll($select);
     }
 }
