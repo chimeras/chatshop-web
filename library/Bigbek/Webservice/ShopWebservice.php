@@ -81,7 +81,7 @@ class ShopWebservice extends BaseWebservice
      */
     public function getCategoryProducts($id, $page = 1, $limit = 50)
     {
-        $this->_logger->log('getCategoryProducts for id='. $id .',$page = '.$page.', $limit = '. $limit, Zend_Log::INFO);
+        $this->_logger->log('getCategoryProducts for id='. $id .',$page = '.$page.', $limit = '. $limit, \Zend_Log::INFO);
         $page = $page > 0 ? (int)$page : 1;
         $limit = (int)$limit;
 
