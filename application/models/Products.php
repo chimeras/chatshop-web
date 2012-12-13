@@ -57,24 +57,26 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             $keywords = array_merge($keywords, explode(', ', $sub->getKeywords()));
         }
 
+        $mandatoryKeywordCondition = $this->select();
 
         $keywordCondition = $this->select();
-        foreach ($keywords as $keyword) {
-            $keywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
-            $keywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
+        if (count($keywords) > 0) {
+            foreach ($keywords as $keyword) {
+                $keywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
+                $keywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
+            }
+        } else {
+            $keywordCondition->Where("true");
         }
-        if (count($keywords) == 0) {
-            $keywordCondition->Where("false");
-        }
-        $mandatoryKeywordCondition = $this->select();
+
+
         if (count($mandatoryKeywords) > 0) {
             foreach ($mandatoryKeywords as $keyword) {
                 $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
                 $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
             }
-        } else {
-            $mandatoryKeywordCondition->Where("true");
         }
+
         $select = $this->select('*')
             ->group('similarity')
             ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
@@ -82,9 +84,9 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->where(implode(' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->limitPage($page, $rowCount);
-      //  echo $select . "\n\n\n";
+        //  echo $select . "\n\n\n";
         $this->_logger = \Zend_Registry::get('calls_logger');
-        $this->_logger->log('get products sql for category id'. $category->getId() .'; sql='.$select, \Zend_Log::DEBUG);
+        $this->_logger->log('get products sql for category id' . $category->getId() . '; sql=' . $select, \Zend_Log::DEBUG);
         return $this->fetchAll($select);
     }
 }
