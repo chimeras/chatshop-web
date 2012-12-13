@@ -40,19 +40,17 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
     public function getCategorySpecificSelect(Application_Model_Category $category, $rowCount, $page)
     {
         $retailersIds = $category->getRetailersIds();
-        //  var_dump($retailersIds);
         if (count($retailersIds) > 0) {
             $retailersIdsString = '`retailer_id` IN(' . implode(',', $retailersIds) . ')';
         } else {
             $retailersIdsString = 'false';
         }
-        $subIds = array();
         $keywords = array();
         $mandatoryKeywords = explode(', ', $category->getKeywords());
         if (is_object($category->getParent())) {
+
             $mandatoryKeywords = array_merge($mandatoryKeywords, explode(', ', $category->getParent()->getKeywords()));
         }
-
         foreach ($category->getSubcategories() as $sub) {
             $keywords = array_merge($keywords, explode(', ', $sub->getKeywords()));
         }

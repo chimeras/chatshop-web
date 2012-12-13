@@ -148,7 +148,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $result;
     }
 
-    private function getParent()
+    public function getParent()
     {
         $table = new Application_Model_Categories;
         return $table->fetch($this->getParentId());
