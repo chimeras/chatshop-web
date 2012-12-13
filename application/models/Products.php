@@ -70,8 +70,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 
         if (count($mandatoryKeywords) > 0) {
             foreach ($mandatoryKeywords as $keyword) {
-                $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
-                $mandatoryKeywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
+                $mandatoryKeywordCondition->Where("`keywords` LIKE ? OR `keywords` LIKE ?" , '% ' . $keyword . '%', $keyword . '%');
             }
         }
 
