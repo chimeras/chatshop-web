@@ -62,6 +62,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             foreach ($keywords as $keyword) {
                 $keywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
                 $keywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
+                $keywordCondition->orWhere("`keywords` LIKE ?", '%,'.$keyword . '%');
             }
         } else {
             $keywordCondition->Where("true");
@@ -70,7 +71,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 
         if (count($mandatoryKeywords) > 0) {
             foreach ($mandatoryKeywords as $keyword) {
-                $mandatoryKeywordCondition->Where("`keywords` LIKE ? OR `keywords` LIKE ?" , '% ' . $keyword . '%', $keyword . '%');
+                $mandatoryKeywordCondition->Where("`keywords` LIKE '% $keyword%' OR `keywords` LIKE '$keyword%' OR `keywords` LIKE '%,$keyword%'" );
             }
         }
 
