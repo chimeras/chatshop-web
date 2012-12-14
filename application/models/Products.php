@@ -112,6 +112,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
                 $orPartsProcessed[] = $columnName." LIKE '$orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '% $orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '%,$orPart%'";
+                $orPartsProcessed[] = $columnName." LIKE '%/$orPart%'";
             }
             $sqlParts[] = '('. implode(' OR ', $orPartsProcessed) .')';
         }
