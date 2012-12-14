@@ -118,9 +118,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $result = array();
 
         if ($this->getParentId() > 0) {
-            $where = '(category_id IS NULL OR category_id = ' . $this->getParentId() . ')';
+            $where = '(category_id IS NULL /*OR category_id = ' . $this->getParentId() . '*/)';
         } else {
-            $where = '(category_id IS NULL OR category_id = ' . $this->getId() . ')';
+            $where = '(category_id IS NULL /*OR category_id = ' . $this->getId() . '*/)';
         }
         $where .= " AND state is null";
         foreach ($Table->fetchAll($where) as $retailer) {
@@ -130,7 +130,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $result;
     }
 
-    private function getSpecificRetailersIds()
+    public function getSpecificRetailersIds()
     {
         $Table = new Application_Model_Retailers;
         $result = array();
