@@ -108,6 +108,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             $orPartsProcessed = array();
             $orParts = explode('|', $part);
             foreach($orParts as $orPart){
+                $orPart = trim($orPart);
                 $orPartsProcessed[] = $columnName." LIKE '$orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '% $orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '%,$orPart%'";
