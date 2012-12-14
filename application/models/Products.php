@@ -46,13 +46,16 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             $retailersIdsString = 'false';
         }
         $keywords = array();
-        $mandatoryKeywords = explode(', ', $category->getKeywords());
+        //$mandatoryKeywords = explode(', ', $category->getKeywords());
+        $mandatoryKeywords = array($category->getKeywords());
         if (is_object($category->getParent())) {
 
-            $mandatoryKeywords = array_merge($mandatoryKeywords, explode(', ', $category->getParent()->getKeywords()));
+            //$mandatoryKeywords = array_merge($mandatoryKeywords, explode(', ', $category->getParent()->getKeywords()));
+            $mandatoryKeywords[] = $category->getParent()->getKeywords();
         }
         foreach ($category->getSubcategories() as $sub) {
-            $keywords = array_merge($keywords, explode(', ', $sub->getKeywords()));
+            //$keywords = array_merge($keywords, explode(', ', $sub->getKeywords()));
+            $keywords[] = $sub->getKeywords();
         }
 
         $mandatoryKeywordCondition = $this->select();
@@ -60,9 +63,10 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
         $keywordCondition = $this->select();
         if (count($keywords) > 0) {
             foreach ($keywords as $keyword) {
-                $keywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
+                $keywordCondition->orWhere($this->_getSqlVersion($keyword));
+                /*$keywordCondition->orWhere("`keywords` LIKE ?", '% ' . $keyword . '%');
                 $keywordCondition->orWhere("`keywords` LIKE ?", $keyword . '%');
-                $keywordCondition->orWhere("`keywords` LIKE ?", '%,'.$keyword . '%');
+                $keywordCondition->orWhere("`keywords` LIKE ?", '%,'.$keyword . '%');*/
             }
         } else {
             $keywordCondition->Where("true");
@@ -71,7 +75,8 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 
         if (count($mandatoryKeywords) > 0) {
             foreach ($mandatoryKeywords as $keyword) {
-                $mandatoryKeywordCondition->Where("`keywords` LIKE '% $keyword%' OR `keywords` LIKE '$keyword%' OR `keywords` LIKE '%,$keyword%'" );
+                $mandatoryKeywordCondition->Where($this->_getSqlVersion($keyword));
+                //$mandatoryKeywordCondition->Where("`keywords` LIKE '% $keyword%' OR `keywords` LIKE '$keyword%' OR `keywords` LIKE '%,$keyword%'" );
             }
         }
 
@@ -86,5 +91,30 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
         $this->_logger = \Zend_Registry::get('calls_logger');
         $this->_logger->log('get products sql for category id' . $category->getId() . '; sql=' . $select, \Zend_Log::DEBUG);
         return $this->fetchAll($select);
+    }
+
+
+    /**
+     * @param string $keywordsString
+     * @param string $columnName
+     * @return string
+     */
+    private function _getSqlVersion($keywordsString, $columnName = 'keywords')
+    {
+        $sqlString = '';
+        $sqlParts = array();
+        $parts = explode(',', $keywordsString);
+        foreach($parts as $part){
+            $orPartsProcessed = array();
+            $orParts = explode('|', $part);
+            foreach($orParts as $orPart){
+                $orPartsProcessed[] = $columnName." LIKE '$orPart%'";
+                $orPartsProcessed[] = $columnName." LIKE '% $orPart%'";
+                $orPartsProcessed[] = $columnName." LIKE '%,$orPart%'";
+            }
+            $sqlParts[] = '('. implode(' OR ', $orPartsProcessed) .')';
+        }
+        $sqlString = implode(' AND ', $sqlParts);
+        return $sqlString;
     }
 }
