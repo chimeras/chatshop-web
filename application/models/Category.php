@@ -37,11 +37,11 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $this->findDependentRowset('Application_Model_Categories');
     }
 
-    public function toCombinedArray($productsCount = 20, $offset = 0)
+    public function toCombinedArray($productsCount = 20, $offset = 0, $randomise=false)
     {
         $category = $this->toArray();
         $category['products'] = array();
-        foreach ($this->getProducts($productsCount, $offset) as $Product) {
+        foreach ($this->getProducts($productsCount, $offset, $randomise) as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
             $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
@@ -66,12 +66,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $this->_subcategories;
     }
 
-    public function getProducts($rowCount, $page)
+    public function getProducts($rowCount, $page, $isRandom = false)
     {
 
         $table = new Application_Model_Products;
         $results = array();
-        foreach ($table->getCategorySpecificSelect($this, $rowCount, $page) as $Product) {
+        foreach ($table->getCategorySpecificSelect($this, $rowCount, $page, $isRandom) as $Product) {
             $Product->parent_category_id = $this->_getProductSubCategoryId($Product->getKeywords());
             $results[] = $Product;
         }

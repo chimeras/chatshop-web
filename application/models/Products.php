@@ -37,7 +37,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
     }
 
 
-    public function getCategorySpecificSelect(Application_Model_Category $category, $rowCount, $page)
+    public function getCategorySpecificSelect(Application_Model_Category $category, $rowCount, $page, $isRandom = false)
     {
         $retailersIds = $category->getSpecificRetailersIdsInverse();
         $specificRetailersIds = $category->getSpecificRetailersIds();
@@ -110,7 +110,10 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->where($specificRetailersIdsString)
             ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)));
-            $select = $this->select()->union(array($selectUsual, $selectSpecific))->limitPage($page, $rowCount)->order('RAND()');
+            $select = $this->select()->union(array($selectUsual, $selectSpecific))->limitPage($page, $rowCount);
+        if($isRandom){
+            $select = $select->order('RAND()');
+        }
     //    echo "\n=========================================\n".$select."\n";
         $this->_logger = \Zend_Registry::get('calls_logger');
         $this->_logger->log('get products sql for category id' . $category->getId() . '; sql=' . $select, \Zend_Log::DEBUG);
