@@ -39,7 +39,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
 
     public function getCategorySpecificSelect(Application_Model_Category $category, $rowCount, $page)
     {
-        $retailersIds = $category->getRetailersIds();
+        $retailersIds = $category->getSpecificRetailersIdsInverse();
         $specificRetailersIds = $category->getSpecificRetailersIds();
         if (count($retailersIds) > 0) {
             $retailersIdsString = '`retailer_id` IN(' . implode(',', $retailersIds) . ')';
