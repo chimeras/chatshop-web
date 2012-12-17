@@ -53,6 +53,16 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             $specificRetailersIdsString = 'false';
         }
         $keywords = array();
+        /*
+         * var $mandatoryKeywords
+         * keywords of this particular category, include also parent category
+         */
+
+        /*
+         * var $specificMandatoryKeywords
+         * keywords only from this particular category
+         *
+         */
         $mandatoryKeywords = $specificMandatoryKeywords = array($category->getKeywords());
         if (is_object($category->getParent())) {
             $mandatoryKeywords[] = $category->getParent()->getKeywords();
@@ -85,13 +95,15 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
                 $specificMandatoryKeywordCondition->Where($this->_getSqlVersion($keyword));
             }
         }
-
+        /* Select products having current category name, and subcategories name from retailers not categorised by this category*/
         $selectUsual = $this->select('*')
             ->group('similarity')
             ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
             ->where($retailersIdsString)
             ->where(implode(' ', $mandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)));
+
+        /* Select products having current category name, and subcategories name from retailers whose category is current one*/
         $selectSpecific = $this->select('*')
             ->group('similarity')
             ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
@@ -99,7 +111,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
             ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)));
             $select = $this->select()->union(array($selectUsual, $selectSpecific))->limitPage($page, $rowCount);
-        //echo "\n=========================================\n".$select."\n";
+    //    echo "\n=========================================\n".$select."\n";
         $this->_logger = \Zend_Registry::get('calls_logger');
         $this->_logger->log('get products sql for category id' . $category->getId() . '; sql=' . $select, \Zend_Log::DEBUG);
         return $this->fetchAll($select);
