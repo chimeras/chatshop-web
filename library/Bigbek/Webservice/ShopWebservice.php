@@ -89,6 +89,8 @@ class ShopWebservice extends BaseWebservice
     public
     function getCategoryProducts($id, $page = 1, $limit = 50)
     {
+        $cache = \Zend_Registry::get('cache');
+        $cacheID = 'category_products_'.$id.'_'.$page.'_'.$limit;
         $this->_logger->log('getCategoryProducts for id=' . $id . ',$page = ' . $page . ', $limit = ' . $limit, \Zend_Log::INFO);
         $page = $page > 0 ? (int)$page : 1;
         $limit = (int)$limit;
@@ -99,7 +101,14 @@ class ShopWebservice extends BaseWebservice
             return \Zend_Json::encode(array('error' => 2005, 'message' => 'no such category'));
         }
 
-        $arrCategory = $Category->toCombinedArray($limit, $page);
+        $arrCategory = $cache->load($cacheID);
+        if($arrCategory === false){
+            $arrCategory = $Category->toCombinedArray($limit, $page);
+            $cache->save($arrCategory);
+        }else{
+            shuffle($arrCategory);
+        }
+
 
         return \Zend_Json::encode(
             array('products' => $arrCategory['products'],
