@@ -106,7 +106,7 @@ class ShopWebservice extends BaseWebservice
             $arrCategory = $Category->toCombinedArray($limit, $page);
             $cache->save($arrCategory);
         }else{
-            shuffle($arrCategory);
+            suffle($arrCategory['products']);
         }
 
 
