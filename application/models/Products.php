@@ -108,8 +108,7 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->group('similarity')
             ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
             ->where($specificRetailersIdsString)
-            ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
-            ->where(implode(' ', $keywordCondition->getPart(Zend_Db_Select::WHERE)));
+            ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)));
             $select = $this->select()->union(array($selectUsual, $selectSpecific))->limitPage($page, $rowCount);
         if($isRandom){
             $select = $select->order('RAND()');
