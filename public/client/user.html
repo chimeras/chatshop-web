@@ -6,7 +6,7 @@
 		<SCRIPT LANGUAGE="javascript" SRC="js/json2.js"></SCRIPT>
 		<SCRIPT LANGUAGE="javascript" SRC="js/jquery.zend.jsonrpc.js"></SCRIPT>
 		<link rel="stylesheet" href="css.css" />
-		<SCRIPT>
+		<SCRIPT type="text/javascript">
 			<!--
 			$(document).ready(function(){
 				var url = '/user/';
@@ -23,7 +23,6 @@
 							
 							form.append($('<h2></h2>').text(index));
 							$.each(member.parameters, function(pindex, param){
-								console.log(param);
 								form.append($('<input type="text" />').attr('name', param.name).attr('id', 'param_'+index+'__'+param.name));
 								var label = $('<span></span>').html(param.name + ':<i>' + param.type +'</i>');
 								

@@ -42,10 +42,21 @@ class Application_Model_User extends Application_Model_Db_Row_User
 		return $list;
 	}
 
-	public function getUnclassifiedIetms()
+	public function getUnclassifiedItems()
 	{
 		$unclassifiedList = $this->getUnclassifiedShoppingList();
 		return $unclassifiedList->getAllItemsArray();
 	}
 
+
+    public function getFacebook()
+    {
+        $table = new Application_Model_UserFacebooks;
+        $fbInfo = $table->fetchUniqueBy(array('user_id'=>$this->getId()));
+        if(is_object($fbInfo)){
+            return new Bigbek\Facebook\User($fbInfo->getAccessToken());
+        }else{
+            return null;
+        }
+    }
 }

@@ -33,6 +33,9 @@ class AuthWebservice extends BaseWebservice
 			$userFacebooks = new \Application_Model_UserFacebooks();
 			$userFb = $userFacebooks->fetch($userFbInfo['id']);
 			if (is_object($userFb)) {
+                $userFb->setAccessToken($accessToken);
+                $userFb->setExpirationDate(date("Y-m-d H:i:s", $expirationDate));
+                $userFb->save();
 				$user = $userFb->getUser();
 				if(!is_object($user)){
 					return \Zend_Json::encode(array('session' => null, 'message' => 'no valid user'));
