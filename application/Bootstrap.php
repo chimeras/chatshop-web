@@ -92,7 +92,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initCache()
     {
         $frontendOptions = array(
-            'lifetime' => 3600,
+            'lifetime' => 36000,
             'automatic_serialization' => true
         );
 
