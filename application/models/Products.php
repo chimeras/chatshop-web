@@ -80,6 +80,19 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
         } else {
             $keywordCondition->Where("true");
         }
+        $categoriesTable = new Application_Model_Categories;
+        $parents = $categoriesTable->fetchAll("parent_id=0");
+        $exceptingKeywords = array();
+        $exceptingKeywordCondition = $this->select();
+        foreach($parents as $parent){
+            if($category->getName() == $parent->getName() || (is_object($category->getParent() && $category->getParent()->getName() == $parent->getName()))){
+                continue;
+            }
+            $exceptingKeywords[] = $parent->getKeywords();
+        }
+        foreach($exceptingKeywords as $exceptingKeyword){
+            $exceptingKeywordCondition->orWhere($this->_getExceptingSqlVersion($exceptingKeyword));
+        }
 
 
         $mandatoryKeywordCondition = $this->select();
@@ -108,12 +121,13 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
             ->group('similarity')
             ->where('`visible`=?', Application_Model_Product::VISIBILITY_VISIBLE)
             ->where($specificRetailersIdsString)
-            ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)));
+            ->where(implode(' ', $specificMandatoryKeywordCondition->getPart(Zend_Db_Select::WHERE)))
+            ->where(implode(' ', $exceptingKeywordCondition->getPart(Zend_Db_Select::WHERE)));
             $select = $this->select()->union(array($selectUsual, $selectSpecific))->limitPage($page, $rowCount);
         if($isRandom){
             $select = $select->order('RAND()');
         }
-    //    echo "\n=========================================\n".$select."\n";
+     //   echo "\n=========================================\n".$select."\n";
         $this->_logger = \Zend_Registry::get('calls_logger');
         $this->_logger->log('get products sql for category id' . $category->getId() . '; sql=' . $select, \Zend_Log::DEBUG);
         return $this->fetchAll($select);
@@ -139,6 +153,32 @@ class Application_Model_Products extends Application_Model_Db_Table_Products
                 $orPartsProcessed[] = $columnName." LIKE '% $orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '%,$orPart%'";
                 $orPartsProcessed[] = $columnName." LIKE '%/$orPart%'";
+            }
+            $sqlParts[] = '('. implode(' OR ', $orPartsProcessed) .')';
+        }
+        $sqlString = implode(' AND ', $sqlParts);
+        return $sqlString;
+    }
+
+    /**
+     * @param string $keywordsString
+     * @param string $columnName
+     * @return string
+     */
+    private function _getExceptingSqlVersion($keywordsString, $columnName = 'keywords')
+    {
+        $sqlString = '';
+        $sqlParts = array();
+        $parts = explode(',', $keywordsString);
+        foreach($parts as $part){
+            $orPartsProcessed = array();
+            $orParts = explode('|', $part);
+            foreach($orParts as $orPart){
+                $orPart = trim($orPart);
+                $orPartsProcessed[] = $columnName." NOT LIKE '$orPart%'";
+                $orPartsProcessed[] = $columnName." NOT LIKE '% $orPart%'";
+                $orPartsProcessed[] = $columnName." NOT LIKE '%,$orPart%'";
+                $orPartsProcessed[] = $columnName." NOT LIKE '%/$orPart%'";
             }
             $sqlParts[] = '('. implode(' OR ', $orPartsProcessed) .')';
         }

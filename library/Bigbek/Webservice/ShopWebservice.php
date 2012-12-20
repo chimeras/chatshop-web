@@ -67,7 +67,7 @@ class ShopWebservice extends BaseWebservice
     {
         $this->_logger->log('getThemeCategories for id=' . $id, \Zend_Log::INFO);
         $cache = \Zend_Registry::get('cache');
-        $cacheID = 'theme_categories_'.$id;
+        $cacheID = 'theme_categories_'.$id .'_rand_'.rand(100, 110);
         $categories = $cache->load($cacheID);
         if ($categories === false) {
             $theme = $this->_themes->fetch($id);
@@ -86,8 +86,7 @@ class ShopWebservice extends BaseWebservice
      * @param integer $limit
      * @return JSON
      */
-    public
-    function getCategoryProducts($id, $page = 1, $limit = 50)
+    public function getCategoryProducts($id, $page = 1, $limit = 50)
     {
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'category_products_'.$id.'_'.$page.'_'.$limit;
@@ -122,8 +121,7 @@ class ShopWebservice extends BaseWebservice
      * @todo finish this service
      *
      */
-    public
-    function getRecommendations($keywords)
+    public function getRecommendations($keywords)
     {
         $apAdapter = new \Bigbek\Api\CommissionJunction;
         $productsArray = $apAdapter->getProducts(array('keywords' => $keywords));
@@ -131,5 +129,4 @@ class ShopWebservice extends BaseWebservice
         $products = $cjProcessor->generateFromArray($productsArray);
         var_dump($productsArray);
     }
-
 }
