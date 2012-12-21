@@ -48,7 +48,14 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $category['products'][] = $productArray;
         }
         $category['subcategories'] = $this->getSubcategoriesArray();
-        $category['products_qty'] = $this->getProductsCount();
+
+        $cache = \Zend_Registry::get('cache');
+        $cacheID = 'category_products_qty_'.$this->getId();
+        $category['products_qty'] = $cache->load($cacheID);
+        if ($category['products_qty'] === false) {
+            $category['products_qty'] = $this->getProductsCount();
+            $cache->save($category['products_qty']);
+        }
         return $category;
     }
 
