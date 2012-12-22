@@ -74,7 +74,7 @@ class ShopWebservice extends BaseWebservice
            // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();
-        //    var_dump($cache->save($categories));
+            $cache->save($categories);
         }else{
             shuffle($categories);
         }
