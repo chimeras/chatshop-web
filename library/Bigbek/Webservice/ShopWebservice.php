@@ -68,11 +68,13 @@ class ShopWebservice extends BaseWebservice
         $this->_logger->log('getThemeCategories for id=' . $id, \Zend_Log::INFO);
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'theme_categories_'.$id .'_rand_'.rand(100, 103);
+      //  var_dump($cacheID);
         $categories = $cache->load($cacheID);
         if ($categories === false) {
+           // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();
-            $cache->save($categories);
+        //    var_dump($cache->save($categories));
         }else{
             shuffle($categories);
         }
