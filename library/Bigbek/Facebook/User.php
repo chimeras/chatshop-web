@@ -13,9 +13,9 @@ class User
         $this->_access_token = $accessToken;
     }
 
-    public function getFriends($limit = 0)
+    public function getFriends($offset, $limit = 0)
     {
-        $limitStr = $limit!==0 ? '': '.limit('.$limit.')';
+        $limitStr = $limit===0 ? '': '.offset('.$offset.').limit('.$limit.')';
         $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token=' . $this->_access_token .'&fields=id,name,friends.fields(installed,first_name,last_name,picture)'.$limitStr,
             array(
                 'maxredirects' => 0,

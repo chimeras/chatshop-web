@@ -253,16 +253,17 @@ class UserWebservice extends BaseWebservice
 
     /**
      * @param string $session
+     * @param int $offset default(0)
      * @param int $limit default(0)
      * @return string
      */
-    public function getFriendsList($session, $limit=0)
+    public function getFriendsList($session, $offset=0, $limit=0)
     {
         $logger = \Zend_Registry::get('logger');
         if (!$this->setUser($session)) {
             return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
         }
         $fb = $this->currentUser->getFacebook();
-        return \Zend_Json::encode(array('friends' => $fb->getFriends($limit)));
+        return \Zend_Json::encode(array('friends' => $fb->getFriends($offset, $limit)));
     }
 }
