@@ -29,6 +29,26 @@ class User
         }
     }
 
+    public function sharePost($message, $picture, $link, $name)
+    {
+        $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/feed?access_token=' . $this->_access_token,
+            array(
+                'maxredirects' => 0,
+                'timeout' => 30));
+        $httpClient->setParameterPost('message', $message);
+        $httpClient->setParameterPost('picture', $picture);
+        $httpClient->setParameterPost('link', $link);
+        $httpClient->setParameterPost('caption', $name);
+        $httpClient->setParameterPost('name', $name);
+        $responseBody = $httpClient->request(\Zend_Http_Client::POST)->getBody();
+        $responseBodyArray = \Zend_Json::decode($responseBody);
+        if (isset($responseBodyArray['id'])) {
+            return $responseBodyArray['id'];
+        } else {
+            return array('error' => '');
+        }
+    }
+
     public function getInfo()
     {
         $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token=' . $this->_access_token,

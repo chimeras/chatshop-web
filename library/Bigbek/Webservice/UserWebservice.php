@@ -31,7 +31,9 @@ class UserWebservice extends BaseWebservice
 		'2005' => 'Shopping list id is not specified',
 		'2006' => 'Shopping list not found by specified ID',
 		'2007' => 'Item owner is not the specified user',
-		'2008' => 'Reminder cannot be saved please check if all mandatory fields are filled'
+		'2008' => 'Reminder cannot be saved please check if all mandatory fields are filled',
+		'2009' => 'Shopping list Id is not seem to be correct',
+		'2010' => 'There is no product matching this shopping list item'
 	);
 
 	public function __construct()
@@ -265,5 +267,34 @@ class UserWebservice extends BaseWebservice
         }
         $fb = $this->currentUser->getFacebook();
         return \Zend_Json::encode(array('friends' => $fb->getFriends($offset, $limit)));
+    }
+
+
+    /**
+     * @param string $session
+     * @param integer $shoppingListItemId
+     * @return string
+     */
+    public function fbShare($session, $shoppingListItemId)
+    {
+
+        $logger = \Zend_Registry::get('logger');
+        if (!$this->setUser($session)) {
+            return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+        }
+
+        $table = new \Application_Model_ShoppingListItems;
+        $item = $table->fetch((int)$shoppingListItemId);
+        if(! is_object($item) || $item->getShopList()->getUserId() !== $this->currentUser->getId()){
+            return \Zend_Json::encode(array('error' => '2009', 'message' => $this->errorMessage['2009']));
+        }
+        $tableP = new \Application_Model_Products;
+        $product = $tableP->fetch($item->getProductId());
+        if(! is_object($product)){
+            return \Zend_Json::encode(array('error' => '2010', 'message' => $this->errorMessage['2010']));
+        }
+
+        $fb = $this->currentUser->getFacebook();
+        return \Zend_Json::encode(array('share_id' => $fb->sharePost('I like '. $product->getName(), $product->getImageUrl(), $product->getBuyUrl(), $product->getName())));
     }
 }
