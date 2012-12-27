@@ -275,7 +275,7 @@ class UserWebservice extends BaseWebservice
      * @param integer $shoppingListItemId
      * @return string
      */
-    public function fbShare($session, $shoppingListItemId)
+    public function fbShareShoppingListItem($session, $shoppingListItemId)
     {
 
         $logger = \Zend_Registry::get('logger');
@@ -290,6 +290,29 @@ class UserWebservice extends BaseWebservice
         }
         $tableP = new \Application_Model_Products;
         $product = $tableP->fetch($item->getProductId());
+        if(! is_object($product)){
+            return \Zend_Json::encode(array('error' => '2010', 'message' => $this->errorMessage['2010']));
+        }
+
+        $fb = $this->currentUser->getFacebook();
+        return \Zend_Json::encode(array('share_id' => $fb->sharePost('I like '. $product->getName(), $product->getImageUrl(), $product->getBuyUrl(), $product->getName())));
+    }
+
+
+    /**
+     * @param string $session
+     * @param integer $productId
+     * @return string
+     */
+    public function fbShareProduct($session, $productId)
+    {
+
+        $logger = \Zend_Registry::get('logger');
+        if (!$this->setUser($session)) {
+            return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+        }
+        $tableP = new \Application_Model_Products;
+        $product = $tableP->fetch($productId);
         if(! is_object($product)){
             return \Zend_Json::encode(array('error' => '2010', 'message' => $this->errorMessage['2010']));
         }
