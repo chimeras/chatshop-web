@@ -16,7 +16,9 @@ class User
     public function getFriends($offset, $limit = 0)
     {
         $limitStr = $limit===0 ? '': '.offset('.$offset.').limit('.$limit.')';
-        $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token=' . $this->_access_token .'&fields=id,name,friends.fields(installed,first_name,last_name,picture)'.$limitStr,
+        $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token='
+                . $this->_access_token
+                .'&fields=id,name,friends.fields(installed,first_name,last_name,gender,picture.width(200).height(200))'.$limitStr,
             array(
                 'maxredirects' => 0,
                 'timeout' => 30));
