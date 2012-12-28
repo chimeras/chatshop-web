@@ -53,7 +53,7 @@ class User
 
     public function getInfo()
     {
-        $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token=' . $this->_access_token,
+        $httpClient = new \Zend_Http_Client($this->_fbUrl . 'me/?access_token=' . $this->_access_token .'&fields=id,first_name,last_name,gender,email,location,birthday',
             array(
                 'maxredirects' => 0,
                 'timeout' => 30));

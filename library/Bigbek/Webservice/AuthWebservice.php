@@ -32,6 +32,8 @@ class AuthWebservice extends BaseWebservice
 
 			$userFacebooks = new \Application_Model_UserFacebooks();
 			$userFb = $userFacebooks->fetch($userFbInfo['id']);
+
+
 			if (is_object($userFb)) {
                 $userFb->setAccessToken($accessToken);
                 $userFb->setExpirationDate(date("Y-m-d H:i:s", $expirationDate));
@@ -47,10 +49,8 @@ class AuthWebservice extends BaseWebservice
 				\Zend_Session::destroy();
 				$users = new \Application_Model_Users;
 				$user = $users->fetchNew();
-				$user->setFirstName($userFbInfo['first_name']);
-				$user->setLastName($userFbInfo['last_name']);
-				$user->setSession($session);
-				$user->save();
+                $user->setSession($session);
+                $user->save();
 				$userFb = $userFacebooks->fetchNew();
 				$userFb->setId($userFbInfo['id']);
 				$userFb->setUserId($user->getId());
@@ -58,6 +58,21 @@ class AuthWebservice extends BaseWebservice
 				$userFb->setExpirationDate(date("Y-m-d H:i:s", $expirationDate));
 				$userFb->save();
 			}
+
+            $user->setEmail($userFbInfo['email']);
+            $user->setFirstName($userFbInfo['first_name']);
+            $user->setLastName($userFbInfo['last_name']);
+            $user->setGender($userFbInfo['gender']);
+            if(isset($userFbInfo['birthday'])){
+                $birthTime = strtotime($userFbInfo['birthday']);
+                $user->setBirthday(date("Y-m-d", $birthTime));
+                $user->setAge(floor((time()-$birthTime)/31536000));
+            }
+            if(isset($userFbInfo['location']) && is_array($userFbInfo['location'])){
+                $user->setLocation($userFbInfo['location']['name']);
+            }
+            $user->save();
+
 			\Zend_Session::destroy();
 			return \Zend_Json::encode(array('user' => $user->toArray()));
 		} else {
