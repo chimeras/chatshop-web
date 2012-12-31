@@ -33,7 +33,9 @@ class UserWebservice extends BaseWebservice
 		'2007' => 'Item owner is not the specified user',
 		'2008' => 'Reminder cannot be saved please check if all mandatory fields are filled',
 		'2009' => 'Shopping list Id is not seem to be correct',
-		'2010' => 'There is no product matching this shopping list item'
+		'2010' => 'There is no product matching this shopping list item',
+		'2011' => 'You have already this shopping list',
+		'2012' => 'Product does not exist',
 	);
 
 	public function __construct()
@@ -86,7 +88,12 @@ class UserWebservice extends BaseWebservice
 		if (!$this->setUser($session)) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
-		$params = \Zend_Json::decode($shoplist);
+        try{
+            $params = \Zend_Json::decode($shoplist);
+        }catch (\Exception $e){
+            return \Zend_Json::encode(array('error' => '3000', 'message' => $e->getMessage()));
+        }
+
 
 		$name = $params['name'];
 		$privacy = isset($params['privacy']) ? $params['privacy'] : \Application_Model_ShoppingList::VISIBILITY_PRIVATE;
@@ -94,6 +101,12 @@ class UserWebservice extends BaseWebservice
 		if ($this->currentUser == null) {
 			return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
 		}
+        $existing = $this->_shoplists->fetchUniqueBy(array('user_id'=>$this->currentUser->getId(),
+        'name'=>$name));
+
+        if(is_object($existing)){
+            return \Zend_Json::encode(array('error' => '2011', 'message' => $this->errorMessage['2011']));
+        }
 
 		$list = $this->_shoplists->fetchNew();
 		$list->setUserId($this->currentUser->getId());
@@ -101,8 +114,14 @@ class UserWebservice extends BaseWebservice
 		$list->setPrivacy($privacy);
 		$list->setState($state);
 		$list->save();
-		if (isset($params['items']) && is_array($params['items'])) {
+        $productTable = new \Application_Model_Products;
+
+        if (isset($params['items']) && is_array($params['items'])) {
 			foreach ($params['items'] as $item) {
+                $product = $productTable->fetch($item['product_id']);
+                if(!is_object($product)){
+                    return \Zend_Json::encode(array('error' => '2012', 'message' => $this->errorMessage['2012'], 'product_id'=>$item['product_id']));
+                }
 				$list->addItem($item);
 			}
 		}
