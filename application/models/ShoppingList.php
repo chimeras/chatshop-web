@@ -35,9 +35,12 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 
 	public function getAllItemsArray()
 	{
+        $productsTable = new Application_Model_Products;
+
 		$items = array();
 		foreach($this->getAllItems() as $item){
-			$items[] = $item->toArray();
+            $product = $productsTable->fetch($item->getProductId());
+			$items[] = array('product'=>$product->toArray(), 'reminder'=>$item->getReminder());
 		}
 		return $items;
 	}
