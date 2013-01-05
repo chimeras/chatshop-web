@@ -77,10 +77,20 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     {
 
         $table = new Application_Model_Products;
+        $connectionsTable = new Application_Model_CategoryXProducts;
         $results = array();
-        foreach ($table->getCategorySpecificSelect($this, $rowCount, $page, $isRandom) as $Product) {
+        foreach($connectionsTable->fetchAll("category_id=".$this->getId(), 'id DESC', $rowCount, $page) as $connection){
+            $product = $table->fetch($connection->getProductId());
+            $product->parent_category_id = $this->_getProductSubCategoryId($product->getKeywords());
+            $results[$product->getId()] = $product;
+        }
+
+        /*foreach ($table->getCategorySpecificSelect($this, $rowCount, $page, $isRandom) as $Product) {
             $Product->parent_category_id = $this->_getProductSubCategoryId($Product->getKeywords());
             $results[] = $Product;
+        }*/
+        if($isRandom){
+            shuffle($results);
         }
         return $results;
     }
@@ -114,9 +124,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
     public function getProductsCount()
     {
-        $table = new Application_Model_Products;
-
-        return $table->getCategorySpecificSelect($this, 10000, 1)->count();
+        $connectionsTable = new Application_Model_CategoryXProducts;
+        $total = array();
+        foreach($connectionsTable->fetchAll("category_id=".$this->getId()) as $connection){
+            $total[$connection->getProductId()] = true;
+        }
+        return count($total);
     }
 
     public function getRetailersIds()

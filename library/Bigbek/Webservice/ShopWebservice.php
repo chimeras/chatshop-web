@@ -70,7 +70,7 @@ class ShopWebservice extends BaseWebservice
         $cacheID = 'theme_categories_'.$id .'_rand_'.rand(100, 103);
       //  var_dump($cacheID);
         $categories = $cache->load($cacheID);
-        if ($categories === false) {
+        if ($categories === false || true) {
            // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();

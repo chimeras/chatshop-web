@@ -110,6 +110,17 @@ abstract class Application_Model_Db_Row_Product extends Application_Model_BaseIt
 		return $this;
 	}
 
+	public function getAdvertiserKeywords()
+	{
+		return $this->advertiser_keywords;
+	}
+
+	public function setAdvertiserKeywords($advertiser_keywords)
+	{
+		$this->advertiser_keywords = $advertiser_keywords;
+		return $this;
+	}
+
 	public function getSku()
 	{
 		return $this->sku;
@@ -129,17 +140,6 @@ abstract class Application_Model_Db_Row_Product extends Application_Model_BaseIt
 	public function setUpc($upc)
 	{
 		$this->upc = $upc;
-		return $this;
-	}
-
-	public function getIsbn()
-	{
-		return $this->isbn;
-	}
-
-	public function setIsbn($isbn)
-	{
-		$this->isbn = $isbn;
 		return $this;
 	}
 
@@ -195,17 +195,6 @@ abstract class Application_Model_Db_Row_Product extends Application_Model_BaseIt
 	public function setImageUrl($image_url)
 	{
 		$this->image_url = $image_url;
-		return $this;
-	}
-
-	public function getAdvertiserCategoryId()
-	{
-		return $this->advertiser_category_id;
-	}
-
-	public function setAdvertiserCategoryId($advertiser_category_id)
-	{
-		$this->advertiser_category_id = $advertiser_category_id;
 		return $this;
 	}
 

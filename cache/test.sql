@@ -1,0 +1,8 @@
+SELECT `product`.* FROM `product` WHERE (`visible`=1) AND (`retailer_id` IN(2,3,4,5,7,8,9,10,11,13,14,15,16,17))
+AND (((keywords LIKE ''Denim%'' OR keywords LIKE ''% Denim%'' OR keywords LIKE ''%,Denim%'' OR keywords LIKE ''%/Denim%''))
+AND ((keywords LIKE ''Men%'' OR keywords LIKE ''% Men%'' OR keywords LIKE ''%,Men%'' OR keywords LIKE ''%/Men%'')))
+AND ((true)) GROUP BY `similarity` UNION SELECT `product`.* FROM `product` WHERE (`visible`=1)
+AND (false)
+AND (((keywords LIKE ''Denim%'' OR keywords LIKE ''% Denim%'' OR keywords LIKE ''%,Denim%'' OR keywords LIKE ''%/Denim%'')))
+AND (((keywords NOT LIKE ''Men%'' OR keywords NOT LIKE ''% Men%'' OR keywords NOT LIKE ''%,Men%'' OR keywords NOT LIKE ''%/Men%''))
+OR ((keywords NOT LIKE ''Women%'' OR keywords NOT LIKE ''% Women%'' OR keywords NOT LIKE ''%,Women%'' OR keywords NOT LIKE ''%/Women%'')) OR ((keywords NOT LIKE ''Kids%'' OR keywords NOT LIKE ''% Kids%'' OR keywords NOT LIKE ''%,Kids%'' OR keywords NOT LIKE ''%/Kids%'')) OR ((keywords NOT LIKE ''Beauty%'' OR keywords NOT LIKE ''% Beauty%'' OR keywords NOT LIKE ''%,Beauty%'' OR keywords NOT LIKE ''%/Beauty%'')) OR ((keywords NOT LIKE ''Electronics%'' OR keywords NOT LIKE ''% Electronics%'' OR keywords NOT LIKE ''%,Electronics%'' OR keywords NOT LIKE ''%/Electronics%'')) OR ((keywords NOT LIKE ''Automative%'' OR keywords NOT LIKE ''% Automative%'' OR keywords NOT LIKE ''%,Automative%'' OR keywords NOT LIKE ''%/Automative%'')) OR ((keywords NOT LIKE ''Games%'' OR keywords NOT LIKE ''% Games%'' OR keywords NOT LIKE ''%,Games%'' OR keywords NOT LIKE ''%/Games%'')) OR ((keywords NOT LIKE ''Home%'' OR keywords NOT LIKE ''% Home%'' OR keywords NOT LIKE ''%,Home%'' OR keywords NOT LIKE ''%/Home%''))) GROUP BY `similarity` LIMIT 10000

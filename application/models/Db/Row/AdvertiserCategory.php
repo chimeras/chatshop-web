@@ -22,17 +22,6 @@ abstract class Application_Model_Db_Row_AdvertiserCategory extends Application_M
 
 
 
-	public function getCategoryId()
-	{
-		return $this->category_id;
-	}
-
-	public function setCategoryId($category_id)
-	{
-		$this->category_id = $category_id;
-		return $this;
-	}
-
 	public function getName()
 	{
 		return $this->name;
