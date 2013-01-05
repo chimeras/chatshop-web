@@ -39,7 +39,7 @@ class FeedProcessor
         'advertiser_keywords' => 'ADVERTISERCATEGORY',
         'sku' => 'SKU',
         'upc' => 'UPC',
-       // 'isbn' => 'ISBN',
+        // 'isbn' => 'ISBN',
         'currency' => 'CURRENCY',
         'price' => 'PRICE',
         'buy_url' => 'BUYURL',
@@ -49,22 +49,23 @@ class FeedProcessor
 
     private $_cjObjects = array(
         'Brand' => 'MANUFACTURER',
-        'Retailer' => 'PROGRAMNAME'/*,
+        'Retailer' => 'PROGRAMNAME' /*,
         'AdvertiserCategory' => 'ADVERTISERCATEGORY'*/
     );
 
     private $_blacklistKeywords = array('dr shoes');
+
     public function __construct()
     {
         $this->_logger = Zend_Registry::get('logger');
         $this->_productFeedTable = new \Application_Model_ProductFeeds;
         $this->_filesPath = APPLICATION_PATH . '/../data/';
         $categoriesTable = new \Application_Model_Categories;
-        foreach($categoriesTable->fetchAll() as $obj){
+        foreach ($categoriesTable->fetchAll() as $obj) {
             $parent = $obj->getParent();
-            if(is_object($parent) && $parent->getParentId() == 0){
-                $parentAddition = ','. $parent->getKeywords();
-            }else{
+            if (is_object($parent) && $parent->getParentId() == 0) {
+                $parentAddition = ',' . $parent->getKeywords();
+            } else {
                 $parentAddition = '';
             }
             $this->_categories[$obj->getId()] = $obj->getKeywords() . $parentAddition;
@@ -127,7 +128,7 @@ class FeedProcessor
     private function _writeToDb($data)
     {
         $productTable = new \Application_Model_Products;
-     //   $indexerTable = new \Application_Model_Indexers;
+        //   $indexerTable = new \Application_Model_Indexers;
 
         $max = 10000;
         $count = $source = 0;
@@ -169,34 +170,33 @@ class FeedProcessor
                 $product->$setterName(addslashes($row[$cjField]));
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
-         //   $product->setKeywords($product->getKeywords() .' ,, '. $row['ADVERTISERCATEGORY']);
-            try{
+            //   $product->setKeywords($product->getKeywords() .' ,, '. $row['ADVERTISERCATEGORY']);
+            try {
                 $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
-            }catch (\Exception $e){
-                echo "\n". $e->getMessage();
+            } catch (\Exception $e) {
+                echo "\n" . $e->getMessage();
                 $visible = false;
             }
 
 
-            if($visible){
+            if ($visible) {
                 $this->_connectCategoryProduct($product);
             }
 
 
+            /*     if ($product->getVisible() == 1) {
+                     $indexer = $indexerTable->fetch($product->getId());
+                     if (!is_object($indexer)) {
+                         $indexer = $indexerTable->fetchNew();
+                     }
 
-       /*     if ($product->getVisible() == 1) {
-                $indexer = $indexerTable->fetch($product->getId());
-                if (!is_object($indexer)) {
-                    $indexer = $indexerTable->fetchNew();
-                }
-
-                $indexer->setId($product->getId());
-                $indexer->setRetailerId($product->getRetailerId());
-                $indexer->setSimilarity($product->getSimilarity());
-                $indexer->setKeywords($product->getKeywords());
-                $indexer->setAdvertiserKeywords($row['ADVERTISERCATEGORY']);
-                $indexer->save();
-            }*/
+                     $indexer->setId($product->getId());
+                     $indexer->setRetailerId($product->getRetailerId());
+                     $indexer->setSimilarity($product->getSimilarity());
+                     $indexer->setKeywords($product->getKeywords());
+                     $indexer->setAdvertiserKeywords($row['ADVERTISERCATEGORY']);
+                     $indexer->save();
+                 }*/
             if (--$max <= 0) {
                 break;
             }
@@ -210,25 +210,24 @@ class FeedProcessor
     {
         $retailersTable = new \Application_Model_Retailers;
         $connectionsTable = new \Application_Model_CategoryXProducts;
-        $connectionsTable->delete('product_id='. $product->getId());
+        $connectionsTable->delete('product_id=' . $product->getId());
         $retailer = $retailersTable->fetch($product->getRetailerId());
 
-        foreach($this->_categories as $id => $category){
+        foreach ($this->_categories as $id => $category) {
 
-                if($this->_checkKwd($category, $product->getKeywords())){
+            $type = 0;
+            if($this->_checkKwd($category, $product->getAdvertiserKeywords())) {
+                $type = 1;
+            }  elseif ($this->_checkKwd($category, $product->getKeywords())) {
+                $type = 2;
+            } elseif ($retailer->getCategoryId() == $id) {
+                $type = 3;
+            }
 
-                    $connection = $connectionsTable->fetchNew();
-                    $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
-                    $connection->save();
-                }elseif($this->_checkKwd($category, $product->getAdvertiserKeywords())){
-                    $connection = $connectionsTable->fetchNew();
-                    $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
-                    $connection->save();
-                }elseif($retailer->getCategoryId() == $id){
-                    $connection = $connectionsTable->fetchNew();
-                    $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
-                    $connection->save();
-
+            if ($type > 0) {
+                $connection = $connectionsTable->fetchNew();
+                $connection->setFromArray(array('product_id' => $product->getId(), 'category_id' => $id, 'type' => $type));
+                $connection->save();
             }
 
         }
@@ -238,14 +237,14 @@ class FeedProcessor
     {
         $return = 0;
         $mandatories = explode(',', $kwd);
-        foreach($mandatories as $mandatory){
+        foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
-            foreach($nonMandatories as $nonMandatory){
-                if(strstr($haystack, $nonMandatory) && !in_array($nonMandatory, $this->_blacklistKeywords)){
-                    $return ++;
+            foreach ($nonMandatories as $nonMandatory) {
+                if (strstr($haystack, $nonMandatory) && !in_array($nonMandatory, $this->_blacklistKeywords)) {
+                    $return++;
                 }
             }
         }
-        return $return>0 && count($mandatories) == $return;
+        return $return > 0 && count($mandatories) == $return;
     }
 }
