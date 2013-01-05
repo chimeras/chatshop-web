@@ -207,13 +207,13 @@ class FeedProcessor
         $connectionsTable->delete('product_id='. $product->getId());
         $retailer = $retailersTable->fetch($product->getRetailerId());
         foreach($this->_categories as $id => $category){
-            foreach(explode(',', $category) as $kwd){
-                if(strstr($product->getKeywords(), $kwd) && !in_array($kwd, $this->_blacklistKeywords)){
+
+                if($this->_checkKwd($category, $product->getKeywords())){
 
                     $connection = $connectionsTable->fetchNew();
                     $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
                     $connection->save();
-                }elseif(strstr($product->getAdvertiserKeywords(), $kwd)){
+                }elseif($this->_checkKwd($category, $product->getAdvertiserKeywords())){
                     $connection = $connectionsTable->fetchNew();
                     $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
                     $connection->save();
@@ -221,10 +221,24 @@ class FeedProcessor
                     $connection = $connectionsTable->fetchNew();
                     $connection->setFromArray(array('product_id'=>$product->getId(), 'category_id'=>$id));
                     $connection->save();
-                }
 
             }
 
         }
+    }
+
+    private function _checkKwd($kwd, $haystack)
+    {
+        $return = 0;
+        $mandatories = explode(',', $kwd);
+        foreach($mandatories as $mandatory){
+            $nonMandatories = explode('|', $mandatory);
+            foreach($nonMandatories as $nonMandatory){
+                if(strstr($haystack, $nonMandatory) && !in_array($nonMandatory, $this->_blacklistKeywords)){
+                    $return ++;
+                }
+            }
+        }
+        return $return>0 && count($mandatories) == $return;
     }
 }
