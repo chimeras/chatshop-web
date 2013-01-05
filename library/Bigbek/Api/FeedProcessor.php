@@ -61,7 +61,13 @@ class FeedProcessor
         $this->_filesPath = APPLICATION_PATH . '/../data/';
         $categoriesTable = new \Application_Model_Categories;
         foreach($categoriesTable->fetchAll() as $obj){
-            $this->_categories[$obj->getId()] = $obj->getKeywords();
+            $parent = $obj->getParent();
+            if(is_object($parent) && $parent->getParentId() == 0){
+                $parentAddition = ','. $parent->getKeywords();
+            }else{
+                $parentAddition = '';
+            }
+            $this->_categories[$obj->getId()] = $obj->getKeywords() . $parentAddition;
         }
     }
 
@@ -206,6 +212,7 @@ class FeedProcessor
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id='. $product->getId());
         $retailer = $retailersTable->fetch($product->getRetailerId());
+
         foreach($this->_categories as $id => $category){
 
                 if($this->_checkKwd($category, $product->getKeywords())){
