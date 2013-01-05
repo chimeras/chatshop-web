@@ -128,6 +128,7 @@ class FeedProcessor
         foreach ($data as $row) {
             $source++;
             if (!isset($row['SKU'])) {
+                echo "\n error with";
                 var_dump($row);
                 continue;
             }
@@ -163,8 +164,19 @@ class FeedProcessor
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
          //   $product->setKeywords($product->getKeywords() .' ,, '. $row['ADVERTISERCATEGORY']);
-            $product->save();
-            $this->_connectCategoryProduct($product);
+            try{
+                $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
+            }catch (\Exception $e){
+                echo "\n". $e->getMessage();
+                $visible = false;
+            }
+
+
+            if($visible){
+                $this->_connectCategoryProduct($product);
+            }
+
+
 
        /*     if ($product->getVisible() == 1) {
                 $indexer = $indexerTable->fetch($product->getId());
