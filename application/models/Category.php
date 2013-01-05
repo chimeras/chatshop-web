@@ -82,7 +82,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         foreach($connectionsTable->fetchAll("category_id=".$this->getId(), 'id DESC', $rowCount, $page) as $connection){
             $product = $table->fetch($connection->getProductId());
             $product->parent_category_id = $this->_getProductSubCategoryId($product->getKeywords());
-            $results[$product->getId()] = $product;
+            $results[$product->getSimilarity()] = $product;
         }
 
         /*foreach ($table->getCategorySpecificSelect($this, $rowCount, $page, $isRandom) as $Product) {
