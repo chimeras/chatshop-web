@@ -53,6 +53,7 @@ abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 		}
         foreach($arguments as $fldName => $argument){
             $arguments[$fldName] = str_replace("\\'", '', $argument);
+            $arguments[$fldName] = str_replace('"', '', $argument);
         }
 		$unique = array_combine($table->uniqueFields, $arguments);
 		

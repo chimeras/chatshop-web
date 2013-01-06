@@ -53,7 +53,7 @@ class FeedProcessor
         'AdvertiserCategory' => 'ADVERTISERCATEGORY'*/
     );
 
-    private $_blacklistKeywords = array('dr shoes');
+    private $_blacklistKeywords = array('dr shoes', 'Menage');
 
     public function __construct()
     {
@@ -79,7 +79,11 @@ class FeedProcessor
             echo 'processing: ' . $file->getFilename() . "\n";
 
             $fileData = $this->_getData($file);
-            $this->_writeToDb($fileData);
+            $qty = $this->_writeToDb($fileData);
+            $file->setProcessedAt(date("Y-m-d h:i:s"));
+            $file->setRecordsProcessed($qty);
+            $file->setStatus('processed');
+            $file->save();
         }
     }
 
@@ -90,7 +94,7 @@ class FeedProcessor
      */
     private function _getFiles()
     {
-        return $this->_productFeedTable->fetchAll();
+        return $this->_productFeedTable->fetchAll("status ='new'");
     }
 
     /**
@@ -128,7 +132,6 @@ class FeedProcessor
     private function _writeToDb($data)
     {
         $productTable = new \Application_Model_Products;
-        //   $indexerTable = new \Application_Model_Indexers;
 
         $max = 10000;
         $count = $source = 0;
@@ -140,10 +143,6 @@ class FeedProcessor
                 continue;
             }
             $count++;
-            /*	foreach(array_keys($row) as $key){
-                    echo $key .'<br />';
-                }
-                break;*/
             $product = $productTable->fetchUniqueBy(array('sku' => $row['SKU']));
             if (!is_object($product)) {
                 $product = $productTable->fetchNew();
@@ -170,39 +169,21 @@ class FeedProcessor
                 $product->$setterName(addslashes($row[$cjField]));
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
-            //   $product->setKeywords($product->getKeywords() .' ,, '. $row['ADVERTISERCATEGORY']);
             try {
                 $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
                 echo "\n" . $e->getMessage();
                 $visible = false;
             }
-
-
             if ($visible) {
                 $this->_connectCategoryProduct($product);
             }
-
-
-            /*     if ($product->getVisible() == 1) {
-                     $indexer = $indexerTable->fetch($product->getId());
-                     if (!is_object($indexer)) {
-                         $indexer = $indexerTable->fetchNew();
-                     }
-
-                     $indexer->setId($product->getId());
-                     $indexer->setRetailerId($product->getRetailerId());
-                     $indexer->setSimilarity($product->getSimilarity());
-                     $indexer->setKeywords($product->getKeywords());
-                     $indexer->setAdvertiserKeywords($row['ADVERTISERCATEGORY']);
-                     $indexer->save();
-                 }*/
             if (--$max <= 0) {
                 break;
             }
         }
-        echo 'processed -> from :' . $source . ', successed:' . $count . 'products;' . "\n";
-        return TRUE;
+        echo 'processed -> from :' . $source . ', succeed:' . $count . 'products;' . "\n";
+        return $count;
     }
 
 
