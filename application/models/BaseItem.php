@@ -60,7 +60,8 @@ abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 			$object->setFromArray($unique);
 			$object->save();
 		}
-		
+        $methodName = 'set'.$refTableClass.'Id';
+		$this->$methodName($object->getId());
 		return $object;
 	}
 
