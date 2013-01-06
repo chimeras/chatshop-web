@@ -166,7 +166,11 @@ class FeedProcessor
                     break;
                 }
                 $setterName = 'set' . $obj;
-                $product->$setterName(addslashes($row[$cjField]));
+
+                $string = str_replace("\\'", '', $row[$cjField]);
+                $string = str_replace('"', '', $string);
+
+                $product->$setterName($string);
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
             try {

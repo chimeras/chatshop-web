@@ -51,10 +51,6 @@ abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 		if(count($table->uniqueFields) == 0){
 			throw new Exception($refTableClass .' must have at least one unique field');
 		}
-        foreach($arguments as $fldName => $argument){
-            $arguments[$fldName] = str_replace("\\'", '', $argument);
-            $arguments[$fldName] = str_replace('"', '', $argument);
-        }
 		$unique = array_combine($table->uniqueFields, $arguments);
 		
 		$object = $table->fetchUniqueBy($unique);
