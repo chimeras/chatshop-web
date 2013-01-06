@@ -207,7 +207,10 @@ class FeedProcessor
 
             if ($type > 0) {
                 $connection = $connectionsTable->fetchNew();
-                $connection->setFromArray(array('product_id' => $product->getId(), 'category_id' => $id, 'type' => $type));
+                $connection->setFromArray(array('product_id' => $product->getId(),
+                    'category_id' => $id,
+                    'type' => $type,
+                    'similarity' => $product->getSimilarity()));
                 $connection->save();
             }
 

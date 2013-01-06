@@ -127,7 +127,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $connectionsTable = new Application_Model_CategoryXProducts;
         $total = array();
         foreach($connectionsTable->fetchAll("category_id=".$this->getId()) as $connection){
-            $total[$connection->getProductId()] = true;
+            $total[$connection->getSimilarity()] = true;
         }
         return count($total);
     }
