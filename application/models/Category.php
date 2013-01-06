@@ -130,7 +130,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             ->where("category_id=?", $this->getId());
         $rec = $connectionsTable->fetchAll($select)->count();
 
-        return count($rec);
+        return $rec;
     }
 
     public function getRetailersIds()
