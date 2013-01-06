@@ -125,11 +125,12 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     public function getProductsCount()
     {
         $connectionsTable = new Application_Model_CategoryXProducts;
-        $total = array();
-        foreach($connectionsTable->fetchAll("category_id=".$this->getId()) as $connection){
-            $total[$connection->getSimilarity()] = true;
-        }
-        return count($total);
+        $select = $connectionsTable->select('*')
+            ->group('similarity')
+            ->where("category_id=?", $this->getId());
+        $rec = $connectionsTable->fetchAll($select)->count();
+
+        return count($rec);
     }
 
     public function getRetailersIds()
