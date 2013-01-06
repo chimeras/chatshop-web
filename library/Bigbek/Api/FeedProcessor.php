@@ -160,7 +160,7 @@ class FeedProcessor
             $product->setBrandName($row[$this->_cjObjects['Brand']]);
             $product->setSimilarity();
 
-            $product->save();
+
             foreach ($this->_cjObjects as $obj => $cjField) {
                 if (!isset($row[$cjField])) {
                     break;
@@ -173,6 +173,7 @@ class FeedProcessor
                 $product->$setterName($string);
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
+            $product->save();
             try {
                 $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
