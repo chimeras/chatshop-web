@@ -75,7 +75,15 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $table = new Application_Model_Products;
         $connectionsTable = new Application_Model_CategoryXProducts;
         $results = array();
-        foreach($connectionsTable->fetchAll("category_id=".$this->getId(), 'id DESC', $rowCount, $page) as $connection){
+        $connectionsTable = new Application_Model_CategoryXProducts;
+        $select = $connectionsTable->select('*')
+            ->group('similarity')
+            ->where("category_id=?", $this->getId())
+            ->where("similarity!=0")
+            ->order(new Zend_Db_Expr('RAND()'))
+            ->limit($rowCount, $page);
+
+        foreach($connectionsTable->fetchAll($select) as $connection){
             $product = $table->fetch($connection->getProductId());
             $product->parent_category_id = $this->_getProductSubCategoryId($product->getKeywords());
             $results[$product->getSimilarity()] = $product;
@@ -119,7 +127,8 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
             ->group('similarity')
-            ->where("category_id=?", $this->getId());
+            ->where("category_id=?", $this->getId())
+            ->where("similarity!=0");
         $rec = $connectionsTable->fetchAll($select)->count();
 
         return $rec;
