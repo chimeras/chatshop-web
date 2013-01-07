@@ -114,6 +114,7 @@ class ShopWebservice extends BaseWebservice
         return \Zend_Json::encode(
             array('products' => $arrCategory['products'],
                 'products_qty' => $arrCategory['products_qty'],
+                'this_page_products_qty' => $arrCategory['this_page_products_qty'],
                 'message' => 'successfully retreived')
         );
     }
