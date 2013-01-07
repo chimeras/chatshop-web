@@ -93,7 +93,7 @@ class ShopWebservice extends BaseWebservice
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'category_products_'.$id.'_'.$page.'_'.$limit;
         $this->_logger->log('getCategoryProducts for id=' . $id . ',$page = ' . $page . ', $limit = ' . $limit, \Zend_Log::INFO);
-        $page = $page > 0 ? (int)$page : 1;
+        $offset = (int)$page*$limit;
         $limit = (int)$limit;
 
         $categoriesTable = new \Application_Model_Categories;
@@ -104,7 +104,7 @@ class ShopWebservice extends BaseWebservice
 
         $arrCategory = false; //$cache->load($cacheID);
         if($arrCategory === false){
-            $arrCategory = $Category->toCombinedArray($limit, $page);
+            $arrCategory = $Category->toCombinedArray($limit, $offset);
          //   $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
         }else{
             shuffle($arrCategory['products']);
