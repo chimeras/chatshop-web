@@ -76,7 +76,7 @@ class ShopWebservice extends BaseWebservice
             $categories = $theme->getCategoriesArray();
            // $cache->save($categories); /////////////////////////////////////@@todo uncomment this to use cache
         }else{
-            shuffle($categories);
+          //  shuffle($categories);
         }
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
     }
@@ -107,7 +107,7 @@ class ShopWebservice extends BaseWebservice
             $arrCategory = $Category->toCombinedArray($limit, $page);
            // $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
         }else{
-            shuffle($arrCategory['products']);
+           // shuffle($arrCategory['products']);
         }
 
 
