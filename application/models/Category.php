@@ -41,21 +41,17 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     {
         $category = $this->toArray();
         $category['products'] = array();
-        foreach ($this->getProducts($productsCount, $offset, $randomise) as $Product) {
+        $productsCollection = $this->getProducts($productsCount, $offset, $randomise);
+        foreach ($productsCollection as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
             $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
             $category['products'][] = $productArray;
         }
         $category['subcategories'] = $this->getSubcategoriesArray();
+        $category['products_qty'] = $this->getProductsCount();
+        $category['this_page_products_qty'] = count($productsCollection);
 
-     /*   $cache = \Zend_Registry::get('cache');
-        $cacheID = 'category_products_qty_'.$this->getId();
-        $category['products_qty'] = $cache->load($cacheID);
-        if ($category['products_qty'] === false) {
-       */     $category['products_qty'] = $this->getProductsCount();
-         /*   $cache->save($category['products_qty']);
-        }*/
         return $category;
     }
 
@@ -87,7 +83,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         if($isRandom){
             shuffle($results);
         }
-        $results['this_page_products_qty'] = count($results);
+
         return $results;
     }
 
