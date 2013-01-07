@@ -92,7 +92,7 @@ class ShopWebservice extends BaseWebservice
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'category_products_'.$id.'_'.$page.'_'.$limit;
         $this->_logger->log('getCategoryProducts for id=' . $id . ',$page = ' . $page . ', $limit = ' . $limit, \Zend_Log::INFO);
-        $offset = (int)$page*$limit;
+        $offset = $page > 0 ? ($page-1)*$limit : 0;
         $limit = (int)$limit;
 
         $categoriesTable = new \Application_Model_Categories;
