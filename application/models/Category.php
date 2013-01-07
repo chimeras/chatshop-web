@@ -81,7 +81,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             ->where("category_id=?", $this->getId())
             ->where("similarity!=0")
             ->order(new Zend_Db_Expr('RAND()'))
-            ->limit($rowCount, $page);
+            ->limit($rowCount, $page-1);
 
         foreach($connectionsTable->fetchAll($select) as $connection){
             $product = $table->fetch($connection->getProductId());
