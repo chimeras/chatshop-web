@@ -70,11 +70,11 @@ class ShopWebservice extends BaseWebservice
         $cacheID = 'theme_categories_'.$id .'_rand_'.rand(100, 101);
       //  var_dump($cacheID);
         $categories = $cache->load($cacheID);
-        if ($categories === false || true) {
+        if ($categories === false) {
            // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();
-            $cache->save($categories);
+           // $cache->save($categories); /////////////////////////////////////@@todo uncomment this to use cache
         }else{
             shuffle($categories);
         }
@@ -105,7 +105,7 @@ class ShopWebservice extends BaseWebservice
         $arrCategory = $cache->load($cacheID);
         if($arrCategory === false){
             $arrCategory = $Category->toCombinedArray($limit, $page);
-            $cache->save($arrCategory);
+           // $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
         }else{
             shuffle($arrCategory['products']);
         }

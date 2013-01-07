@@ -61,6 +61,7 @@ class FeedProcessor
         $this->_productFeedTable = new \Application_Model_ProductFeeds;
         $this->_filesPath = APPLICATION_PATH . '/../data/';
         $categoriesTable = new \Application_Model_Categories;
+
         foreach ($categoriesTable->fetchAll() as $obj) {
             $parent = $obj->getParent();
             if (is_object($parent) && $parent->getParentId() == 0) {
@@ -68,7 +69,8 @@ class FeedProcessor
             } else {
                 $parentAddition = '';
             }
-            $this->_categories[$obj->getId()] = $obj->getKeywords() . $parentAddition;
+
+            $this->_categories[$obj->getId()] = array('object'=>$obj, 'parentKeywords'=>$parentAddition);
         }
     }
 
@@ -177,7 +179,7 @@ class FeedProcessor
             try {
                 $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
-                echo "\n" . $e->getMessage();
+                echo "\n" . 'cannot get image, '.$product->getImageUrl() .', skipping product';
                 $visible = false;
             }
             if ($visible) {
@@ -202,12 +204,16 @@ class FeedProcessor
         foreach ($this->_categories as $id => $category) {
 
             $type = 0;
-            if($this->_checkKwd($category, $product->getAdvertiserKeywords())) {
-                $type = 1;
-            }  elseif ($this->_checkKwd($category, $product->getKeywords())) {
+            if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
+                $type = 4;
+            }  elseif($this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
+                && $category['object']->getParentId()>0) {
+                $type = 3;
+            }  elseif ($this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
+                && $category['object']->getParentId()>0) {
                 $type = 2;
             } elseif ($retailer->getCategoryId() == $id) {
-                $type = 3;
+                $type = 1;
             }
 
             if ($type > 0) {
@@ -229,7 +235,34 @@ class FeedProcessor
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($haystack, $nonMandatory) && !in_array($nonMandatory, $this->_blacklistKeywords)) {
+                if (strstr($haystack, $nonMandatory)) {
+                    foreach($this->_blacklistKeywords as $blacklistKwd){
+                        if(strstr($nonMandatory, $blacklistKwd) && strstr($haystack, $blacklistKwd)){
+                            continue 2;
+                        }
+                    }
+                    $return++;
+                }
+            }
+        }
+        return $return > 0 && count($mandatories) == $return;
+    }
+
+
+
+    private function _checkName($kwd, $name)
+    {
+        $return = 0;
+        $mandatories = explode(',', $kwd);
+        foreach ($mandatories as $mandatory) {
+            $nonMandatories = explode('|', $mandatory);
+            foreach ($nonMandatories as $nonMandatory) {
+                if (strstr($name, $nonMandatory)) {
+                    foreach($this->_blacklistKeywords as $blacklistKwd){
+                        if(strstr($nonMandatory, $blacklistKwd) && strstr($name, $blacklistKwd)){
+                            continue 2;
+                        }
+                    }
                     $return++;
                 }
             }
