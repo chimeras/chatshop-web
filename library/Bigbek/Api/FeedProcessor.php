@@ -53,7 +53,7 @@ class FeedProcessor
         'AdvertiserCategory' => 'ADVERTISERCATEGORY'*/
     );
 
-    private $_blacklistKeywords = array('dr shoes', 'Menage');
+    private $_blacklistKeywords = array('dc shoes', 'Menage');
 
     public function __construct()
     {
