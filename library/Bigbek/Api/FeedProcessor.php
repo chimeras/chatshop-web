@@ -96,7 +96,13 @@ class FeedProcessor
      */
     private function _getFiles()
     {
-        return $this->_productFeedTable->fetchAll("status ='new'");
+        $feed = $this->_productFeedTable->fetchAll("status ='new'");
+        if(count($feed) > 0){
+           return $feed;
+        }else{
+            $this->_productFeedTable->update(array('status'=>'new'), "status !='error'");
+            return $this->_productFeedTable->fetchAll("status ='new'");
+        }
     }
 
     /**
@@ -177,9 +183,9 @@ class FeedProcessor
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
             $product->save();
             try {
-                $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
+                @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
-                echo "\n" . 'cannot get image, '.$product->getImageUrl() .', skipping product';
+                echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', skipping product';
                 $visible = false;
             }
             if ($visible) {

@@ -84,14 +84,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $product->parent_category_id = $this->_getProductSubCategoryId($product->getKeywords());
             $results[$product->getSimilarity()] = $product;
         }
-
-        /*foreach ($table->getCategorySpecificSelect($this, $rowCount, $page, $isRandom) as $Product) {
-            $Product->parent_category_id = $this->_getProductSubCategoryId($Product->getKeywords());
-            $results[] = $Product;
-        }*/
         if($isRandom){
             shuffle($results);
         }
+        $results['this_page_products_qty'] = count($results);
         return $results;
     }
 
