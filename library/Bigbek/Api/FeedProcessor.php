@@ -212,11 +212,15 @@ class FeedProcessor
             $type = 0;
             if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
                 $type = 4;
-            }  elseif($this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
-                && $category['object']->getParentId()>0) {
+            }  elseif($category['object']->getParentId()>0
+                && $product->getTopCategoryId() > 0
+                && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
+                ) {
                 $type = 3;
-            }  elseif ($this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
-                && $category['object']->getParentId()>0) {
+            }  elseif ($category['object']->getParentId()>0
+                && $product->getTopCategoryId() > 0
+                && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
+                ) {
                 $type = 2;
             } elseif ($retailer->getCategoryId() == $id) {
                 $type = 1;
@@ -224,7 +228,8 @@ class FeedProcessor
 
             if ($type > 0) {
                 $connection = $connectionsTable->fetchNew();
-                $connection->setFromArray(array('product_id' => $product->getId(),
+                $connection->setFromArray(array(
+                    'product_id' => $product->getId(),
                     'category_id' => $id,
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
