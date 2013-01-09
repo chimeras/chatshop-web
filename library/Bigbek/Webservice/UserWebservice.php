@@ -45,6 +45,16 @@ class UserWebservice extends BaseWebservice
 		parent::__construct();
 	}
 
+    public function syncShoppingLists($lists)
+    {
+        try{
+            $lists = \Zend_Json::decode($lists);
+        }catch (\Exception $e){
+            return \Zend_Json::encode(array('error' => '3000', 'message' => $e->getMessage()));
+        }
+
+
+    }
 	/**
 	 * @param string $session
 	 * @param integer $count

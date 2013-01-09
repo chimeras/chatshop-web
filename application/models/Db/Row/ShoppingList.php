@@ -55,14 +55,25 @@ abstract class Application_Model_Db_Row_ShoppingList extends Application_Model_B
 		return $this;
 	}
 
-	public function getCreatedAt()
+	public function getCreated()
 	{
-		return $this->createdAt;
+		return $this->created;
 	}
 
-	public function setCreatedAt($createdAt)
+	public function setCreated($created)
 	{
-		$this->createdAt = $createdAt;
+		$this->created = $created;
+		return $this;
+	}
+
+	public function getModified()
+	{
+		return $this->modified;
+	}
+
+	public function setModified($modified)
+	{
+		$this->modified = $modified;
 		return $this;
 	}
 

@@ -77,6 +77,7 @@ class FeedProcessor
     public function process()
     {
         $files = $this->_getFiles();
+        echo count($files) .' files to process' ."\n";
         foreach ($files as $file) {
             echo 'processing: ' . $file->getFilename() . "\n";
 
@@ -92,7 +93,7 @@ class FeedProcessor
 
     /**
      *
-     * @return \Application_Model_ProductFeed
+     * @return \Application_Model_ProductFeeds
      */
     private function _getFiles()
     {
@@ -163,7 +164,7 @@ class FeedProcessor
                 if (!isset($row[$cjField])) {
                     break;
                 }
-                $product->$dbField = str_replace("'", "", str_replace('""', '"', $row[$cjField]));
+                $product->$dbField = addslashes(trim($row[$cjField], '"'));
             }
             $product->setBrandName($row[$this->_cjObjects['Brand']]);
             $product->setSimilarity();
