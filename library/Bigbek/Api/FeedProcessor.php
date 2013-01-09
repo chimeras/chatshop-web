@@ -250,6 +250,7 @@ class FeedProcessor
                 if (strstr($haystack, $nonMandatory)) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
                         if(strstr($nonMandatory, $blacklistKwd) && strstr($haystack, $blacklistKwd)){
+                            echo 'skipping'.  $nonMandatory .' because of '. $haystack ."\n";
                             continue 2;
                         }
                     }
