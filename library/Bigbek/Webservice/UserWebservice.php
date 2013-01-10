@@ -347,6 +347,12 @@ class UserWebservice extends BaseWebservice
         }
 
         $fb = $this->currentUser->getFacebook();
-        return \Zend_Json::encode(array('share_id' => $fb->sharePost('I like '. $product->getName(), $product->getImageUrl(), $product->getBuyUrl(), $product->getName())));
+        $result = \Zend_Json::encode(array(
+            'share_id' => $fb->sharePost('I like '. $product->getName(),
+                $product->getImageUrl(),
+                $product->getBuyUrl(),
+                $product->getName())));
+        $logger->log('fbShareProduct:params=p-id='.$productId.',result='.$result, \Zend_Log::DEBUG);
+        return $result;
     }
 }
