@@ -337,6 +337,7 @@ class UserWebservice extends BaseWebservice
     {
 
         $logger = \Zend_Registry::get('logger');
+        $logger->log('fbShareProduct($session, $productId):'.$session.','. $productId, \Zend_Log::DEBUG);
         if (!$this->setUser($session)) {
             return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
         }
