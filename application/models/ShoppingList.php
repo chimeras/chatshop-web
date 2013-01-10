@@ -33,17 +33,23 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 		return $this->findDependentRowset('Application_Model_ShoppingListItems');
 	}
 
-	public function getAllItemsArray()
+	public function getAllItemsArray($fullProductInfo = true)
 	{
         $productsTable = new Application_Model_Products;
 
 		$items = array();
 		foreach($this->getAllItems() as $item){
-            $product = $productsTable->fetch($item->getProductId());
-			$items[] = array('product'=>$product->toArray(), 'reminder'=>$item->getReminder());
+            if($fullProductInfo){
+                $product = $productsTable->fetch($item->getProductId());
+                $items[] = array('product'=>$product->toArray(), 'reminder'=>$item->getReminder());
+            }else{
+                $items[] = array('product_id'=>$item->getProductId(), 'reminder'=>$item->getReminder());
+            }
+
 		}
 		return $items;
 	}
+
 
 	/**
 	 * 
@@ -80,10 +86,16 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 		$item->save();
 		return $item->getId();
 	}
-	
+
+
 	public function getUser()
 	{
 		return $this->findParentRow('Application_Model_Users');
 	}
 
+    public function deleteAllItems()
+    {
+        $table = new Application_Model_ShoppingListItems;
+        $table->delete("shopping_list_id=".$this->getId());
+    }
 }
