@@ -67,14 +67,14 @@ class ShopWebservice extends BaseWebservice
     {
         $this->_logger->log('getThemeCategories for id=' . $id, \Zend_Log::INFO);
         $cache = \Zend_Registry::get('cache');
-        $cacheID = 'theme_categories_'.$id .'_rand_'.rand(100, 101);
+        $cacheID = 'theme_categories_' . $id . '_rand_' . rand(100, 101);
         $categories = false; //$cache->load($cacheID);
         if ($categories === false) {
-           // echo 'generating ';
+            // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();
-         //   $cache->save($categories); /////////////////////////////////////@@todo uncomment this to use cache
-        }else{
+            //   $cache->save($categories); /////////////////////////////////////@@todo uncomment this to use cache
+        } else {
             shuffle($categories);
         }
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
@@ -90,9 +90,9 @@ class ShopWebservice extends BaseWebservice
     public function getCategoryProducts($id, $page = 1, $limit = 50)
     {
         $cache = \Zend_Registry::get('cache');
-        $cacheID = 'category_products_'.$id.'_'.$page.'_'.$limit;
+        $cacheID = 'category_products_' . $id . '_' . $page . '_' . $limit;
         $this->_logger->log('getCategoryProducts for id=' . $id . ',$page = ' . $page . ', $limit = ' . $limit, \Zend_Log::INFO);
-        $offset = $page > 0 ? ($page-1)*$limit : 0;
+        $offset = $page > 0 ? ($page - 1) * $limit : 0;
         $limit = (int)$limit;
 
         $categoriesTable = new \Application_Model_Categories;
@@ -102,10 +102,10 @@ class ShopWebservice extends BaseWebservice
         }
 
         $arrCategory = false; //$cache->load($cacheID);
-        if($arrCategory === false){
+        if ($arrCategory === false) {
             $arrCategory = $Category->toCombinedArray($limit, $offset);
-         //   $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
-        }else{
+            //   $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
+        } else {
             shuffle($arrCategory['products']);
         }
 
@@ -114,6 +114,27 @@ class ShopWebservice extends BaseWebservice
             array('products' => $arrCategory['products'],
                 'products_qty' => $arrCategory['products_qty'],
                 'this_page_products_qty' => $arrCategory['this_page_products_qty'],
+                'message' => 'successfully retreived')
+        );
+    }
+
+    public function getProductsInfo($productIds)
+    {
+        try {
+            $productIds = \Zend_Json::decode($productIds);
+        } catch (\Exception $e) {
+            return \Zend_Json::encode(array('error' => '3000', 'message' => $e->getMessage()));
+        }
+        $table = new \Application_Model_Products;
+        $productInfo = array();
+        foreach($productIds as $productId){
+            $product = $table->fetch($productId);
+            if(is_object($product)){
+                $productInfo[$productId] = $product->toArray();
+            }
+        }
+        return \Zend_Json::encode(
+            array('products' => $productInfo,
                 'message' => 'successfully retreived')
         );
     }
