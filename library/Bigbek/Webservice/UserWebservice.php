@@ -45,7 +45,7 @@ class UserWebservice extends BaseWebservice
         parent::__construct();
     }
 
-    // [{"name":"bulkinafas",  "items":[{"product_id":326454, "reminder":1}, {"product_id":326522, "reminder":1}], "timestamp":1361541103}, { "name":"bulkinafason","items":[{"product_id":326507, "reminder":1}, {"product_id":326480, "reminder":1}], "timestamp":1361541103}]
+    // [{"name":"cherchezlafemme","privacy":1,"items":[{"product_id":326454, "reminder":1}, {"product_id":326522, "reminder":1}], "timestamp":1361541103}, { "name":"bulkinafasion","privacy":1, "state":1, "type":1, "items":[{"product_id":326507, "reminder":1}, {"product_id":326480, "reminder":1}], "timestamp":1361541103}]
     public function syncShoppingLists($session, $lists)
     {
         if (!$this->setUser($session)) {
@@ -81,6 +81,15 @@ class UserWebservice extends BaseWebservice
                 $shoppingList->setModified(date('Y-m-d H:i:s'));
                 if(isset($shoppingListArray['name'])){
                     $shoppingList->setName($shoppingListArray['name']);
+                }
+                if(isset($shoppingListArray['privacy'])){
+                    $shoppingList->setPrivacy($shoppingListArray['privacy']);
+                }
+                if(isset($shoppingListArray['type'])){
+                    $shoppingList->setState($shoppingListArray['type']);
+                }
+                if(isset($shoppingListArray['state'])){
+                    $shoppingList->setState($shoppingListArray['state']);
                 }
                 $shoppingList->save();
                 $shoppingList->deleteAllItems();
