@@ -42,6 +42,8 @@ class User
         $httpClient->setParameterPost('link', $link);
         $httpClient->setParameterPost('caption', $name);
         $httpClient->setParameterPost('name', $name);
+        $httpClient->setParameterPost('privacy', "{'value':'SELF'}");
+
         $responseBody = $httpClient->request(\Zend_Http_Client::POST)->getBody();
         $responseBodyArray = \Zend_Json::decode($responseBody);
         if (isset($responseBodyArray['id'])) {
