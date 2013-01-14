@@ -57,4 +57,11 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         }
         return null;
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['retailer_name'] = $this->findParentRow("Application_Model_Retailers")->getName();
+        return $array;
+    }
 }
