@@ -61,7 +61,10 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
     public function toArray()
     {
         $array = parent::toArray();
-        $array['retailer_name'] = $this->findParentRow("Application_Model_Retailers")->getName();
+        $connection = $this->findParentRow("Application_Model_Retailers");
+        if(is_object($connection)){
+            $array['retailer_name'] = $connection->getName();
+        }
         return $array;
     }
 }
