@@ -87,7 +87,7 @@ class ShopWebservice extends BaseWebservice
      * @param integer $limit
      * @return JSON
      */
-    public function getCategoryProducts($id, $page = 1, $limit = 50)
+    public function getCategoryProducts($id, $page = 1, $limit = 50, $retailerId = null, $brandId=null)
     {
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'category_products_' . $id . '_' . $page . '_' . $limit;
@@ -103,7 +103,7 @@ class ShopWebservice extends BaseWebservice
 
         $arrCategory = false; //$cache->load($cacheID);
         if ($arrCategory === false) {
-            $arrCategory = $Category->toCombinedArray($limit, $offset);
+            $arrCategory = $Category->toCombinedArray($limit, $offset, false, $retailerId, $brandId);
             //   $cache->save($arrCategory); /////////////////////////////////////@@todo uncomment this to use cache
         } else {
             shuffle($arrCategory['products']);

@@ -183,6 +183,8 @@ class FeedProcessor
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
             $product->save();
+            echo "\n\t\t ". $product->getName();
+
             try {
                 @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
@@ -211,20 +213,41 @@ class FeedProcessor
         foreach ($this->_categories as $id => $category) {
 
             $type = 0;
+
+            if((strstr(strtolower($product->getName()), 'shoe') || strstr(strtolower($product->getKeywords()), 'shoe'))
+                && strstr(strtolower($category['object']->getKeywords().$category['parentKeywords']), 'shoe')){
+                echo "\n#####################################\n product_id=".$product->getId();
+                echo "\n required-kwds=".$category['object']->getKeywords()
+                    .", parent=".$category['parentKeywords']."\n\t name=". $product->getName()
+                    ."\n\t adv-kwd=".$product->getAdvertiserKeywords()
+                    ."\n\t kwd=".$product->getKeywords()."\n\t";
+                echo "chk-name()=". (int)$this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName()) ."\n\t";
+                echo "chk-adv-kwd()=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords()) ."\n\t";
+                echo "chk-kwd(".$category['object']->getKeywords().$category['parentKeywords'].")=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords());
+
+            }
+
+
             if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
-                $type = 4;
+                $type = 5;
+            }elseif($category['object']->getParentId()==0 && (
+                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords()
+                || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords()))
+            )){
+                $type = 1;
+
             }  elseif($category['object']->getParentId()>0
                 && $product->getTopCategoryId() > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
                 ) {
-                $type = 3;
+                $type = 4;
             }  elseif ($category['object']->getParentId()>0
                 && $product->getTopCategoryId() > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
                 ) {
-                $type = 2;
+                $type = 3;
             } elseif ($retailer->getCategoryId() == $id) {
-                $type = 1;
+                $type = 2;
             }
 
             if ($type > 0) {
@@ -232,6 +255,8 @@ class FeedProcessor
                 $connection->setFromArray(array(
                     'product_id' => $product->getId(),
                     'category_id' => $id,
+                    'retailer_id' => $product->getRetailerId(),
+                    'brand_id' => $product->getBrandId(),
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
@@ -243,11 +268,11 @@ class FeedProcessor
     private function _checkKwd($kwd, $haystack)
     {
         $return = 0;
-        $mandatories = explode(',', $kwd);
+        $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($haystack, $nonMandatory)) {
+                if (strstr(strtolower($haystack), $nonMandatory)) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
                         if(strstr($nonMandatory, $blacklistKwd) && strstr($haystack, $blacklistKwd)){
                             echo 'skipping'.  $nonMandatory .' because of '. $haystack ."\n";
@@ -266,11 +291,11 @@ class FeedProcessor
     private function _checkName($kwd, $name)
     {
         $return = 0;
-        $mandatories = explode(',', $kwd);
+        $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($name, $nonMandatory)) {
+                if (strstr(strtolower($name), $nonMandatory)) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
                         if(strstr($nonMandatory, $blacklistKwd) && strstr($name, $blacklistKwd)){
                             echo 'skipping(2)'.  $nonMandatory .' because of '. $name ."\n";
@@ -282,5 +307,29 @@ class FeedProcessor
             }
         }
         return $return > 0 && count($mandatories) == $return;
+    }
+
+
+
+    public function cleanup()
+    {
+        echo "\n\n cleaning up";
+        $i = $j = 0;
+        $table = new \Application_Model_Products;
+        foreach($table->fetchAll("visible = 1") as $product){
+            $i++;
+            try {
+                @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
+            } catch (\Exception $e) {
+                echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
+                $product->setVisible(0);
+                foreach($product->findDependentRowset("Application_Model_CategoryXProducts") as $connection){
+                    $connection->delete();
+                }
+                $j++;
+                $product->save();
+            }
+        }
+        echo "\t processed ". $i .' items, removed'.$j ."items \n###################################################\n";
     }
 }

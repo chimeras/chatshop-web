@@ -35,7 +35,7 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         $select = $connectionTable->select('*')
             ->group('similarity')
             ->where("product_id=?", $this->getId())
-            ->where("category_id=0");
+            ->where("category_id in(1,2,3,4,5,6,7,1001)"); //@todo get these parent categories from db not hardcode
         $connections = $connectionTable->fetchAll($select);
         if(count($connections) > 0){
             return $connections[0]->getCategoryId();

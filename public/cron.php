@@ -30,5 +30,7 @@ foreach ($files as $file) {
 
 $feedProcessor = new Bigbek\Api\FeedProcessor;
 $feedProcessor->process();
+$feedProcessor->cleanup();
+
 
 

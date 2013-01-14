@@ -37,11 +37,11 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $this->findDependentRowset('Application_Model_Categories');
     }
 
-    public function toCombinedArray($productsCount = 20, $offset = 0, $randomise=false)
+    public function toCombinedArray($productsCount = 20, $offset = 0, $randomise=false, $retailerId = null, $brandId=null)
     {
         $category = $this->toArray();
         $category['products'] = array();
-        $productsCollection = $this->getProducts($productsCount, $offset, $randomise);
+        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId);
         foreach ($productsCollection as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
@@ -49,7 +49,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $category['products'][] = $productArray;
         }
         $category['subcategories'] = $this->getSubcategoriesArray();
-        $category['products_qty'] = $this->getProductsCount();
+        $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
         $category['this_page_products_qty'] = count($productsCollection);
 
         return $category;
@@ -69,7 +69,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $this->_subcategories;
     }
 
-    public function getProducts($rowCount, $page, $isRandom = false)
+    public function getProducts($rowCount, $page, $isRandom = false, $retailerId = null, $brandId=null)
     {
 
         $table = new Application_Model_Products;
@@ -78,10 +78,18 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
             ->group('similarity')
-            ->where("category_id=?", $this->getId())
-            ->where("similarity!=0")
+            ->where("category_id=?", $this->getId());
+        if($retailerId != null){
+            $select = $select->where("retailer_id=?", $retailerId);
+        }
+        if($brandId != null){
+            $select = $select->where("brand_id=?", $brandId);
+        }
+        $select = $select->where("similarity!=0")
             ->order(new Zend_Db_Expr('RAND()'))
             ->limit($rowCount, $page);
+
+
 
         foreach($connectionsTable->fetchAll($select) as $connection){
             $product = $table->fetch($connection->getProductId());
