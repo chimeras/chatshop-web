@@ -237,12 +237,12 @@ class FeedProcessor
                 $type = 1;
 
             }  elseif($category['object']->getParentId()>0
-                && $product->getTopCategoryId() > 0
+              /*  && $product->getTopCategoryId() > 0*/
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
                 ) {
                 $type = 4;
             }  elseif ($category['object']->getParentId()>0
-                && $product->getTopCategoryId() > 0
+              /*  && $product->getTopCategoryId() > 0*/
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
                 ) {
                 $type = 3;
