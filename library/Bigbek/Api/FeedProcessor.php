@@ -54,7 +54,7 @@ class FeedProcessor
     );
 
     private $_blacklistKeywords = array('dc shoes', 'menage');
-
+    private $_updatedRetailers = array();
     public function __construct()
     {
         $this->_logger = Zend_Registry::get('logger');
@@ -209,12 +209,16 @@ class FeedProcessor
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $retailer = $retailersTable->fetch($product->getRetailerId());
-
+        if(!array_key_exists($retailer->getId(), $this->_updatedRetailers)){
+            $date = $retailer->setLastUpdate(date("Y-m-d H:i:s"));
+            $retailer->save();
+            $this->_updatedRetailers[$retailer->getId()] = $date;
+        }
         foreach ($this->_categories as $id => $category) {
 
             $type = 0;
 
-            if((strstr(strtolower($product->getName()), 'shoe') || strstr(strtolower($product->getKeywords()), 'shoe'))
+          /*  if((strstr(strtolower($product->getName()), 'shoe') || strstr(strtolower($product->getKeywords()), 'shoe'))
                 && strstr(strtolower($category['object']->getKeywords().$category['parentKeywords']), 'shoe')){
                 echo "\n#####################################\n product_id=".$product->getId();
                 echo "\n required-kwds=".$category['object']->getKeywords()
@@ -225,7 +229,7 @@ class FeedProcessor
                 echo "chk-adv-kwd()=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords()) ."\n\t";
                 echo "chk-kwd(".$category['object']->getKeywords().$category['parentKeywords'].")=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords());
 
-            }
+            }*/
 
 
             if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
@@ -320,10 +324,23 @@ class FeedProcessor
         $table = new \Application_Model_Products;
         foreach($table->fetchAll("visible = 1") as $product){
             $i++;
+            $hide = false;
+            if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
+                $retailerDate = new DateTime($this->_updatedRetailers[$product->getRetailerId()]);
+                $productDate = new DateTime($product->getUpdatedAt());
+                $interval = date_diff($retailerDate, $productDate);
+                echo $interval->format('H') .' hours passed before last update';
+                $hide = true;
+            }
             try {
+
                 @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
                 echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
+                $hide = true;
+            }
+
+            if($hide){
                 $product->setVisible(0);
                 foreach($product->findDependentRowset("Application_Model_CategoryXProducts") as $connection){
                     $connection->delete();
