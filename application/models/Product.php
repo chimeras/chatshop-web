@@ -64,6 +64,7 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         $connection = $this->findParentRow("Application_Model_Retailers");
         if(is_object($connection)){
             $array['retailer_name'] = $connection->getName();
+            $array['description'] .= ' '. $array['buy_url'];
         }
         return $array;
     }
