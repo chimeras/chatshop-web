@@ -44,7 +44,8 @@ class FeedProcessor
         'price' => 'PRICE',
         'buy_url' => 'BUYURL',
         'impression_url' => 'IMPRESSIONURL',
-        'image_url' => 'IMAGEURL'
+        'image_url' => 'IMAGEURL',
+        'brand_name' => 'MANUFACTURER'
     );
 
     private $_cjObjects = array(

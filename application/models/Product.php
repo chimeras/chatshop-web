@@ -65,6 +65,10 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         if(is_object($connection)){
             $array['retailer_name'] = $connection->getName();
             $array['description'] .= ' '. $array['buy_url'];
+            if($array['brand_name']=='null'){
+                $array['brand_name'] = $connection->getName();;
+            }
+
         }
         return $array;
     }
