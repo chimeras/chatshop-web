@@ -29,7 +29,9 @@ class AuthWebservice extends BaseWebservice
 			$fb = new Facebook_User($accessToken);
 
 			$userFbInfo = $fb->getInfo();
-
+            if(!isset($userFbInfo['id'])){
+                return \Zend_Json::encode(array('error' => $userFbInfo, 'message' => 'Facebook error'));
+            }
 			$userFacebooks = new \Application_Model_UserFacebooks();
 			$userFb = $userFacebooks->fetch($userFbInfo['id']);
 
