@@ -277,7 +277,7 @@ class FeedProcessor
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($haystack, $nonMandatory)) {
+                if (strstr($haystack, ' '. $nonMandatory) || strpos($haystack, $nonMandatory) == 0) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
                         if(strstr($blacklistKwd, $nonMandatory) && strstr($haystack, $blacklistKwd)){
                             echo 'skipping'.  $nonMandatory .' because of '. $haystack ."\n";
@@ -301,7 +301,7 @@ class FeedProcessor
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($name, $nonMandatory)) {
+                if (strstr($name, ' '. $nonMandatory) || strpos($name, $nonMandatory)==0) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
                         if(strstr($blacklistKwd, $nonMandatory) && strstr($name, $blacklistKwd)){
                             echo 'skipping(2)'.  $nonMandatory .' because of '. $name ."\n";
