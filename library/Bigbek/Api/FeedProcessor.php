@@ -53,7 +53,7 @@ class FeedProcessor
         'AdvertiserCategory' => 'ADVERTISERCATEGORY'*/
     );
 
-    private $_blacklistKeywords = array('dc shoes', 'Menage');
+    private $_blacklistKeywords = array('dc shoes', 'menage');
 
     public function __construct()
     {
@@ -268,13 +268,14 @@ class FeedProcessor
     private function _checkKwd($kwd, $haystack)
     {
         $return = 0;
+        $haystack = strtolower($haystack);
         $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr(strtolower($haystack), $nonMandatory)) {
+                if (strstr($haystack, $nonMandatory)) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
-                        if(strstr($nonMandatory, $blacklistKwd) && strstr($haystack, $blacklistKwd)){
+                        if(strstr($blacklistKwd, $nonMandatory) && strstr($haystack, $blacklistKwd)){
                             echo 'skipping'.  $nonMandatory .' because of '. $haystack ."\n";
                             continue 2;
                         }
@@ -291,13 +292,14 @@ class FeedProcessor
     private function _checkName($kwd, $name)
     {
         $return = 0;
+        $name = strtolower($name);
         $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr(strtolower($name), $nonMandatory)) {
+                if (strstr($name, $nonMandatory)) {
                     foreach($this->_blacklistKeywords as $blacklistKwd){
-                        if(strstr($nonMandatory, $blacklistKwd) && strstr($name, $blacklistKwd)){
+                        if(strstr($blacklistKwd, $nonMandatory) && strstr($name, $blacklistKwd)){
                             echo 'skipping(2)'.  $nonMandatory .' because of '. $name ."\n";
                             continue 2;
                         }
