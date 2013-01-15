@@ -119,15 +119,13 @@ class ShopWebservice extends BaseWebservice
     }
 
     /**
-     * @param json string $params
-     * @return json string
+     * @param array $productIds
+     * @return string
      */
-    public function getProductsInfo($params)
+    public function getProductsInfo($productIds)
     {
         try {
-
-            $params = \Zend_Json::decode($params);
-            $productIds = $params['productIds'];
+            $productIds = \Zend_Json::decode($productIds);
         } catch (\Exception $e) {
             return \Zend_Json::encode(array('error' => '3000', 'message' => $e->getMessage()));
         }
