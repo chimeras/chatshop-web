@@ -47,7 +47,7 @@ class FeedProcessor
         'image_url' => 'IMAGEURL',
         'saleprice' => 'SALEPRICE',
         'shipping_cost' => 'STANDARDSHIPPINGCOST',
-        'instock' => 'INSTOCK',
+        'in_stock' => 'INSTOCK',
         'online' => 'ONLINE',
         'brand_name' => 'MANUFACTURER'
     );
