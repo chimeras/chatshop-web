@@ -349,6 +349,7 @@ class FeedProcessor
                 $j++;
                 $product->save();
             }
+            echo "\n ok:". $product->getId();
         }
         echo "\t processed ". $i .' items, removed'.$j ."items \n###################################################\n";
     }
