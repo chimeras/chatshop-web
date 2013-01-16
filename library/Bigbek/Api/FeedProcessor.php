@@ -45,6 +45,10 @@ class FeedProcessor
         'buy_url' => 'BUYURL',
         'impression_url' => 'IMPRESSIONURL',
         'image_url' => 'IMAGEURL',
+        'saleprice' => 'SALEPRICE',
+        'shipping_cost' => 'STANDARDSHIPPINGCOST',
+        'insctock' => 'INSTOCK',
+        'online' => 'ONLINE',
         'brand_name' => 'MANUFACTURER'
     );
 
@@ -88,6 +92,7 @@ class FeedProcessor
             $file->setRecordsProcessed($qty);
             $file->setStatus('processed');
             $file->save();
+            $this->cleanup();
         }
     }
 
@@ -236,18 +241,18 @@ class FeedProcessor
             if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
                 $type = 5;
             }elseif($category['object']->getParentId()==0 && (
-                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords()
-                || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords()))
+                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())
+                || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
+                || $this->_checkName($category['object']->getKeywords(), $product->getName())
             )){
                 $type = 1;
-
             }  elseif($category['object']->getParentId()>0
-              /*  && $product->getTopCategoryId() > 0*/
+                && $product->getTopCategoryId() > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
                 ) {
                 $type = 4;
             }  elseif ($category['object']->getParentId()>0
-              /*  && $product->getTopCategoryId() > 0*/
+                && $product->getTopCategoryId() > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
                 ) {
                 $type = 3;
@@ -320,7 +325,7 @@ class FeedProcessor
 
     public function cleanup()
     {
-        echo "\n\n cleaning up";
+        echo "\n\n cleaning up \n";
         $i = $j = 0;
         $table = new \Application_Model_Products;
 
@@ -331,15 +336,21 @@ class FeedProcessor
                 $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]);
                 $productDate = new \DateTime($product->getUpdatedAt());
                 $interval = date_diff($retailerDate, $productDate);
-                echo $interval->format('H') .' hours passed before last update';
-                $hide = true;
+                if($interval->format('H') > 3){
+                    echo $interval->format('H') .' hours passed before last update, hiding product';
+                    $hide = true;
+                }
+
             }
-            try {
-                $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
-            } catch (\Exception $e) {
-                echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
-                $hide = true;
+            if($hide == false){
+                try {
+                    $hide = ($product->getImageUrl() == null) || (bool)(false != file_get_contents($product->getImageUrl()));
+                } catch (\Exception $e) {
+                    echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
+                    $hide = true;
+                }
             }
+
 
             if($hide){
                 $product->setVisible(0);
@@ -349,7 +360,7 @@ class FeedProcessor
                 $j++;
                 $product->save();
             }
-            echo "\n ok:". $product->getId();
+            //echo "\n ok:". $product->getId();
         }
         echo "\t processed ". $i .' items, removed'.$j ."items \n###################################################\n";
     }
