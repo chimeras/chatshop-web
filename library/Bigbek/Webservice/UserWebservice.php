@@ -78,7 +78,7 @@ class UserWebservice extends BaseWebservice
                 }
             }
             if (!isset($shoppingListArray['timestamp']) || strtotime($shoppingList->getModified()) <= $shoppingListArray['timestamp']) {
-                $shoppingList->setModified(date('Y-m-d H:i:s'));
+                $shoppingList->setModified(date('Y-m-d H:i:s', $shoppingListArray['timestamp']));
                 if(isset($shoppingListArray['name'])){
                     $shoppingList->setName($shoppingListArray['name']);
                 }
