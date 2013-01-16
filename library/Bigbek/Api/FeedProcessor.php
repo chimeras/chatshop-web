@@ -350,7 +350,7 @@ class FeedProcessor
             }
             if($hide == false){
                 try {
-                    $hide = ($product->getImageUrl() == null) || (bool)(false != file_get_contents($product->getImageUrl()));
+                   @$hide = ($product->getImageUrl() == null) || (bool)(false != file_get_contents($product->getImageUrl()));
                 } catch (\Exception $e) {
                     echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
                     $hide = true;
