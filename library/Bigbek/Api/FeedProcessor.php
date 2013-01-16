@@ -323,6 +323,7 @@ class FeedProcessor
         echo "\n\n cleaning up";
         $i = $j = 0;
         $table = new \Application_Model_Products;
+
         foreach($table->fetchAll("visible = 1") as $product){
             $i++;
             $hide = false;
@@ -334,8 +335,7 @@ class FeedProcessor
                 $hide = true;
             }
             try {
-
-                @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
+                $visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
             } catch (\Exception $e) {
                 echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
                 $hide = true;
