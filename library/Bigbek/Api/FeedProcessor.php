@@ -92,7 +92,6 @@ class FeedProcessor
             $file->setRecordsProcessed($qty);
             $file->setStatus('processed');
             $file->save();
-            $this->cleanup();
         }
     }
 
@@ -333,7 +332,7 @@ class FeedProcessor
             $i++;
             $hide = false;
             if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
-                $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]);
+                $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]->getLastUpdate());
                 $productDate = new \DateTime($product->getUpdatedAt());
                 $interval = date_diff($retailerDate, $productDate);
                 if($interval->format('H') > 3){
