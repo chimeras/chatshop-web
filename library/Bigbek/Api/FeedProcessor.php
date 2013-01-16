@@ -181,14 +181,15 @@ class FeedProcessor
                 }
                 $setterName = 'set' . $obj;
 
-                $string = str_replace("\\'", '', $row[$cjField]);
-                $string = str_replace('"', '', $string);
+                //$string = str_replace("\\'", '', $row[$cjField]);
+                //$string = str_replace('"', '', $string);
+                $string = stripslashes($row[$cjField]);
 
                 $product->$setterName($string);
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
             $product->save();
-            echo "\n\t\t ". $product->getName();
+            echo "\n\t\t ". $product->getId() ."\t". $product->getName();
 
             try {
                 @$visible = $product->getImageUrl() != null && false !== file_get_contents($product->getImageUrl());
