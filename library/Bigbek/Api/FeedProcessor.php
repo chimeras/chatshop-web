@@ -237,7 +237,7 @@ class FeedProcessor
 
             }*/
 
-
+            $topCategoryId = $product->getTopCategoryId();
             if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
                 $type = 5;
             }elseif($category['object']->getParentId()==0 && (
@@ -245,14 +245,17 @@ class FeedProcessor
                 || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
                 || $this->_checkName($category['object']->getKeywords(), $product->getName())
             )){
+                if($topCategoryId > 0){
+                    $connectionsTable->delete("product_id=".$product->getId()." AND category_id=".$topCategoryId);
+                }
                 $type = 1;
             }  elseif($category['object']->getParentId()>0
-                && $product->getTopCategoryId() > 0
+                && $topCategoryId > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
                 ) {
                 $type = 4;
             }  elseif ($category['object']->getParentId()>0
-                && $product->getTopCategoryId() > 0
+                && $topCategoryId > 0
                 && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
                 ) {
                 $type = 3;
