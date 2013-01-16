@@ -281,6 +281,9 @@ class FeedProcessor
         $haystack = strtolower($haystack);
         $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
+            if($mandatory == ''){
+                continue;
+            }
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
                 if (strstr($haystack, ' '. $nonMandatory) || (strstr($haystack, $nonMandatory) && strpos($haystack, $nonMandatory) == 0)) {
@@ -305,6 +308,9 @@ class FeedProcessor
         $name = strtolower($name);
         $mandatories = explode(',', strtolower($kwd));
         foreach ($mandatories as $mandatory) {
+            if($mandatory == ''){
+                continue;
+            }
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
                 if (strstr($name, ' '. $nonMandatory) || (strstr($name, $nonMandatory) && strpos($name, $nonMandatory)==0)) {
