@@ -102,7 +102,7 @@ class FeedProcessor
      */
     private function _getFiles()
     {
-        $feed = $this->_productFeedTable->fetchAll("status ='new'");
+        $feed = $this->_productFeedTable->fetchAll("status ='new'", "records_processed");
         if(count($feed) > 0){
            return $feed;
         }else{
