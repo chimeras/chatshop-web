@@ -253,17 +253,6 @@ abstract class Application_Model_Db_Row_Product extends Application_Model_BaseIt
 		return $this;
 	}
 
-	public function getInstock()
-	{
-		return $this->instock;
-	}
-
-	public function setInstock($instock)
-	{
-		$this->instock = $instock;
-		return $this;
-	}
-
 	public function getShippingCost()
 	{
 		return $this->shipping_cost;
