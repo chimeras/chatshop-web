@@ -22,17 +22,6 @@ abstract class Application_Model_Db_Row_Picture extends Application_Model_BaseIt
 
 
 
-	public function getProductId()
-	{
-		return $this->product_id;
-	}
-
-	public function setProductId($product_id)
-	{
-		$this->product_id = $product_id;
-		return $this;
-	}
-
 	public function getPath()
 	{
 		return $this->path;
