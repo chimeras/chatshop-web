@@ -15,6 +15,7 @@ $filter = new Zend_Filter_Decompress(array('options' => array(
 				)));
 foreach ($files as $file) {
 	$txtFileName = substr($file, 0, -3);
+    $txtFileName = preg_replace('/[^a-zA-Z0-9_ -]/s', '_', $txtFileName);
 	$content = $filter->filter($targetDir . $file);
 	if (is_string($content)) {
 		$fp = fopen($targetDir . $txtFileName, "w");
