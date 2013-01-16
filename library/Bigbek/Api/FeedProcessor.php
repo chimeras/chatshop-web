@@ -327,8 +327,8 @@ class FeedProcessor
             $i++;
             $hide = false;
             if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
-                $retailerDate = new DateTime($this->_updatedRetailers[$product->getRetailerId()]);
-                $productDate = new DateTime($product->getUpdatedAt());
+                $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]);
+                $productDate = new \DateTime($product->getUpdatedAt());
                 $interval = date_diff($retailerDate, $productDate);
                 echo $interval->format('H') .' hours passed before last update';
                 $hide = true;
