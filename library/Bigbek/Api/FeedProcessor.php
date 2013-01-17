@@ -169,7 +169,7 @@ class FeedProcessor
                 if (!isset($row[$cjField])) {
                     break;
                 }
-                $product->$dbField = addslashes(str_replace('""', '"', trim($row[$cjField], '"')));
+                $product->$dbField = stripslashes($row[$cjField]);
             }
             $product->setBrandName($row[$this->_cjObjects['Brand']]);
             $product->setSimilarity();
