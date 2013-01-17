@@ -73,22 +73,22 @@ class UserWebservice extends BaseWebservice
                 if (!is_object($shoppingList)) {
                     return \Zend_Json::encode(array('error' => '3011', 'message' => 'no shopping list with provided id'));
                 }
-                if($shoppingList->getUserId() != $this->currentUser->getId()){
+                if ($shoppingList->getUserId() != $this->currentUser->getId()) {
                     return \Zend_Json::encode(array('error' => '3012', 'message' => 'user is not owner of this list'));
                 }
             }
             if (!isset($shoppingListArray['timestamp']) || strtotime($shoppingList->getModified()) <= $shoppingListArray['timestamp']) {
                 $shoppingList->setModified(date('Y-m-d H:i:s', $shoppingListArray['timestamp']));
-                if(isset($shoppingListArray['name'])){
+                if (isset($shoppingListArray['name'])) {
                     $shoppingList->setName($shoppingListArray['name']);
                 }
-                if(isset($shoppingListArray['privacy'])){
+                if (isset($shoppingListArray['privacy'])) {
                     $shoppingList->setPrivacy($shoppingListArray['privacy']);
                 }
-                if(isset($shoppingListArray['type'])){
+                if (isset($shoppingListArray['type'])) {
                     $shoppingList->setState($shoppingListArray['type']);
                 }
-                if(isset($shoppingListArray['state'])){
+                if (isset($shoppingListArray['state'])) {
                     $shoppingList->setState($shoppingListArray['state']);
                 }
                 $shoppingList->save();
@@ -103,7 +103,7 @@ class UserWebservice extends BaseWebservice
 
         $lists = $this->_shoplists->fetchAll('`user_id`=' . $this->currentUser->getId());
         $result = array();
-        foreach($lists as $list){
+        foreach ($lists as $list) {
             $member = $list->toArray();
             $member['items'] = $list->getAllItemsArray(false);
             $result[] = $member;
@@ -123,9 +123,24 @@ class UserWebservice extends BaseWebservice
         if (!$this->setUser($session)) {
             return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
         }
-        $lists = $this->_shoplists->fetchAll('`user_id`=' . $this->currentUser->getId() . ' AND `state`=' . \Application_Model_ShoppingList::STATE_ACTIVE, array('name'), $count, $offset);
+        $lists = $this->_getShoppingLists($count, $offset);
         return \Zend_Json::encode(array('shoplists' => $lists->toArray(), 'message' => 'successfully retreived'));
     }
+
+    /**
+     * @param integer|null $count
+     * @param integer|null $offset
+     * @return null|\Zend_Db_Table_Rowset_Abstract
+     */
+    private function _getShoppingLists($count = null, $offset = null)
+    {
+        if(is_object($this->currentUser)){
+            return $this->_shoplists->fetchAll('`user_id`=' . $this->currentUser->getId() . ' AND `state`=' . \Application_Model_ShoppingList::STATE_ACTIVE, array('name'), $count, $offset);
+        }else{
+            return null;
+        }
+    }
+
 
     /**
      *
@@ -415,8 +430,20 @@ class UserWebservice extends BaseWebservice
     }
 
 
-    public function clearShopLists()
+    public function clearShopLists($session)
     {
-
+        $logger = \Zend_Registry::get('logger');
+        $logger->log("clearShopLists($session):\t", \Zend_Log::DEBUG);
+        if (!$this->setUser($session)) {
+            return \Zend_Json::encode(array('error' => '2001', 'message' => $this->errorMessage['2001']));
+        }
+        $lists = $this->_getShoppingLists();
+        $i = 0;
+        foreach($lists as $list){
+            if($list->delete()){
+                $i++;
+            }
+        }
+        return \Zend_Json::encode(array('result' => 'success', 'message' => $i .' shoplists were deleted'));
     }
 }
