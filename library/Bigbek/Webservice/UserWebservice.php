@@ -413,4 +413,10 @@ class UserWebservice extends BaseWebservice
         $logger->log('fbShareProduct:params=p-id=' . $productId . ',result=' . $result, \Zend_Log::DEBUG);
         return $result;
     }
+
+
+    public function clearShopLists()
+    {
+
+    }
 }

@@ -78,7 +78,8 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
             ->group('similarity')
-            ->where("category_id=?", $this->getId());
+            ->where("category_id=?", $this->getId())
+            ->where("type>2");
         if($retailerId != null){
             $select = $select->where("retailer_id=?", $retailerId);
         }
