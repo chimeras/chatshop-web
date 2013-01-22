@@ -11,6 +11,13 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 	const TYPE_UNCLASSIFIED = 2;
 	const TYPE_PAST = 3;
 
+    const ACTION_DELETE = 0;
+    const ACTION_CREATE = 1;
+    const ACTION_UPDATE = 2;
+    const ACTION_SKIP = 3;
+    const ACTION_OVERRIDE = 4;
+
+
 	/**
 	 *
 	 * @var array(Application_Model_ShoppingListItem) 
@@ -59,6 +66,7 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 	{
 		$return = parent::toArray();
 		$return['items'] = $this->getAllItemsArray();
+		$return['timestamp'] = strtotime($this->getModified());
 
 		return $return;
 	}
@@ -71,13 +79,13 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 	public function addItem($itemArray)
 	{
 		if(!isset($itemArray['product_id'])){
-			return FALSE;
+			return false;
 		}
 		$existing = $this->itemsTable->fetchRow('`shopping_list_id`='.$this->getId() .' AND `product_id`='.(int)$itemArray['product_id']);
 		if(is_object($existing)){
-			return TRUE;
+			return true;
 		}
-		$item = $this->itemsTable->fetchNew();
+		$item = $this->itemsTable->createRow();
 		$item->setShoppingListId($this->getId());
 		$item->setProductId($itemArray['product_id']);
 		if(isset($itemArray['reminder'])){

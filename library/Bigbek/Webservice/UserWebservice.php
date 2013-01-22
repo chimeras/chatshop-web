@@ -57,58 +57,7 @@ class UserWebservice extends BaseWebservice
             return \Zend_Json::encode(array('error' => '3000', 'message' => $e->getMessage()));
         }
         $table = new \Application_Model_ShoppingLists;
-        foreach ($lists as $shoppingListArray) {
-            if (!isset($shoppingListArray['id'])) {
-                $shoppingList = $table->fetchUniqueBy(array(
-                    'name' => $shoppingListArray['name'],
-                    'user_id' => $this->currentUser->getId()));
-                if (!is_object($shoppingList)) {
-                    $shoppingList = $table->fetchNew();
-                    $shoppingList->setUserId($this->currentUser->getId());
-                    $shoppingList->save();
-                }
-
-            } else {
-                $shoppingList = $table->fetch($shoppingListArray['id']);
-                if (!is_object($shoppingList)) {
-                    return \Zend_Json::encode(array('error' => '3011', 'message' => 'no shopping list with provided id'));
-                }
-                if ($shoppingList->getUserId() != $this->currentUser->getId()) {
-                    return \Zend_Json::encode(array('error' => '3012', 'message' => 'user is not owner of this list'));
-                }
-            }
-            if (!isset($shoppingListArray['timestamp']) || strtotime($shoppingList->getModified()) <= $shoppingListArray['timestamp']) {
-                $shoppingList->setModified(date('Y-m-d H:i:s', $shoppingListArray['timestamp']));
-                if (isset($shoppingListArray['name'])) {
-                    $shoppingList->setName($shoppingListArray['name']);
-                }
-                if (isset($shoppingListArray['privacy'])) {
-                    $shoppingList->setPrivacy($shoppingListArray['privacy']);
-                }
-                if (isset($shoppingListArray['type'])) {
-                    $shoppingList->setState($shoppingListArray['type']);
-                }
-                if (isset($shoppingListArray['state'])) {
-                    $shoppingList->setState($shoppingListArray['state']);
-                }
-                $shoppingList->save();
-                $shoppingList->deleteAllItems();
-                foreach ($shoppingListArray['items'] as $item) {
-                    $shoppingList->addItem($item);
-                }
-            }
-
-        }
-
-
-        $lists = $this->_shoplists->fetchAll('`user_id`=' . $this->currentUser->getId());
-        $result = array();
-        foreach ($lists as $list) {
-            $member = $list->toArray();
-            $member['items'] = $list->getAllItemsArray(false);
-            $result[] = $member;
-        }
-
+        $result = $table->synchronise($lists, $this->currentUser);
         return \Zend_Json::encode(array('shoplists' => $result, 'message' => 'successfully synchronized'));
     }
 
