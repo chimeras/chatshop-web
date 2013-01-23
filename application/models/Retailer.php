@@ -7,7 +7,9 @@ class Application_Model_Retailer extends Application_Model_Db_Row_Retailer
     {
 
         $className = '\\Bigbek\\Api\\Retailers\\'.$this->getProcessor();
-        $class = new $className;
+        echo $className;
+        $class = new $className();
+
         $class->setRetailer($this);
         return $class;
     }
