@@ -6,7 +6,6 @@
  */
 namespace Bigbek\Api\Retailers;
 
-use \Zend_Registry;
 
 class Common
 {
