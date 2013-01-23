@@ -11,7 +11,7 @@ class Common
 {
     protected $_retailer, $_processor;
     protected $_blacklistKeywords = array('dc shoes', 'menage');
-    public function __construct($retailer)
+    public function setRetailer($retailer)
     {
         $this->_retailer = $retailer;
     }
