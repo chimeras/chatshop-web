@@ -58,7 +58,7 @@ class FeedProcessor
         'AdvertiserCategory' => 'ADVERTISERCATEGORY'*/
     );
 
-    private $_blacklistKeywords = array('dc shoes', 'menage');
+
     private $_updatedRetailers = array();
     public function __construct()
     {
@@ -146,6 +146,7 @@ class FeedProcessor
     private function _writeToDb($data)
     {
         $productTable = new \Application_Model_Products;
+        $retailersTable = new \Application_Model_Retailers;
 
         $max = 10000;
         $count = $source = 0;
@@ -198,7 +199,15 @@ class FeedProcessor
                 $visible = false;
             }
             if ($visible) {
-                $this->_connectCategoryProduct($product);
+                $retailer = $retailersTable->fetch($product->getRetailerId());
+                if (!array_key_exists($retailer->getId(), $this->_updatedRetailers)) {
+                    $date = $retailer->setLastUpdate(date("Y-m-d H:i:s"));
+                    $retailer->save();
+                    $this->_updatedRetailers[$retailer->getId()] = $date;
+                }
+                $connector = $retailer->getProcessorObject();
+                $connector->setProcessor($this);
+                $connector->connectCategoryProduct($product);
             }
             if (--$max <= 0) {
                 break;
@@ -207,129 +216,6 @@ class FeedProcessor
         echo 'processed -> from :' . $source . ', succeed:' . $count . 'products;' . "\n";
         return $count;
     }
-
-
-    private function _connectCategoryProduct($product)
-    {
-        $retailersTable = new \Application_Model_Retailers;
-        $connectionsTable = new \Application_Model_CategoryXProducts;
-        $connectionsTable->delete('product_id=' . $product->getId());
-        $retailer = $retailersTable->fetch($product->getRetailerId());
-        if(!array_key_exists($retailer->getId(), $this->_updatedRetailers)){
-            $date = $retailer->setLastUpdate(date("Y-m-d H:i:s"));
-            $retailer->save();
-            $this->_updatedRetailers[$retailer->getId()] = $date;
-        }
-        foreach ($this->_categories as $id => $category) {
-
-            $type = 0;
-
-          /*  if((strstr(strtolower($product->getName()), 'shoe') || strstr(strtolower($product->getKeywords()), 'shoe'))
-                && strstr(strtolower($category['object']->getKeywords().$category['parentKeywords']), 'shoe')){
-                echo "\n#####################################\n product_id=".$product->getId();
-                echo "\n required-kwds=".$category['object']->getKeywords()
-                    .", parent=".$category['parentKeywords']."\n\t name=". $product->getName()
-                    ."\n\t adv-kwd=".$product->getAdvertiserKeywords()
-                    ."\n\t kwd=".$product->getKeywords()."\n\t";
-                echo "chk-name()=". (int)$this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName()) ."\n\t";
-                echo "chk-adv-kwd()=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords()) ."\n\t";
-                echo "chk-kwd(".$category['object']->getKeywords().$category['parentKeywords'].")=". (int)$this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords());
-
-            }*/
-
-            $topCategoryId = $product->getTopCategoryId();
-            if($this->_checkName($category['object']->getKeywords().$category['parentKeywords'], $product->getName())) {
-                $type = 5;
-            }  elseif($category['object']->getParentId()>0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getAdvertiserKeywords())
-                ) {
-                $type = 4;
-            }  elseif ($category['object']->getParentId()>0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords().$category['parentKeywords'], $product->getKeywords())
-                ) {
-                $type = 3;
-            } elseif ($retailer->getCategoryId() == $id) {
-                $type = 2;
-            }elseif($category['object']->getParentId()==0 && (
-                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())
-                    || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
-                    || $this->_checkName($category['object']->getKeywords(), $product->getName())
-            )){
-                if($topCategoryId > 0){
-                    $connectionsTable->delete("product_id=".$product->getId()." AND category_id=".$topCategoryId);
-                }
-                $type = 1;
-            }
-
-            if ($type > 0) {
-                $connection = $connectionsTable->fetchNew();
-                $connection->setFromArray(array(
-                    'product_id' => $product->getId(),
-                    'category_id' => $id,
-                    'retailer_id' => $product->getRetailerId(),
-                    'brand_id' => $product->getBrandId(),
-                    'type' => $type,
-                    'similarity' => $product->getSimilarity()));
-                $connection->save();
-            }
-
-        }
-    }
-
-    private function _checkKwd($kwd, $haystack)
-    {
-        $return = 0;
-        $haystack = strtolower($haystack);
-        $mandatories = explode(',', strtolower($kwd));
-        foreach ($mandatories as $mandatory) {
-            if($mandatory == ''){
-                continue;
-            }
-            $nonMandatories = explode('|', $mandatory);
-            foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($haystack, ' '. $nonMandatory) || strpos($haystack, $nonMandatory) === 0) {
-                    foreach($this->_blacklistKeywords as $blacklistKwd){
-                        if(strstr($blacklistKwd, $nonMandatory) && strstr($haystack, $blacklistKwd)){
-                            echo 'skipping'.  $nonMandatory .' because of '. $haystack ."\n";
-                            continue 2;
-                        }
-                    }
-                    $return++;
-                }
-            }
-        }
-        return $return > 0 && count($mandatories) == $return;
-    }
-
-
-
-    private function _checkName($kwd, $name)
-    {
-        $return = 0;
-        $name = strtolower($name);
-        $mandatories = explode(',', strtolower($kwd));
-        foreach ($mandatories as $mandatory) {
-            if($mandatory == ''){
-                continue;
-            }
-            $nonMandatories = explode('|', $mandatory);
-            foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($name, ' '. $nonMandatory) || strpos($name, $nonMandatory)===0) {
-                    foreach($this->_blacklistKeywords as $blacklistKwd){
-                        if(strstr($blacklistKwd, $nonMandatory) && strstr($name, $blacklistKwd)){
-                            echo 'skipping(2)'.  $nonMandatory .' because of '. $name ."\n";
-                            continue 2;
-                        }
-                    }
-                    $return++;
-                }
-            }
-        }
-        return $return > 0 && count($mandatories) == $return;
-    }
-
 
 
     public function cleanup()
@@ -372,5 +258,11 @@ class FeedProcessor
             //echo "\n ok:". $product->getId();
         }
         echo "\t processed ". $i .' items, removed'.$j ."items \n###################################################\n";
+    }
+
+
+    public function getProcessedCategories()
+    {
+        return $this->_categories;
     }
 }

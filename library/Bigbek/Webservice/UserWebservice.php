@@ -45,7 +45,7 @@ class UserWebservice extends BaseWebservice
         parent::__construct();
     }
 
-    // [{"name":"cherchezlafemme","privacy":1,"items":[{"product_id":326454, "reminder":1}, {"product_id":326522, "reminder":1}], "timestamp":1361541103}, { "name":"bulkinafasion","privacy":1, "state":1, "type":1, "items":[{"product_id":326507, "reminder":1}, {"product_id":326480, "reminder":1}], "timestamp":1361541103}]
+    // [{"name":"cherchezlafemme","privacy":1,"items":[{"product_id":326454, "reminder":0}, {"product_id":326522, "reminder":0}], "timestamp":1361541103}, { "name":"bulkinafasion","privacy":1, "state":1, "type":1, "items":[{"name":"karabas barabas", "reminder":1}, {"product_id":326480, "reminder":1}], "timestamp":1361541103}]
     public function syncShoppingLists($session, $lists)
     {
         if (!$this->setUser($session)) {

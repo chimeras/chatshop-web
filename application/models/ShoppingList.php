@@ -78,21 +78,36 @@ class Application_Model_ShoppingList extends Application_Model_Db_Row_ShoppingLi
 	 */
 	public function addItem($itemArray)
 	{
-		if(!isset($itemArray['product_id'])){
-			return false;
-		}
-		$existing = $this->itemsTable->fetchRow('`shopping_list_id`='.$this->getId() .' AND `product_id`='.(int)$itemArray['product_id']);
-		if(is_object($existing)){
-			return true;
-		}
-		$item = $this->itemsTable->createRow();
-		$item->setShoppingListId($this->getId());
-		$item->setProductId($itemArray['product_id']);
-		if(isset($itemArray['reminder'])){
-			$item->setReminder((bool) $itemArray['reminder']);
-		}
-		$item->save();
-		return $item->getId();
+		if(!isset($itemArray['product_id'])
+            && isset($itemArray['reminder'], $itemArray['name'])
+            && $itemArray['reminder']){ // reminder case
+            $table = new Application_Model_Reminders;
+            $select = $table->select()
+            ->where('`shopping_list_id`=?'.$this->getId())
+            ->where('name LIKE?', $itemArray['name']);
+            $existings = $table->fetchAll($select);
+            if(count($existings) > 0){
+                $item = $existings[0];
+            }else{
+                $item = $table->createRow();
+                $item->setShoplistId();
+                $item->setName($itemArray['name']);
+            }
+            if(isset($itemArray['description'])){
+                $item->setDescription($itemArray['description']);
+            }
+            $item->save();
+		}else{ // product case
+            $existing = $this->itemsTable->fetchRow('`shopping_list_id`='.$this->getId() .' AND `product_id`='.(int)$itemArray['product_id']);
+            if(is_object($existing)){
+                return true;
+            }
+            $item = $this->itemsTable->createRow();
+            $item->setShoppingListId($this->getId());
+            $item->setProductId($itemArray['product_id']);
+            $item->save();
+            return $item->getId();
+        }
 	}
 
 
