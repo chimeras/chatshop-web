@@ -52,6 +52,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $subProds = array();
             foreach($this->getSubcategories() as $sub){
                 foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
+                    if($Product->getVisible() == 0){
+                        continue;
+                    }
                     $productArray = $Product->toArray();
                     $productArray['parent_category_id'] = $Product->parent_category_id;
                     $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
@@ -92,7 +95,6 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     {
 
         $table = new Application_Model_Products;
-        $connectionsTable = new Application_Model_CategoryXProducts;
         $results = array();
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
