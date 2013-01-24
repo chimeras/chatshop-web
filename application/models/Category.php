@@ -48,6 +48,26 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $category['products'][] = $productArray;
         }
         $category['subcategories'] = $this->getSubcategoriesArray();
+        if(count($category['products'])<20){
+            $subProds = array();
+            foreach($category['subcategories'] as $sub){
+                foreach ($sub->$this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
+                    $productArray = $Product->toArray();
+                    $productArray['parent_category_id'] = $Product->parent_category_id;
+                    $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
+                    $subProds['products'][] = $productArray;
+                }
+            }
+            shuffle($subProds);
+            $i=0;
+            foreach($subProds as $subProd){
+                $category['products'][] = $subProd;
+                if($i>=(20-count($category['products']))){
+                    break;
+                }
+            }
+        }
+
         $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
         $category['this_page_products_qty'] = count($productsCollection);
 
