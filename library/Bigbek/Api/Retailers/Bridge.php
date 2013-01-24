@@ -8,6 +8,12 @@ namespace Bigbek\Api\Retailers;
 class Bridge extends Common
 {
 
+    public function __construct()
+    {
+        array_push($this->_blacklistKeywords, 'men');
+        array_push($this->_blacklistKeywords, 'women');
+    }
+
 
     public function connectCategoryProduct($product)
     {
