@@ -16,17 +16,24 @@ class Bridge extends Common
 
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
 
+
+            $connection = $connectionsTable->createRow();
+            $connection->setFromArray(array(
+                'product_id' => $product->getId(),
+                'category_id' => $this->_retailer->getCategoryId(),
+                'retailer_id' => $product->getRetailerId(),
+                'brand_id' => $product->getBrandId(),
+                'type' => 1,
+                'similarity' => $product->getSimilarity()));
+            $connection->save();
+
+
             $type = 0;
-            $topCategoryId = $product->getTopCategoryId();
-            if ($this->_retailer->getCategoryId() == $id) {
-                $type = 1;
-            }elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())) {
+            if ($category['object']->getParentId() > 0
+                && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())){
+                $type = 4;
+            } elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())){
                 $type = 2;
-            }elseif ($category['object']->getParentId() > 0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
-            ) {
-                $type = 3;
             }
             if ($type > 0) {
                 $connection = $connectionsTable->createRow();
