@@ -37,10 +37,7 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 	{
 		$return = array();
 		foreach ($this->_fetchCategories(false) as $Category) {
-            foreach($Category->getSubcategories() as $sub){
-                $return[] = $sub->toCombinedArray(20, 0, true);
-            }
-
+			$return[] = $Category->toCombinedArray(20, 0, true);
 		}
 		return $return;
 	}
