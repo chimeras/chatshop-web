@@ -51,6 +51,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         if(count($category['products'])<20){
             $subProds = array();
             foreach($this->getSubcategories() as $sub){
+                var_dump($sub); exit();
                 foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
                     if($Product->getVisible() == 0){
                         continue;
@@ -62,7 +63,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
                 }
             }
             shuffle($subProds);
-            var_dump($subProds); exit();
+
             $i=0;
             foreach($subProds as $subProd){
                 $i++;
