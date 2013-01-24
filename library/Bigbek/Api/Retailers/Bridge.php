@@ -14,20 +14,17 @@ class Bridge extends Common
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
 
+        $connection = $connectionsTable->createRow();
+        $connection->setFromArray(array(
+            'product_id' => $product->getId(),
+            'category_id' => $this->_retailer->getCategoryId(),
+            'retailer_id' => $product->getRetailerId(),
+            'brand_id' => $product->getBrandId(),
+            'type' => 2,
+            'similarity' => $product->getSimilarity()));
+        $connection->save();
+
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-
-
-            $connection = $connectionsTable->createRow();
-            $connection->setFromArray(array(
-                'product_id' => $product->getId(),
-                'category_id' => $this->_retailer->getCategoryId(),
-                'retailer_id' => $product->getRetailerId(),
-                'brand_id' => $product->getBrandId(),
-                'type' => 2,
-                'similarity' => $product->getSimilarity()));
-            $connection->save();
-
-
             $type = 0;
             if ($category['object']->getParentId() > 0
                 && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())){
