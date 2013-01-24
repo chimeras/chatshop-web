@@ -42,6 +42,7 @@ class Bridge extends Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
+                return true;
             }
 
         }
