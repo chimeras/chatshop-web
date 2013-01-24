@@ -20,11 +20,11 @@ class Bridge extends Common
             $topCategoryId = $product->getTopCategoryId();
             if ($this->_retailer->getCategoryId() == $id) {
                 $type = 1;
-            }elseif ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
+            }elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())) {
                 $type = 2;
             }elseif ($category['object']->getParentId() > 0
                 && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getKeywords())
+                && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
             ) {
                 $type = 3;
             }

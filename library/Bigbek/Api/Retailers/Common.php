@@ -84,6 +84,10 @@ class Common
             foreach ($nonMandatories as $nonMandatory) {
                 if (strstr($haystack, ' ' . $nonMandatory) || strpos($haystack, $nonMandatory) === 0) {
                     foreach ($this->_blacklistKeywords as $blacklistKwd) {
+                        if(strstr($nonMandatory, 'shoes') && strstr($haystack, 'dc shoes')){
+                            echo "\n #1##compare### blc:".$blacklistKwd." \t\t to nonmandatory:".$nonMandatory ."\t\t in haystack:".$haystack."\n";
+                        }
+
                         if (strstr($blacklistKwd, $nonMandatory) && strstr($haystack, $blacklistKwd)) {
                             echo 'skipping' . $nonMandatory . ' because of ' . $haystack . "\n";
                             continue 2;
@@ -110,6 +114,9 @@ class Common
             foreach ($nonMandatories as $nonMandatory) {
                 if (strstr($name, ' ' . $nonMandatory) || strpos($name, $nonMandatory) === 0) {
                     foreach ($this->_blacklistKeywords as $blacklistKwd) {
+                        if(strstr($nonMandatory, 'shoes') && strstr($name, 'dc shoes')){
+                            echo "\n #2##compare### blc:".$blacklistKwd." \t\t to nonmandatory:".$nonMandatory ."\t\t in haystack:".$name."\n";
+                        }
                         if (strstr($blacklistKwd, $nonMandatory) && strstr($name, $blacklistKwd)) {
                             echo 'skipping(2)' . $nonMandatory . ' because of ' . $name . "\n";
                             continue 2;
