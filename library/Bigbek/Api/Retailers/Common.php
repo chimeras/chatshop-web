@@ -30,9 +30,7 @@ class Common
 
             $type = 0;
             $topCategoryId = $product->getTopCategoryId();
-            if ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
-                $type = 1;
-            } elseif ($category['object']->getParentId() > 0
+            if ($category['object']->getParentId() > 0
                 && $topCategoryId > 0
                 && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getAdvertiserKeywords())
             ) {
@@ -53,6 +51,8 @@ class Common
                 if ($topCategoryId > 0) {
                     $connectionsTable->delete("product_id=" . $product->getId() . " AND category_id=" . $topCategoryId);
                 }
+                $type = 1;
+            }elseif ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
                 $type = 1;
             }
 
