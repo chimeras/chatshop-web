@@ -64,8 +64,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             shuffle($subProds);
             $i=0;
             foreach($subProds as $subProd){
+                $i++;
                 $category['products'][] = $subProd;
-                if($i>=(20-count($category['products']))){
+                if($i>=20){
                     break;
                 }
             }
