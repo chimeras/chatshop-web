@@ -23,7 +23,7 @@ class Bridge extends Common
                 'category_id' => $this->_retailer->getCategoryId(),
                 'retailer_id' => $product->getRetailerId(),
                 'brand_id' => $product->getBrandId(),
-                'type' => 1,
+                'type' => 2,
                 'similarity' => $product->getSimilarity()));
             $connection->save();
 

@@ -7,7 +7,6 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     private $_subcategories = null;
     private $_parentIds = array();
     private $_parentSubCategoryIds = array();
-
     /**
      *
      * @return array(Application_Model_AdvertiserCategory)
@@ -41,7 +40,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     {
         $category = $this->toArray();
         $category['products'] = array();
-        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId);
+        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2);
         foreach ($productsCollection as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
@@ -69,7 +68,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         return $this->_subcategories;
     }
 
-    public function getProducts($rowCount, $page, $isRandom = false, $retailerId = null, $brandId=null)
+    public function getProducts($rowCount, $page, $isRandom = false, $retailerId = null, $brandId=null, $minRelevance = 3)
     {
 
         $table = new Application_Model_Products;
@@ -79,7 +78,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $select = $connectionsTable->select('*')
             ->group('similarity')
             ->where("category_id=?", $this->getId())
-            ->where("type>2");
+            ->where("type>=?", $minRelevance);
         if($retailerId != null){
             $select = $select->where("retailer_id=?", $retailerId);
         }
