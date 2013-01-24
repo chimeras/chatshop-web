@@ -50,7 +50,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $category['subcategories'] = $this->getSubcategoriesArray();
         if(count($category['products'])<20){
             $subProds = array();
-            foreach($category['subcategories'] as $sub){
+            foreach($this->getSubcategories() as $sub){
                 foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
                     $productArray = $Product->toArray();
                     $productArray['parent_category_id'] = $Product->parent_category_id;
