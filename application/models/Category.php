@@ -69,10 +69,14 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
                     break;
                 }
             }
+            $category['products_qty'] = 20;
+            $category['this_page_products_qty'] = 20;
+        }else{
+            $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
+            $category['this_page_products_qty'] = count($productsCollection);
         }
 
-        $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
-        $category['this_page_products_qty'] = count($productsCollection);
+
 
         return $category;
     }
