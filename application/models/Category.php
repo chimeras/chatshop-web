@@ -62,9 +62,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
                     $productArray['parent_category_id'] = $Product->parent_category_id;
                     $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
                     $subProds[] = $productArray;
+                    var_dump($subProds); exit();
                 }
             }
-            var_dump($subProds); exit();
+
             shuffle($subProds);
 
             $i=0;
