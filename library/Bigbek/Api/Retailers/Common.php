@@ -31,7 +31,7 @@ class Common
             $type = 0;
             $topCategoryId = $product->getTopCategoryId();
             if ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
-                $type = 5;
+                $type = 1;
             } elseif ($category['object']->getParentId() > 0
                 && $topCategoryId > 0
                 && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getAdvertiserKeywords())
