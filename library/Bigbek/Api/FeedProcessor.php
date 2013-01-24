@@ -200,6 +200,9 @@ class FeedProcessor
             }
             if ($visible) {
                 $retailer = $retailersTable->fetch($product->getRetailerId());
+                if($retailer->getState()=='disabled'){
+                    continue;
+                }
                 if (!array_key_exists($retailer->getId(), $this->_updatedRetailers)) {
                     $date = $retailer->setLastUpdate(date("Y-m-d H:i:s"));
                     $retailer->save();
