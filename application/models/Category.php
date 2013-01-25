@@ -48,8 +48,40 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $category['products'][] = $productArray;
         }
         $category['subcategories'] = $this->getSubcategoriesArray();
-        $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
-        $category['this_page_products_qty'] = count($productsCollection);
+        if(count($category['products'])<20){
+            $subProds = array();
+            foreach($this->getSubcategories() as $sub){
+
+                foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
+
+
+                    
+                    $productArray = $Product->toArray();
+                    $productArray['parent_category_id'] = $Product->parent_category_id;
+                    $productArray['similar_items_count'] = $Product->getSimilarItemsCount();
+                    $subProds[] = $productArray;
+
+                }
+            }
+
+            shuffle($subProds);
+
+            $i=0;
+            foreach($subProds as $subProd){
+                $i++;
+                $category['products'][] = $subProd;
+                if($i>=20){
+                    break;
+                }
+            }
+            $category['products_qty'] = 20;
+            $category['this_page_products_qty'] = 20;
+        }else{
+            $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
+            $category['this_page_products_qty'] = count($productsCollection);
+        }
+
+
 
         return $category;
     }
@@ -72,7 +104,6 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     {
 
         $table = new Application_Model_Products;
-        $connectionsTable = new Application_Model_CategoryXProducts;
         $results = array();
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
