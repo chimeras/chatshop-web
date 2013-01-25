@@ -53,18 +53,18 @@
                                     var subcategories=$('<div></div>')
                                     for(var k=0; k<obj.categories[i].subcategories.length; k++){
 
-                                        var postjson=JSON.stringify({"jsonrpc":"2.0","method":"getCategoryProducts","params":[obj.categories[i].subcategories[k].id,"","","",""],"id":1});
+                                     //   var postjson=JSON.stringify({"jsonrpc":"2.0","method":"getCategoryProducts","params":[obj.categories[i].subcategories[k].id,"","","",""],"id":1});
 
                                         var  form = $("<form action='/shop/'></form>");
 
                                         var formbutton=$('<input id="submit_getCategoryProducts" type="button">');
                                         $(formbutton).attr("value",obj.categories[i].subcategories[k].name);
-                                        $(form).append(postjson);
+                                   //     $(form).append(postjson);
                                         $(form).append(formbutton);
                                         $(subcategories).append(form);
                                     }
                                     $('#products').append(subcategories);
-                                    var table = $("<table class='table table-bordered'><tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr></table>");
+                                    var table = $("<table class='table table table-striped'><tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr></table>");
                                     var j = 0;
                                     for (j = 0; j < obj.categories[i].products.length; j++) {
                                         //console.log(obj.categories[i].products[j]);
