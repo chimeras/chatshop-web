@@ -68,14 +68,15 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
             $i=0;
             foreach($subProds as $subProd){
-                $i++;
+
                 $category['products'][] = $subProd;
                 if($i>=20){
                     break;
                 }
+                $i++;
             }
-            $category['products_qty'] = 20;
-            $category['this_page_products_qty'] = 20;
+            $category['products_qty'] = $i;
+            $category['this_page_products_qty'] = $i;
         }else{
             $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
             $category['this_page_products_qty'] = count($productsCollection);
