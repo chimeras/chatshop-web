@@ -55,7 +55,7 @@
                                         var aa = $("<a></a>");
                                         $(aa).attr("href", '#'+obj.categories[i].name+obj.categories[i].subcategories[k].name);
                                         $(aa).append(obj.categories[i].subcategories[k].name+'  ');
-                                        $(subcategories).append(aa);
+
 
                                        var  form = $("<form action='/shop/'></form>");
                                         var id=$('<input id="param_getCategoryProducts__id" type="hidden" name="id" />');
@@ -68,9 +68,10 @@
                                         var formbutton=$('<input id="submit_getCategoryProducts" type="button">');
                                         $(formbutton).attr("value",obj.categories[i].subcategories[k].name);
                                         $(form).append(formbutton);
-                                        $('#products').append(form);
-                                    }
 
+                                        $(subcategories).append(form);
+                                    }
+                                    $('#products').append(subcategories);
                                     var table = $("<table class='table table-bordered'><tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr></table>");
                                     var j = 0;
                                     for (j = 0; j < obj.categories[i].products.length; j++) {
