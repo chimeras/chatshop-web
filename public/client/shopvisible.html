@@ -52,23 +52,15 @@
                                     $("#products").append('<div><p>' + obj.categories[i].name + '</p></div>');
                                     var subcategories=$('<div></div>')
                                     for(var k=0; k<obj.categories[i].subcategories.length; k++){
-                                        var aa = $("<a></a>");
-                                        $(aa).attr("href", '#'+obj.categories[i].name+obj.categories[i].subcategories[k].name);
-                                        $(aa).append(obj.categories[i].subcategories[k].name+'  ');
 
+                                        var postjson=JSON.stringify({"jsonrpc":"2.0","method":"getCategoryProducts","params":[obj.categories[i].subcategories[k].id,"","","",""],"id":1});
 
-                                       var  form = $("<form action='/shop/'></form>");
-                                        var id=$('<input id="param_getCategoryProducts__id" type="hidden" name="id" />');
-                                        $(id).attr("value",obj.categories[i].subcategories[k].id);
-                                        $(form).append(id);
-                                        $(form).append('<input id="param_getCategoryProducts__page" type="hidden" name="page">');
-                                        $(form).append('<input id="param_getCategoryProducts__limit" type="hidden" name="limit">');
-                                        $(form).append('<input id="param_getCategoryProducts__retailerId" type="hidden" name="retailerId">');
-                                        $(form).append('<input id="param_getCategoryProducts__brandId" type="hidden" name="brandId">');
+                                        var  form = $("<form action='/shop/'></form>");
+
                                         var formbutton=$('<input id="submit_getCategoryProducts" type="button">');
                                         $(formbutton).attr("value",obj.categories[i].subcategories[k].name);
+                                        $(form).append(postjson);
                                         $(form).append(formbutton);
-
                                         $(subcategories).append(form);
                                     }
                                     $('#products').append(subcategories);
