@@ -57,7 +57,7 @@
                         formButton.click(function () {
                             var url = '/shop/';
                             var testBasic = jQuery.Zend.jsonrpc({url:url});
-                            var result = testBasic.getCategoryProducts($(this).attr('data'), "0", "50", null, null);
+                            var result = testBasic.getCategoryProducts($(this).attr('data'), "1", "50", '', '');
                             if (result && result.length > 0) {
                                 var obj = jQuery.parseJSON(result);
                                 if (obj.categories) {
