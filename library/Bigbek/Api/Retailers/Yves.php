@@ -18,11 +18,11 @@ class Yves extends Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-
+        $topCategoryId = $this->_retailer->getCategoryId();
         $connection = $connectionsTable->createRow();
         $connection->setFromArray(array(
             'product_id' => $product->getId(),
-            'category_id' => $this->_retailer->getCategoryId(),
+            'category_id' => $topCategoryId,
             'retailer_id' => $product->getRetailerId(),
             'brand_id' => $product->getBrandId(),
             'type' => 2,
@@ -30,6 +30,9 @@ class Yves extends Common
         $connection->save();
 
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
+            if($category['object']->getParentCategoryId() != $topCategoryId){
+                continue;
+            }
             $type = 0;
             if ($category['object']->getParentId() > 0
                 && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){
