@@ -38,9 +38,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
     public function toCombinedArray($productsCount = 20, $offset = 0, $randomise=false, $retailerId = null, $brandId=null)
     {
+        $minRelevance = 3;
         $category = $this->toArray();
         $category['products'] = array();
-        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2);
+        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, $minRelevance);
         foreach ($productsCollection as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
@@ -52,7 +53,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $subProds = array();
             foreach($this->getSubcategories() as $sub){
 
-                foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
+                foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, $minRelevance) as $Product) {
 
 
                     
@@ -78,7 +79,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $category['products_qty'] = $i;
             $category['this_page_products_qty'] = $i;
         }else{
-            $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
+            $category['products_qty'] = $this->getProductsCount($minRelevance, $retailerId, $brandId);
             $category['this_page_products_qty'] = count($productsCollection);
         }
 
@@ -162,7 +163,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     }
 
 
-    public function getProductsCount($minRelevance = 3)
+    public function getProductsCount($minRelevance = 3, $retailerId = null, $brandId=null)
     {
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
