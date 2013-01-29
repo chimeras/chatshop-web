@@ -38,9 +38,10 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
     public function toCombinedArray($productsCount = 20, $offset = 0, $randomise=false, $retailerId = null, $brandId=null)
     {
+        $minRelevance = 3;
         $category = $this->toArray();
         $category['products'] = array();
-        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2);
+        $productsCollection = $this->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, $minRelevance);
         foreach ($productsCollection as $Product) {
             $productArray = $Product->toArray();
             $productArray['parent_category_id'] = $Product->parent_category_id;
@@ -52,7 +53,7 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
             $subProds = array();
             foreach($this->getSubcategories() as $sub){
 
-                foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, 2) as $Product) {
+                foreach ($sub->getProducts($productsCount, $offset, $randomise, $retailerId, $brandId, $minRelevance) as $Product) {
 
 
                     
@@ -68,16 +69,17 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
 
             $i=0;
             foreach($subProds as $subProd){
-                $i++;
+
                 $category['products'][] = $subProd;
                 if($i>=20){
                     break;
                 }
+                $i++;
             }
-            $category['products_qty'] = 20;
-            $category['this_page_products_qty'] = 20;
+            $category['products_qty'] = $i;
+            $category['this_page_products_qty'] = $i;
         }else{
-            $category['products_qty'] = $this->getProductsCount($retailerId, $brandId);
+            $category['products_qty'] = $this->getProductsCount($minRelevance, $retailerId, $brandId);
             $category['this_page_products_qty'] = count($productsCollection);
         }
 
@@ -161,13 +163,14 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     }
 
 
-    public function getProductsCount()
+    public function getProductsCount($minRelevance = 3, $retailerId = null, $brandId=null)
     {
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
             ->group('similarity')
             ->where("category_id=?", $this->getId())
-            ->where("similarity!=0");
+            ->where("similarity!=0")
+            ->where("type>=?", $minRelevance);
         $rec = $connectionsTable->fetchAll($select)->count();
 
         return $rec;
@@ -179,9 +182,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $result = array();
 
         if ($this->getParentId() > 0) {
-            $where = '(category_id IS NULL /*OR category_id = ' . $this->getParentId() . '*/)';
+            $where = '(category_id IS NULL )';
         } else {
-            $where = '(category_id IS NULL /*OR category_id = ' . $this->getId() . '*/)';
+            $where = '(category_id IS NULL )';
         }
         $where .= " AND state is null";
         foreach ($Table->fetchAll($where) as $retailer) {

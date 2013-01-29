@@ -11,76 +11,6 @@
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <SCRIPT type="text/javascript">
 
-        $(document).ready(function () {
-            var url = '/shop/';
-            $.ajax({
-                url:url,
-                dataType:'json',
-                success:function (data) {
-                    var testBasic = jQuery.Zend.jsonrpc({url:url});
-
-                    $.each(data.methods, function (index, member) {
-                        var params = [];
-
-                        var form = $('<form></form>').attr('action', url);
-
-                        form.append($('<h2></h2>').text(index));
-                        $.each(member.parameters, function (pindex, param) {
-                            form.append($('<input type="text" />').attr('name', param.name).attr('id', 'param_' + index + '__' + param.name));
-                            var label = $('<span></span>').html(param.name + ':<i>' + param.type + '</i>');
-
-                            if (param.optional) {
-                                label.append($('<span></span>').text(' (optional, default:' + param.default + ')'));
-                            }
-                            form.append(label);
-                            form.append($('<br/>'));
-                            params.push('$("#param_' + index + '__' + param.name + '").val()');
-                        });
-                        form.append($('<input />').attr('type', 'button').attr('id', 'submit_' + index));
-                        $('body').append(form);
-                        $('#submit_' + index).click(function () {
-                            var paramsStr = params.join(',');
-                            $('#console').append('var result = testBasic.' + index + '(' + paramsStr + ');');
-                            $('#console').append('<br />');
-                            eval('var result = testBasic.' + index + '(' + paramsStr + ');');
-                            if (result && result.length > 0) {
-                                var obj = jQuery.parseJSON(result);
-                                var i = 0;
-                                for (i = 0; i < obj.categories.length; i++) {
-                                    $("#products").append('<div><p>' + obj.categories[i].name + '</p></div>');
-                                    var table = $("<table class='table table-bordered'><tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr></table>");
-                                    var j = 0;
-                                    for (j = 0; j < obj.categories[i].products.length; j++) {
-                                        //console.log(obj.categories[i].products[j]);
-                                        var row = $("<tr></tr>");
-                                        var a = $("<a></a>");
-                                        $(a).attr("href", obj.categories[i].products[j].buy_url);
-                                        $(a).attr("target", "_blank");
-                                        var img = $("<img />")
-                                        $(img).attr("src", obj.categories[i].products[j].image_url);
-                                        $(a).append(img);
-                                        $("<td></td>").append(a).appendTo(row);
-                                        $("<td></td>").text(obj.categories[i].products[j].name.replace(/\\/g, '')).appendTo(row);
-                                        $("<td></td>").text(obj.categories[i].products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
-                                        $("<td></td>").text(obj.categories[i].products[j].keywords.replace(/\\/g, '')).appendTo(row);
-                                        $("<td></td>").text(obj.categories[i].products[j].saleprice || '').appendTo(row);
-                                        $("<td></td>").text(obj.categories[i].products[j].in_stock).appendTo(row);
-                                        table.append(row);
-                                    }
-                                    console.log(obj.categories[i]);
-                                    $("#products").append(table);
-                                }
-
-                            } else {
-                                $('#console').append('<strong />').text('Error occured');
-                            }
-                            $('#console').append('<hr />');
-                        });
-                    });
-
-                }
-            });
-        });
 
         function getParameters() {
             var searchString = window.location.search.substring(1)
@@ -95,14 +25,113 @@
             return hash;
         }
 
+
+        function getTheme(themeId) {
+            var url = '/shop/';
+            var testBasic = jQuery.Zend.jsonrpc({url:url});
+            var result = testBasic.getThemeCategories(themeId);
+            var obj = jQuery.parseJSON(result);
+
+            if (obj.categories) {
+                clearContainer();
+                renderCategories(obj.categories);
+            }
+        }
+
+        function clearContainer() {
+            $("#container").html('');
+        }
+
+
+        function renderCategories(categories) {
+            for (var i = 0; i < categories.length; i++) {
+                var category = categories[i];
+                var id = 'category_' + category.id;
+                divContainer = $('#'+id);
+                if(divContainer.length == 0){
+                    var divContainer = $('<div></div>').attr('id', 'category_' + category.id);
+                }
+                divContainer.html('<p>' + category.name + '</p>');
+                $("#container").append(divContainer);
+                renderSubcategories(category.subcategories, divContainer);
+                renderProducts(category.products, divContainer);
+             //
+
+            }
+        }
+
+        function renderProducts(products, container) {
+
+
+            var table = $("<table class='table table table-striped table-bordered'></table>");
+            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr>');
+            for (j = 0; j < products.length; j++) {
+                var row = $("<tr></tr>");
+                var a = $("<a></a>");
+                $(a).attr("href", products[j].buy_url);
+                $(a).attr("target", "_blank");
+                var img = $("<img />")
+                $(img).attr("src", products[j].image_url);
+                $(img).attr("width", "60");
+                $(a).append(img);
+                $("<td></td>").append(a).appendTo(row);
+                $("<td></td>").text(products[j].name.replace(/\\/g, '')).appendTo(row);
+                $("<td></td>").text(products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
+                $("<td></td>").text(products[j].keywords.replace(/\\/g, '')).appendTo(row);
+                $("<td></td>").text(products[j].saleprice || '').appendTo(row);
+                $("<td></td>").text(products[j].in_stock).appendTo(row);
+                table.append(row);
+            }
+            container.append(table);
+
+        }
+
+
+        function renderSubcategories(subcategories, container) {
+            var subs = $('div.subs', container);
+            if(subs.length == 0){
+
+                var subs = $('<div></div>').addClass('subs');
+            }
+
+            for (var k = 0; k < subcategories.length; k++) {
+                var formButton = $('<input />').attr('type', "button");
+                var subCategory = subcategories[k];
+                formButton.attr('value', subCategory.name + '(' + subCategory.products_qty + ' items)');
+                if (subCategory.products_qty == 0) {
+                    formButton.attr('disabled', 'disabled');
+                } else {
+                    formButton.click(function () {
+                        var url = '/shop/';
+                        var testBasic = jQuery.Zend.jsonrpc({url:url});
+                        var result = testBasic.getCategoryProducts($(this).attr('data'), "1", "50", '', '');
+                        if (result && result.length > 0) {
+                            var obj = jQuery.parseJSON(result);
+                            if (obj.products) {
+                                $('table', container).remove();
+                                renderProducts(obj.products, container);
+                            }
+                        } else {
+                            $('#console').text('Error occured');
+                        }
+                        $('#console').append('<hr />');
+
+                    }).attr('data', subCategory.id);
+                }
+                subs.append(formButton);
+            }
+           // console.log(subs.html());
+            container.append(subs);
+
+        }
     </SCRIPT>
 
 </head>
 <body>
-<a href="index.html">Auth client</a>
+<input type="button" value="handsome gorgeous" onclick="getTheme(1)"/>
+<input type="button" value="Toys" onclick="getTheme(2)"/>
 
-<div id="products">
-    <p id="name"></p>
-</div>
+<div id="console"></div>
+<div id="container">choose theme</div>
 </body>
 </html>
