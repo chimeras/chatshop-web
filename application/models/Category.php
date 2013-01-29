@@ -162,13 +162,14 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
     }
 
 
-    public function getProductsCount()
+    public function getProductsCount($minRelevance = 3)
     {
         $connectionsTable = new Application_Model_CategoryXProducts;
         $select = $connectionsTable->select('*')
             ->group('similarity')
             ->where("category_id=?", $this->getId())
-            ->where("similarity!=0");
+            ->where("similarity!=0")
+            ->where("type>=?", $minRelevance);
         $rec = $connectionsTable->fetchAll($select)->count();
 
         return $rec;
@@ -180,9 +181,9 @@ class Application_Model_Category extends Application_Model_Db_Row_Category
         $result = array();
 
         if ($this->getParentId() > 0) {
-            $where = '(category_id IS NULL /*OR category_id = ' . $this->getParentId() . '*/)';
+            $where = '(category_id IS NULL )';
         } else {
-            $where = '(category_id IS NULL /*OR category_id = ' . $this->getId() . '*/)';
+            $where = '(category_id IS NULL )';
         }
         $where .= " AND state is null";
         foreach ($Table->fetchAll($where) as $retailer) {
