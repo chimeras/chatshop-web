@@ -14,6 +14,8 @@ class Yves extends Common
     }
 
 
+
+
     public function connectCategoryProduct($product)
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
@@ -35,7 +37,7 @@ class Yves extends Common
             }
             $type = 0;
             if ($category['object']->getParentId() > 0
-                && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){
+                && $this->_checkKwd($category['object']->getKeywords(), str_replace('\\', ' ', $product->getAdvertiserKeywords()))){
                 $type = 4;
             } elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())){
                 $type = 2;
