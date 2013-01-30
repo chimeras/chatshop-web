@@ -82,6 +82,18 @@ class ShopWebservice extends BaseWebservice
 
     /**
      *
+     * @return JSON
+     *
+     */
+    public function getCategories()
+    {
+        $theme = $this->_themes->fetch(1);
+        $categories = $theme->getAllCategories();
+        return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
+    }
+
+    /**
+     *
      * @param integer $id
      * @param integer $page
      * @param integer $limit

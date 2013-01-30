@@ -124,14 +124,49 @@
             container.append(subs);
 
         }
+
+        function ShowTree() {
+
+            var url = '/shop/';
+            var testBasic = jQuery.Zend.jsonrpc({url:url});
+            var resultobj = testBasic.getCategories();
+
+            var result=jQuery.parseJSON(resultobj);
+console.log(result);
+            var ul = $("<ul id='treeview'></ul>");
+            var li_class;
+
+            for (var i=0; i<result.categories.length; i++){
+                if(result.categories[i].parent_id==0){
+                    var li=$("<li></li>");
+                    li_class="tree"+result.categories[i].id;
+                    $(li).attr("id",li_class);
+                    $(li).text(result.categories[i].name);
+                    $(ul).append(li);
+                }
+            }
+            $('#tree').append(ul);
+
+            for (var i=0; i<result.categories.length; i++){
+                if(result.categories[i].parent_id!=0){
+                    var ul=$("<ul></ul>");
+                    li_class="#tree"+result.categories[i].parent_id;
+                    $(ul).text(result.categories[i].name);
+                    $(li_class).append(ul);
+                }
+            }
+
+        }
     </SCRIPT>
 
 </head>
 <body>
 <input type="button" value="handsome gorgeous" onclick="getTheme(1)"/>
 <input type="button" value="Toys" onclick="getTheme(2)"/>
+<input type="button" value="Render Tree" onclick="ShowTree()"/>
 
 <div id="console"></div>
 <div id="container">choose theme</div>
+<div id="tree"></div>
 </body>
 </html>
