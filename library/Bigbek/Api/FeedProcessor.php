@@ -232,7 +232,7 @@ class FeedProcessor
         foreach($table->fetchAll("visible = 1") as $product){
             $i++;
             $hide = false;
-            if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
+         /*   if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
                 $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]->getLastUpdate());
                 $productDate = new \DateTime($product->getUpdatedAt());
                 $interval = date_diff($retailerDate, $productDate);
@@ -241,7 +241,7 @@ class FeedProcessor
                     $hide = true;
                 }
 
-            }
+            }*/
             if($hide == false){
                 try {
                    @$hide = ($product->getImageUrl() == null) || (bool)(false != file_get_contents($product->getImageUrl()));
