@@ -35,6 +35,7 @@ class Yves extends Common
             if($category['object']->getParentCategoryId() != $topCategoryId){
                 continue;
             }
+            echo "\n\t adv:".str_replace('\\', ' ', $product->getAdvertiserKeywords());
             $type = 0;
             if ($category['object']->getParentId() > 0
                 && $this->_checkKwd($category['object']->getKeywords(), str_replace('\\', ' ', $product->getAdvertiserKeywords()))){
