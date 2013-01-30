@@ -31,6 +31,7 @@ class Common
             if($category['object']->getParentId() === 0
                 && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){ // top category
                 $type = 1;
+                echo ', category_id='.$id;
                 // set top category
                 $connection = $connectionsTable->createRow();
                 $connection->setFromArray(array(
@@ -41,22 +42,29 @@ class Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
+                $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserKeywords());
+                $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
+                $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
 
-                foreach ($this->_processor->getProcessedCategories() as $id => $subCategory) {
+                foreach ($this->_processor->getProcessedCategories() as $subId => $subCategory) {
                     if($subCategory['object']->getParentId() === $category['object']->getId()
-                    && $this->_checkKwd($subCategory['object']->getKeywords(), $product->getAdvertiserKeywords())){ // category
+                    && $this->_checkKwd($subCategory['object']->getKeywords(), $prAdvCategory)){ // category
                         $type = 4;
+                        echo ', category_id='.$subId;
                         // set category
                         $connection = $connectionsTable->createRow();
                         $connection->setFromArray(array(
                             'product_id' => $product->getId(),
-                            'category_id' => $id,
+                            'category_id' => $subId,
                             'retailer_id' => $product->getRetailerId(),
                             'brand_id' => $product->getBrandId(),
                             'type' => $type,
                             'similarity' => $product->getSimilarity()));
                         $connection->save();
                     }
+                }
+                if($type==1){
+                    echo "\n############################# skipping ".$prAdvCategory ."\n";
                 }
             }
         }
