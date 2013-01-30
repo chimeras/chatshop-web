@@ -25,8 +25,9 @@ class Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-
-        $type = 0;
+        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserKeywords());
+        $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
+        $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
             if($category['object']->getParentId() === 0
                 && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){ // top category
@@ -42,9 +43,7 @@ class Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
-                $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserKeywords());
-                $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
-                $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
+
 
                 foreach ($this->_processor->getProcessedCategories() as $subId => $subCategory) {
                     if($subCategory['object']->getParentId() === $category['object']->getId()
@@ -64,9 +63,12 @@ class Common
                     }
                 }
                 if($type==1){
-                    echo "\n############################# skipping ".$prAdvCategory ."\n";
+                    echo "\n############################# skipping, no category ".$prAdvCategory ."\n";
                 }
             }
+        }
+        if(!isset($type)){
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$prAdvCategory ."\n";
         }
     }
 
