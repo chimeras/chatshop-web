@@ -32,13 +32,13 @@ class Yves extends Common
         $connection->save();
 
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-            if($category['object']->getParentCategoryId() != $topCategoryId){
+            if($category['object']->getParentId() != $topCategoryId){
+
                 continue;
             }
-            echo "\n\t adv:".str_replace('\\', ' ', $product->getAdvertiserKeywords());
             $type = 0;
             if ($category['object']->getParentId() > 0
-                && $this->_checkKwd($category['object']->getKeywords(), str_replace('\\', ' ', $product->getAdvertiserKeywords()))){
+                && $this->_checkKwd($category['object']->getKeywords(), str_replace('/', ' ', $product->getAdvertiserKeywords()))){
                 $type = 4;
             } elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())){
                 $type = 2;
