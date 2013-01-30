@@ -31,7 +31,7 @@ class Bridge extends Common
         $connection->save();
 
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-            if($category['object']->getParentCategoryId() != $topCategoryId){
+            if($category['object']->getParentId() != $topCategoryId){
                 continue;
             }
             $type = 0;
