@@ -37,7 +37,7 @@ class Yves extends Common
                 continue;
             }
             $type = 0;
-            echo "\n\n". str_replace('/', ' ', $product->getAdvertiserKeywords()); exit();
+         //   echo "\n\n". str_replace('/', ' ', $product->getAdvertiserKeywords()); exit();
             if ($category['object']->getParentId() > 0
                 && $this->_checkKwd($category['object']->getKeywords(), str_replace('/', ' ', $product->getAdvertiserKeywords()))){
                 $type = 4;
