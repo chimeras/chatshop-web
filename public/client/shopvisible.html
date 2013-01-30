@@ -95,11 +95,13 @@
             }
 
             for (var k = 0; k < subcategories.length; k++) {
+
                 var formButton = $('<input />').attr('type', "button");
                 var subCategory = subcategories[k];
                 formButton.attr('value', subCategory.name + '(' + subCategory.products_qty + ' items)');
                 if (subCategory.products_qty == 0) {
                     formButton.attr('disabled', 'disabled');
+                    subs.append(formButton);
                 } else {
                     formButton.click(function () {
                         var url = '/shop/';
@@ -117,8 +119,31 @@
                         $('#console').append('<hr />');
 
                     }).attr('data', subCategory.id);
+                    subs.append(formButton);
+                    for(var i = 1; i<subCategory.products_qty/50; i++){
+                        var formButtonPage = $('<input />')
+                                .attr('type', "button")
+                                .attr('value', i+1)
+                                .click(function () {
+                                    var url = '/shop/';
+                                    var testBasic = jQuery.Zend.jsonrpc({url:url});
+                                    var result = testBasic.getCategoryProducts($(this).attr('data'), $(this).attr('page'), "50", '', '');
+                                    if (result && result.length > 0) {
+                                        var obj = jQuery.parseJSON(result);
+                                        if (obj.products) {
+                                            $('table', container).remove();
+                                            renderProducts(obj.products, container);
+                                        }
+                                    } else {
+                                        $('#console').text('Error occured');
+                                    }
+                                    $('#console').append('<hr />');
+
+                                }).attr('data', subCategory.id).attr('page', i+1);
+                        subs.append(formButtonPage);
+                    }
                 }
-                subs.append(formButton);
+
             }
            // console.log(subs.html());
             container.append(subs);
@@ -132,7 +157,6 @@
             var resultobj = testBasic.getCategories();
 
             var result=jQuery.parseJSON(resultobj);
-console.log(result);
             var ul = $("<ul id='treeview'></ul>");
             var li_class;
 
