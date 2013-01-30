@@ -64,7 +64,7 @@
 
 
             var table = $("<table class='table table table-striped table-bordered'></table>");
-            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr>');
+            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
             for (j = 0; j < products.length; j++) {
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
@@ -78,6 +78,8 @@
                 $("<td></td>").text(products[j].name.replace(/\\/g, '')).appendTo(row);
                 $("<td></td>").text(products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
                 $("<td></td>").text(products[j].keywords.replace(/\\/g, '')).appendTo(row);
+                $("<td></td>").text(products[j].retailer_name || '').appendTo(row);
+                $("<td></td>").text(products[j].brand_name || '').appendTo(row);
                 $("<td></td>").text(products[j].saleprice || '').appendTo(row);
                 $("<td></td>").text(products[j].in_stock).appendTo(row);
                 table.append(row);
