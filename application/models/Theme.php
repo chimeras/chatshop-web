@@ -33,6 +33,17 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 		return $this->categories;
 	}
 
+    public function getAllCategories()
+    {
+        $return = array();
+        $categoryTable = new Application_Model_Categories;
+        $Categories = $categoryTable->fetchAll();
+        foreach ($Categories as $Category) {
+            $return[] = array('id'=>$Category->getId(),'parent_id'=>$Category->getParentId(),'name'=>$Category->getName());
+        }
+        return $return;
+    }
+
 	public function getCategoriesArray()
 	{
 		$return = array();
