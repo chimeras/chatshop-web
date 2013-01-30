@@ -41,8 +41,6 @@ class Yves extends Common
             if ($category['object']->getParentId() > 0
                 && $this->_checkKwd($category['object']->getKeywords(), str_replace('/', ' ', $product->getAdvertiserKeywords()))){
                 $type = 4;
-            } elseif ($this->_checkName($category['object']->getKeywords(), $product->getName())){
-                $type = 2;
             }
             if ($type > 0) {
                 $connection = $connectionsTable->createRow();

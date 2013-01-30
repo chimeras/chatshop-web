@@ -211,6 +211,8 @@ class FeedProcessor
                 $connector = $retailer->getProcessorObject();
                 $connector->setProcessor($this);
                 $connector->connectCategoryProduct($product);
+                $product->setVisible(1);
+                $product->save();
             }
             if (--$max <= 0) {
                 break;
