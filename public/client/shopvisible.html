@@ -173,13 +173,15 @@
                     $(ul).append(li);
                 }
             }
+            $('#tree').append('<label>Categories</label>')
             $('#tree').append(ul);
 
             for (var i=0; i<result.categories.length; i++){
                 if(result.categories[i].parent_id!=0){
                     var ul=$("<ul></ul>");
                     li_class="#tree"+result.categories[i].parent_id;
-                    $(ul).text(result.categories[i].name+'( '+result.categories[i].keywords+' )');
+                    var italic_text=result.categories[i].name+' ( <i>'+result.categories[i].keywords+'</i> )';
+                    $(ul).append(italic_text);
                     $(li_class).append(ul);
                 }
             }
@@ -195,7 +197,8 @@
 
 <div id="console"></div>
 <h4 id="title"></h4>
-<div id="container">choose theme</div>
-<div id="tree"></div>
+<div id="container"></div>
+
+<div id="tree" style="border:2px solid;"></div>
 </body>
 </html>
