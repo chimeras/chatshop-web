@@ -85,7 +85,8 @@ class FeedProcessor
         echo count($files) .' files to process' ."\n";
         foreach ($files as $file) {
             echo 'processing: ' . $file->getFilename() . "\n";
-
+            $file->setStatus('processing');
+            $file->save();
             $fileData = $this->_getData($file);
             $qty = $this->_writeToDb($fileData);
             $file->setProcessedAt(date("Y-m-d h:i:s"));
@@ -106,7 +107,7 @@ class FeedProcessor
         if(count($feed) > 0){
            return $feed;
         }else{
-            $this->_productFeedTable->update(array('status'=>'new'), "status !='error'");
+            $this->_productFeedTable->update(array('status'=>'new'), "status !='processing'");
             return $this->_productFeedTable->fetchAll("status ='new'");
         }
     }
