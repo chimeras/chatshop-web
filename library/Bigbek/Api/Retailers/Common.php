@@ -25,39 +25,16 @@ class Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-
+        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserKeywords());
+        $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
+        $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-
-            $type = 0;
-            $topCategoryId = $product->getTopCategoryId();
-            if ($category['object']->getParentId() > 0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getAdvertiserKeywords())
-            ) {
-                $type = 4;
-            } elseif ($category['object']->getParentId() > 0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getKeywords())
-            ) {
-                $type = 3;
-            } elseif ($this->_retailer->getCategoryId() == $id) {
-                $type = 2;
-            } elseif ($category['object']->getParentId() == 0 && (
-                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())
-                    || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
-                    || $this->_checkName($category['object']->getKeywords(), $product->getName())
-            )
-            ) {
-                if ($topCategoryId > 0) {
-                    $connectionsTable->delete("product_id=" . $product->getId() . " AND category_id=" . $topCategoryId);
-                }
+            if($category['object']->getParentId() === 0
+                && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){ // top category
                 $type = 1;
-            }elseif ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
-                $type = 1;
-            }
-
-            if ($type > 0) {
-                $connection = $connectionsTable->fetchNew();
+                echo ', category_id='.$id;
+                // set top category
+                $connection = $connectionsTable->createRow();
                 $connection->setFromArray(array(
                     'product_id' => $product->getId(),
                     'category_id' => $id,
@@ -66,8 +43,32 @@ class Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
-            }
 
+
+                foreach ($this->_processor->getProcessedCategories() as $subId => $subCategory) {
+                    if($subCategory['object']->getParentId() === $category['object']->getId()
+                    && $this->_checkKwd($subCategory['object']->getKeywords(), $prAdvCategory)){ // category
+                        $type = 4;
+                        echo ', category_id='.$subId;
+                        // set category
+                        $connection = $connectionsTable->createRow();
+                        $connection->setFromArray(array(
+                            'product_id' => $product->getId(),
+                            'category_id' => $subId,
+                            'retailer_id' => $product->getRetailerId(),
+                            'brand_id' => $product->getBrandId(),
+                            'type' => $type,
+                            'similarity' => $product->getSimilarity()));
+                        $connection->save();
+                    }
+                }
+                if($type==1){
+                    echo "\n############################# skipping, no category ".$prAdvCategory ."\n";
+                }
+            }
+        }
+        if(!isset($type)){
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$prAdvCategory ."\n";
         }
     }
 

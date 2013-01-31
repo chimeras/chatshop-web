@@ -85,7 +85,8 @@ class FeedProcessor
         echo count($files) .' files to process' ."\n";
         foreach ($files as $file) {
             echo 'processing: ' . $file->getFilename() . "\n";
-
+            $file->setStatus('processing');
+            $file->save();
             $fileData = $this->_getData($file);
             $qty = $this->_writeToDb($fileData);
             $file->setProcessedAt(date("Y-m-d h:i:s"));
@@ -106,7 +107,7 @@ class FeedProcessor
         if(count($feed) > 0){
            return $feed;
         }else{
-            $this->_productFeedTable->update(array('status'=>'new'), "status !='error'");
+            $this->_productFeedTable->update(array('status'=>'new'), "status !='processing'");
             return $this->_productFeedTable->fetchAll("status ='new'");
         }
     }
@@ -232,7 +233,7 @@ class FeedProcessor
         foreach($table->fetchAll("visible = 1") as $product){
             $i++;
             $hide = false;
-            if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
+         /*   if(array_key_exists($product->getRetailerId(), $this->_updatedRetailers)){
                 $retailerDate = new \DateTime($this->_updatedRetailers[$product->getRetailerId()]->getLastUpdate());
                 $productDate = new \DateTime($product->getUpdatedAt());
                 $interval = date_diff($retailerDate, $productDate);
@@ -241,10 +242,10 @@ class FeedProcessor
                     $hide = true;
                 }
 
-            }
+            }*/
             if($hide == false){
                 try {
-                   @$hide = ($product->getImageUrl() == null) || (bool)(false != file_get_contents($product->getImageUrl()));
+                   @$hide = ($product->getImageUrl() == null) || (bool)(false == file_get_contents($product->getImageUrl()));
                 } catch (\Exception $e) {
                     echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', hiding product';
                     $hide = true;
@@ -252,7 +253,7 @@ class FeedProcessor
             }
 
 
-            if($hide){
+            if($hide===true){
                 $product->setVisible(0);
                 foreach($product->findDependentRowset("Application_Model_CategoryXProducts") as $connection){
                     $connection->delete();

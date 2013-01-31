@@ -64,7 +64,7 @@
 
 
             var table = $("<table class='table table table-striped table-bordered'></table>");
-            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Sale</td><td>In Stock</td></tr>');
+            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
             for (j = 0; j < products.length; j++) {
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
@@ -78,6 +78,8 @@
                 $("<td></td>").text(products[j].name.replace(/\\/g, '')).appendTo(row);
                 $("<td></td>").text(products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
                 $("<td></td>").text(products[j].keywords.replace(/\\/g, '')).appendTo(row);
+                $("<td></td>").text(products[j].retailer_name || '').appendTo(row);
+                $("<td></td>").text(products[j].brand_name || '').appendTo(row);
                 $("<td></td>").text(products[j].saleprice || '').appendTo(row);
                 $("<td></td>").text(products[j].in_stock).appendTo(row);
                 table.append(row);
@@ -95,13 +97,16 @@
             }
 
             for (var k = 0; k < subcategories.length; k++) {
+
                 var formButton = $('<input />').attr('type', "button");
                 var subCategory = subcategories[k];
                 formButton.attr('value', subCategory.name + '(' + subCategory.products_qty + ' items)');
                 if (subCategory.products_qty == 0) {
                     formButton.attr('disabled', 'disabled');
+                    subs.append(formButton);
                 } else {
                     formButton.click(function () {
+                        $('#title').text('loading...');
                         var url = '/shop/';
                         var testBasic = jQuery.Zend.jsonrpc({url:url});
                         var result = testBasic.getCategoryProducts($(this).attr('data'), "1", "50", '', '');
@@ -114,11 +119,35 @@
                         } else {
                             $('#console').text('Error occured');
                         }
-                        $('#console').append('<hr />');
+                        $('#title').text('page 1');
 
                     }).attr('data', subCategory.id);
+                    subs.append(formButton);
+                    for(var i = 1; i<subCategory.products_qty/50; i++){
+                        var formButtonPage = $('<input />')
+                                .attr('type', "button")
+                                .attr('value', i+1)
+                                .click(function () {
+                                    $('#title').text('loading...');
+                                    var url = '/shop/';
+                                    var testBasic = jQuery.Zend.jsonrpc({url:url});
+                                    var result = testBasic.getCategoryProducts($(this).attr('data'), $(this).attr('page'), "50", '', '');
+                                    if (result && result.length > 0) {
+                                        var obj = jQuery.parseJSON(result);
+                                        if (obj.products) {
+                                            $('table', container).remove();
+                                            renderProducts(obj.products, container);
+                                        }
+                                    } else {
+                                        $('#console').text('Error occured');
+                                    }
+                                    $('#title').text('page '+$(this).attr('page'));
+
+                                }).attr('data', subCategory.id).attr('page', i+1);
+                        subs.append(formButtonPage);
+                    }
                 }
-                subs.append(formButton);
+
             }
            // console.log(subs.html());
             container.append(subs);
@@ -132,7 +161,6 @@
             var resultobj = testBasic.getCategories();
 
             var result=jQuery.parseJSON(resultobj);
-console.log(result);
             var ul = $("<ul id='treeview'></ul>");
             var li_class;
 
@@ -166,6 +194,7 @@ console.log(result);
 <input type="button" value="Render Tree" onclick="ShowTree()"/>
 
 <div id="console"></div>
+<h4 id="title"></h4>
 <div id="container">choose theme</div>
 <div id="tree"></div>
 </body>
