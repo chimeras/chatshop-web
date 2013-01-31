@@ -32,7 +32,7 @@ class Common
             if($category['object']->getParentId() === 0
                 && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){ // top category
                 $type = 1;
-                echo ', category_id='.$id;
+                echo ', top_category_id='.$id;
                 // set top category
                 $connection = $connectionsTable->createRow();
                 $connection->setFromArray(array(

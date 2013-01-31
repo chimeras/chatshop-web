@@ -17,6 +17,6 @@ class Application_Model_Retailer extends Application_Model_Db_Row_Retailer
 
     public function getCategoryIds()
     {
-        return(explode('|', $this->getCategoryId));
+        return(explode('|', $this->getCategoryId()));
     }
 }

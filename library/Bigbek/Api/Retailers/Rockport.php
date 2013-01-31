@@ -16,49 +16,43 @@ class Rockport extends Common
         $globalCategoryIds = $this->_retailer->getCategoryIds();
 
 
-        $connection = $connectionsTable->createRow();
-        $connection->setFromArray(array(
-            'product_id' => $product->getId(),
-            'category_id' => $globalCategoryId,
-            'retailer_id' => $product->getRetailerId(),
-            'brand_id' => $product->getBrandId(),
-            'type' => 3,
-            'similarity' => $product->getSimilarity()));
-        $connection->save();
 
-
-
-        foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-            if (!in_array($category['object']->getId(), $globalCategoryIds)) {
+        foreach ($this->_processor->getProcessedCategories() as $categoryId => $category) {
+            if (!in_array($categoryId, $globalCategoryIds)) {
                 continue;
             }
             $type = 0;
-            foreach ($this->_processor->getProcessedCategories() as $id => $topCategory) {
+            foreach ($this->_processor->getProcessedCategories() as $topCategoryId => $topCategory) {
+
                 if($topCategory['object']->getParentId() === 0
                     && $category['object']->getParentId() == $topCategory['object']->getId()
                     && $this->_checkKwd($topCategory['object']->getKeywords(), $product->getKeywords())
                 ){
-
+                    $connection = $connectionsTable->createRow();
+                    $connection->setFromArray(array(
+                        'product_id' => $product->getId(),
+                        'category_id' => $topCategoryId,
+                        'retailer_id' => $product->getRetailerId(),
+                        'brand_id' => $product->getBrandId(),
+                        'type' => 3,
+                        'similarity' => $product->getSimilarity()));
+                    $connection->save();
+                    echo ', category_id='.$categoryId;
+                    $connection = $connectionsTable->createRow();
+                    $connection->setFromArray(array(
+                        'product_id' => $product->getId(),
+                        'category_id' => $topCategoryId,
+                        'retailer_id' => $product->getRetailerId(),
+                        'brand_id' => $product->getBrandId(),
+                        'type' => 1,
+                        'similarity' => $product->getSimilarity()));
+                    $connection->save();
+                    echo ', top_category_id='.$topCategoryId;
                 }
             }
-            if ($category['object']->getParentId() > 0
-
-            ) {
-                $type = 1;
-            }
-            if ($type > 0) {
-                $connection = $connectionsTable->createRow();
-                $connection->setFromArray(array(
-                    'product_id' => $product->getId(),
-                    'category_id' => $id,
-                    'retailer_id' => $product->getRetailerId(),
-                    'brand_id' => $product->getBrandId(),
-                    'type' => $type,
-                    'similarity' => $product->getSimilarity()));
-                $connection->save();
-
-                return true;
-            }
+        }
+        if(!isset($type) || $type == 0){
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$product->getKeywords() ."\n";
         }
     }
 }
