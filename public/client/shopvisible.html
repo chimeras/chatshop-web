@@ -151,7 +151,7 @@ console.log(result);
                 if(result.categories[i].parent_id!=0){
                     var ul=$("<ul></ul>");
                     li_class="#tree"+result.categories[i].parent_id;
-                    $(ul).text(result.categories[i].name);
+                    $(ul).text(result.categories[i].name+'( '+result.categories[i].keywords+' )');
                     $(li_class).append(ul);
                 }
             }
