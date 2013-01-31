@@ -252,7 +252,7 @@ class FeedProcessor
             }
 
 
-            if($hide){
+            if($hide===true){
                 $product->setVisible(0);
                 foreach($product->findDependentRowset("Application_Model_CategoryXProducts") as $connection){
                     $connection->delete();
