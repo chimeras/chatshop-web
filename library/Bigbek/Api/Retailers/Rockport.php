@@ -40,14 +40,14 @@ class Rockport extends Common
                     $connection->save();
                     echo ', top_category_id='.$topCategoryId;
 
-                    
+                    $type = 3;
                     $connection = $connectionsTable->createRow();
                     $connection->setFromArray(array(
                         'product_id' => $product->getId(),
                         'category_id' => $categoryId,
                         'retailer_id' => $product->getRetailerId(),
                         'brand_id' => $product->getBrandId(),
-                        'type' => 3,
+                        'type' => $type,
                         'similarity' => $product->getSimilarity()));
                     $connection->save();
                     echo ', category_id='.$categoryId;
