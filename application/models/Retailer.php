@@ -13,4 +13,10 @@ class Application_Model_Retailer extends Application_Model_Db_Row_Retailer
         $class->setRetailer($this);
         return $class;
     }
+
+
+    public function getCategoryIds()
+    {
+        return(explode('|', $this->getCategoryId));
+    }
 }
