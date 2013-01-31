@@ -28,16 +28,7 @@ class Rockport extends Common
                     && $category['object']->getParentId() == $topCategory['object']->getId()
                     && $this->_checkKwd($topCategory['object']->getKeywords(), $product->getKeywords())
                 ){
-                    $connection = $connectionsTable->createRow();
-                    $connection->setFromArray(array(
-                        'product_id' => $product->getId(),
-                        'category_id' => $topCategoryId,
-                        'retailer_id' => $product->getRetailerId(),
-                        'brand_id' => $product->getBrandId(),
-                        'type' => 3,
-                        'similarity' => $product->getSimilarity()));
-                    $connection->save();
-                    echo ', category_id='.$categoryId;
+
                     $connection = $connectionsTable->createRow();
                     $connection->setFromArray(array(
                         'product_id' => $product->getId(),
@@ -48,6 +39,19 @@ class Rockport extends Common
                         'similarity' => $product->getSimilarity()));
                     $connection->save();
                     echo ', top_category_id='.$topCategoryId;
+
+                    
+                    $connection = $connectionsTable->createRow();
+                    $connection->setFromArray(array(
+                        'product_id' => $product->getId(),
+                        'category_id' => $categoryId,
+                        'retailer_id' => $product->getRetailerId(),
+                        'brand_id' => $product->getBrandId(),
+                        'type' => 3,
+                        'similarity' => $product->getSimilarity()));
+                    $connection->save();
+                    echo ', category_id='.$categoryId;
+
                 }
             }
         }
