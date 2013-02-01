@@ -26,6 +26,11 @@
                         .attr("value",brandsobj.brands[i].id)
                         .text(brandsobj.brands[i].name));
             }
+
+            $('#retailer').append($("<option></option>")
+                    .attr("value","0")
+                    .text("All"));
+
             for(var i=0; i<retailersobj.retailers.length;i++)
             {
                 $('#retailer').append($("<option></option>")
@@ -90,7 +95,7 @@ console.log(products);
             table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
             for (j = 0; j < products.length; j++) {
 //(products[j].brand_id == $('#brands').val()) &&
-                if((products[j].retailer_id == $('#retailer').val()))
+                if($('#retailer').val()==0 || (products[j].retailer_id == $('#retailer').val()))
                 {
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
