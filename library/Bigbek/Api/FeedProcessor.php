@@ -84,6 +84,9 @@ class FeedProcessor
         $files = $this->_getFiles();
         echo count($files) .' files to process' ."\n";
         foreach ($files as $file) {
+            if($file->getStatus() != "new"){
+                continue;
+            }
             echo 'processing: ' . $file->getFilename() . "\n";
             $file->setStatus('processing');
             $file->save();
