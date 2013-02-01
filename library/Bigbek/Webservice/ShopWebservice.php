@@ -155,17 +155,44 @@ class ShopWebservice extends BaseWebservice
         );
     }
 
+    public function getRetailers()
+    {
+        $return = array();
+        $table = new \Application_Model_Retailers;
+        foreach($table->fetchAll() as $retailer){
+            $return[] = $retailer->toArray();
+        }
+        return \Zend_Json::encode(
+            array('retailers' => $return,
+                'message' => 'successfully retreived')
+        );
+
+    }
+
+    public function getBrands()
+    {
+        $return = array();
+        $table = new \Application_Model_Brands;
+        foreach($table->fetchAll() as $brand){
+            $return[$brand->getName()] = $brand->toArray();
+        }
+        return \Zend_Json::encode(
+            array('brands' => array_values($return),
+                'message' => 'successfully retreived')
+        );
+
+    }
 
     /**
      * @todo finish this service
      *
      */
-    public function getRecommendations($keywords)
+   /* public function getRecommendations($keywords)
     {
         $apAdapter = new \Bigbek\Api\CommissionJunction;
         $productsArray = $apAdapter->getProducts(array('keywords' => $keywords));
         $cjProcessor = new \Bigbek\Api\CjProcessor;
         $products = $cjProcessor->generateFromArray($productsArray);
         var_dump($productsArray);
-    }
+    }*/
 }
