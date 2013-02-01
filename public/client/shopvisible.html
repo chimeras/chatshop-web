@@ -20,13 +20,13 @@
             var brandsobj = jQuery.parseJSON(brands);
             var retailers=testBasic.getRetailers();
             var retailersobj=jQuery.parseJSON(retailers);
-            for(var i=0; i<brandsobj.brands.length;i++)
+       /*     for(var i=0; i<brandsobj.brands.length;i++)
             {
                 $('#brands').append($("<option></option>")
                         .attr("value",brandsobj.brands[i].id)
                         .text(brandsobj.brands[i].name));
             }
-
+*/
             $('#retailer').append($("<option></option>")
                     .attr("value","0")
                     .text("All"));
@@ -223,9 +223,8 @@ console.log(products);
 
 </head>
 <body>
-<select id="brands">
-
-</select>
+<!--<select id="brands"></select>-->
+<label>Retailers</label>
 <select id="retailer">
 
 </select><br />
