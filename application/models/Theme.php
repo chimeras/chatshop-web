@@ -46,19 +46,8 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 
 	public function getCategoriesArray()
 	{
-		$return = array();
-		foreach ($this->fetcAll() as $Category) {
+		foreach ($this->getCategories() as $Category) {
 			$return[] = $Category->toCombinedArray(20, 0, true);
-		}
-		return $return;
-	}
-    public function getAllCategories()
-	{
-		$return = array();
-        $categoryTable = new Application_Model_Categories;
-        $Categories = $categoryTable->fetchAll();
-		foreach ($Categories as $Category) {
-			$return[] = array('id'=>$Category->getId(),'parent_id'=>$Category->getParentId(),'name'=>$Category->getName());
 		}
 		return $return;
 	}
