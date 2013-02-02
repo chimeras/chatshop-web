@@ -16,12 +16,12 @@ class Rockport extends Common
         $globalCategoryIds = $this->_retailer->getCategoryIds();
 
 
-
+        $type = 0;
         foreach ($this->_processor->getProcessedCategories() as $categoryId => $category) {
             if (!in_array($categoryId, $globalCategoryIds)) {
                 continue;
             }
-            $type = 0;
+
             foreach ($this->_processor->getProcessedCategories() as $topCategoryId => $topCategory) {
 
                 if($topCategory['object']->getParentId() === 0
