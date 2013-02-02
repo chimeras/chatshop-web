@@ -12,6 +12,34 @@
     <SCRIPT type="text/javascript">
 
 
+        $(document).ready(function(){
+
+            var url = '/shop/';
+            var testBasic = jQuery.Zend.jsonrpc({url:url});
+            var brands = testBasic.getBrands();
+            var brandsobj = jQuery.parseJSON(brands);
+            var retailers=testBasic.getRetailers();
+            var retailersobj=jQuery.parseJSON(retailers);
+       /*     for(var i=0; i<brandsobj.brands.length;i++)
+            {
+                $('#brands').append($("<option></option>")
+                        .attr("value",brandsobj.brands[i].id)
+                        .text(brandsobj.brands[i].name));
+            }
+*/
+            $('#retailer').append($("<option></option>")
+                    .attr("value","0")
+                    .text("All"));
+
+            for(var i=0; i<retailersobj.retailers.length;i++)
+            {
+                $('#retailer').append($("<option></option>")
+                        .attr("value",retailersobj.retailers[i].id)
+                        .text(retailersobj.retailers[i].name));
+            }
+
+        });
+
         function getParameters() {
             var searchString = window.location.search.substring(1)
                     , params = searchString.split("&")
@@ -62,10 +90,13 @@
 
         function renderProducts(products, container) {
 
-
+console.log(products);
             var table = $("<table class='table table table-striped table-bordered'></table>");
             table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
             for (j = 0; j < products.length; j++) {
+//(products[j].brand_id == $('#brands').val()) &&
+                if($('#retailer').val()==0 || (products[j].retailer_id == $('#retailer').val()))
+                {
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
                 $(a).attr("href", products[j].buy_url);
@@ -83,6 +114,7 @@
                 $("<td></td>").text(products[j].saleprice || '').appendTo(row);
                 $("<td></td>").text(products[j].in_stock).appendTo(row);
                 table.append(row);
+            }
             }
             container.append(table);
 
@@ -191,6 +223,11 @@
 
 </head>
 <body>
+<!--<select id="brands"></select>-->
+<label>Retailers</label>
+<select id="retailer">
+
+</select><br />
 <input type="button" value="handsome gorgeous" onclick="getTheme(1)"/>
 <input type="button" value="Toys" onclick="getTheme(2)"/>
 <input type="button" value="Render Tree" onclick="ShowTree()"/>
