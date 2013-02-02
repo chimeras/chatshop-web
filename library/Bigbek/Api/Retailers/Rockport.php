@@ -26,6 +26,7 @@ class Rockport extends Common
 
                 if($topCategory['object']->getParentId() === 0
                     && $category['object']->getParentId() == $topCategory['object']->getId()
+                    && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
                     && $this->_checkKwd($topCategory['object']->getKeywords(), $product->getKeywords())
                 ){
 
