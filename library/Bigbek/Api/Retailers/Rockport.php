@@ -21,10 +21,11 @@ class Rockport extends Common
             if (!in_array($categoryId, $globalCategoryIds)) {
                 continue;
             }
+            $type = 0;
             foreach ($this->_processor->getProcessedCategories() as $topCategoryId => $topCategory) {
 
                 if($topCategory['object']->getParentId() === 0
-                    && $category['object']->getParentId() == $topCategory['object']->getId()
+                    && $category['object']->getParentId() === $topCategory['object']->getId()
                     && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
                     && $this->_checkKwd($topCategory['object']->getKeywords(), $product->getKeywords())
                 ){
