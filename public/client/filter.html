@@ -14,6 +14,8 @@
 
         $(document).ready(function () {
 
+            $('#loading').hide();
+
             var url = '/shop/';
             var testBasic = jQuery.Zend.jsonrpc({url:url});
             var retailers = testBasic.getRetailers();
@@ -28,7 +30,6 @@
                         .attr("value", retailersobj.retailers[i].id)
                         .text(retailersobj.retailers[i].name));
             }
-
         });
 
         function getParameters() {
@@ -87,9 +88,9 @@
                 }
                 }
                 $("#container").append(divContainer);
+                $('#loading').show();
             }
-
-
+            $('#loading').hide();
         }
 
         function renderProducts(products, container, categoryname, parentCatName) {
@@ -196,6 +197,7 @@
 </head>
 <body>
 <!--<select id="brands"></select>-->
+<div id="loading" style="float:right; width:50px"><img src="images/loading.gif"></div>
 <label>Retailers</label>
 <select id="retailer">
 
