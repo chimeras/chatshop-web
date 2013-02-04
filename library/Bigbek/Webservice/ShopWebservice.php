@@ -137,6 +137,19 @@ class ShopWebservice extends BaseWebservice
         );
     }
 
+
+    public function getRetailerProducts($id)
+    {
+        $categoriesTable=new \Application_Model_Categories;
+        $categories=$categoriesTable->fetchAll();
+        $data=array();
+        foreach($categories as $category)
+        {
+            $data[$category->getName()]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
+        }
+        return $data;
+    }
+
     /**
      * @param array $productIds
      * @return string
