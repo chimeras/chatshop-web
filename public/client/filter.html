@@ -70,7 +70,7 @@
                 var divContainer = $('<div></div>');
                 var url = '/shop/';
                 var testBasic = jQuery.Zend.jsonrpc({url:url});
-                var result = testBasic.getCategoryProducts(category.id, "1", "50", '', '');
+                var result = testBasic.getCategoryProducts(category.id, "1", "10", '', '');
 
                 var parentName='';
 
@@ -78,12 +78,13 @@
                     var parentCatName=testBasic.getCategoryName(category.parent_id);
                     var parentCatNameObj=jQuery.parseJSON(parentCatName);
                     parentName=parentCatNameObj.name;
-                }
+
                 if (result && result.length > 0) {
                     var obj = jQuery.parseJSON(result);
                     if (obj.products) {
                         renderProducts(obj.products, divContainer,category.name,parentName);
                     }
+                }
                 }
                 $("#container").append(divContainer);
             }
@@ -94,7 +95,7 @@
         function renderProducts(products, container, categoryname, parentCatName) {
 
             var table = $("<table class='table table table-striped table-bordered'></table>");
-            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td><td>Category</td><td>Parent Category</td></tr>');
+            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td><td>Category</td><td>Top-Category</td></tr>');
          var k=0;
                 for (j = 0; j < products.length; j++) {
                     if ($('#retailer').val() == 0 || (products[j].retailer_id == $('#retailer').val())) {
