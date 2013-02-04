@@ -65,8 +65,7 @@
             table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
             for (j = 0; j < products.length; j++) {
 //(products[j].brand_id == $('#brands').val()) &&
-                if($('#retailer').val()==0 || (products[j].retailer_id == $('#retailer').val()))
-                {
+
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
                 $(a).attr("href", products[j].buy_url);
@@ -84,7 +83,6 @@
                 $("<td></td>").text(products[j].saleprice || '').appendTo(row);
                 $("<td></td>").text(products[j].in_stock).appendTo(row);
                 table.append(row);
-            }
             }
             container.append(table);
 
