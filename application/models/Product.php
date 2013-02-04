@@ -107,7 +107,7 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         foreach($this->_getTranslations() as $replacement => $translation){
             $replace = array();
             foreach($translation as $word){
-                if(strstr($string, $word)){
+                if(strstr($string, strtolower($word))){
                     $replace[] = $word;
                 }
             }
