@@ -31,6 +31,7 @@ class Yves extends Common
             'similarity' => $product->getSimilarity()));
         $connection->save();
         echo ', top_category_id='.$topCategoryId;
+        $isSet = false;
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
             if($category['object']->getParentId() != $topCategoryId){
 
@@ -52,9 +53,13 @@ class Yves extends Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
+                $isSet = true;
                 echo ', category_id='.$id;
             }
 
+        }
+        if(!$isSet){
+            echo "\n#### skipping ". $product->getAdvertiserKeywords();
         }
     }
 }

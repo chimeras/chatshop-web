@@ -14,7 +14,7 @@ class Pacific extends Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-
+        $isSet = false;
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
 
             $type = 0;
@@ -55,8 +55,18 @@ class Pacific extends Common
                     'type' => $type,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
+                if($type > 2){
+                    $isSet = true;
+                    echo ', top_category_id='.$id;
+                }else{
+                    echo ', top_category_id='.$id;
+                }
+
             }
 
+        }
+        if(!$isSet){
+            echo "\n#### skipping ". $product->getKeywords() .', NOR '. $product->getAdvertiserKeywords();
         }
     }
 }
