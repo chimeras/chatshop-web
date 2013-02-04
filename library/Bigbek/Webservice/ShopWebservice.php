@@ -92,6 +92,13 @@ class ShopWebservice extends BaseWebservice
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
     }
 
+    public function getCategoryName($id)
+    {
+        $categoryTable= new \Application_Model_Categories;
+        $category=$categoryTable->fetch($id);
+        return \Zend_Json::encode(array('name' => $category->getName(), 'message' => 'successfully retrieved'));
+    }
+
     /**
      *
      * @param integer $id

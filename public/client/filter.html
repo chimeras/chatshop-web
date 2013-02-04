@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <SCRIPT type="text/javascript">
 
+
+        $(document).ready(function () {
+
+            var url = '/shop/';
+            var testBasic = jQuery.Zend.jsonrpc({url:url});
+            var retailers = testBasic.getRetailers();
+            var retailersobj = jQuery.parseJSON(retailers);
+
+            $('#retailer').append($("<option></option>")
+                    .attr("value", "0")
+                    .text("All"));
+
+            for (var i = 0; i < retailersobj.retailers.length; i++) {
+                $('#retailer').append($("<option></option>")
+                        .attr("value", retailersobj.retailers[i].id)
+                        .text(retailersobj.retailers[i].name));
+            }
+
+        });
+
         function getParameters() {
             var searchString = window.location.search.substring(1)
                     , params = searchString.split("&")
@@ -43,57 +63,72 @@
 
 
         function renderCategories(categories) {
+
+
             for (var i = 0; i < categories.length; i++) {
                 var category = categories[i];
-                var id = 'category_' + category.id;
-                divContainer = $('#'+id);
-                if(divContainer.length == 0){
-                    var divContainer = $('<div></div>').attr('id', 'category_' + category.id);
-                }
-                divContainer.html('<p>' + category.name + '</p>');
-                $("#container").append(divContainer);
-                renderSubcategories(category.subcategories, divContainer);
-                renderProducts(category.products, divContainer);
-             //
+                var divContainer = $('<div></div>');
+                var url = '/shop/';
+                var testBasic = jQuery.Zend.jsonrpc({url:url});
+                var result = testBasic.getCategoryProducts(category.id, "1", "50", '', '');
 
+                var parentName='';
+
+                if(category.parent_id!=0){
+                    var parentCatName=testBasic.getCategoryName(category.parent_id);
+                    var parentCatNameObj=jQuery.parseJSON(parentCatName);
+                    parentName=parentCatNameObj.name;
+                }
+                if (result && result.length > 0) {
+                    var obj = jQuery.parseJSON(result);
+                    if (obj.products) {
+                        renderProducts(obj.products, divContainer,category.name,parentName);
+                    }
+                }
+                $("#container").append(divContainer);
             }
+
+
         }
 
-        function renderProducts(products, container) {
+        function renderProducts(products, container, categoryname, parentCatName) {
 
             var table = $("<table class='table table table-striped table-bordered'></table>");
-            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td></tr>');
-            for (j = 0; j < products.length; j++) {
-//(products[j].brand_id == $('#brands').val()) &&
-                if($('#retailer').val()==0 || (products[j].retailer_id == $('#retailer').val()))
-                {
-                var row = $("<tr></tr>");
-                var a = $("<a></a>");
-                $(a).attr("href", products[j].buy_url);
-                $(a).attr("target", "_blank");
-                var img = $("<img />")
-                $(img).attr("src", products[j].image_url);
-                $(img).attr("width", "60");
-                $(a).append(img);
-                $("<td></td>").append(a).appendTo(row);
-                $("<td></td>").text(products[j].name.replace(/\\/g, '')).appendTo(row);
-                $("<td></td>").text(products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
-                $("<td></td>").text(products[j].keywords.replace(/\\/g, '')).appendTo(row);
-                $("<td></td>").text(products[j].retailer_name || '').appendTo(row);
-                $("<td></td>").text(products[j].brand_name || '').appendTo(row);
-                $("<td></td>").text(products[j].saleprice || '').appendTo(row);
-                $("<td></td>").text(products[j].in_stock).appendTo(row);
-                table.append(row);
-            }
-            }
-            container.append(table);
-
+            table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td><td>Category</td><td>Parent Category</td></tr>');
+         var k=0;
+                for (j = 0; j < products.length; j++) {
+                    if ($('#retailer').val() == 0 || (products[j].retailer_id == $('#retailer').val())) {
+                        var row = $("<tr></tr>");
+                        var a = $("<a></a>");
+                        $(a).attr("href", products[j].buy_url);
+                        $(a).attr("target", "_blank");
+                        var img = $("<img />")
+                        $(img).attr("src", products[j].image_url);
+                        $(img).attr("width", "60");
+                        $(a).append(img);
+                        $("<td></td>").append(a).appendTo(row);
+                        $("<td></td>").text(products[j].name.replace(/\\/g, '')).appendTo(row);
+                        $("<td></td>").text(products[j].advertiser_keywords.replace(/\\/g, '')).appendTo(row);
+                        $("<td></td>").text(products[j].keywords.replace(/\\/g, '')).appendTo(row);
+                        $("<td></td>").text(products[j].retailer_name || '').appendTo(row);
+                        $("<td></td>").text(products[j].brand_name || '').appendTo(row);
+                        $("<td></td>").text(products[j].saleprice || '').appendTo(row);
+                        $("<td></td>").text(products[j].in_stock).appendTo(row);
+                        $("<td></td>").text(categoryname).appendTo(row);
+                        $("<td></td>").text(parentCatName).appendTo(row);
+                        table.append(row);
+                        //console.log(products[j]); return;
+                        k++;
+                    }
+                }
+            if(k!=0)
+                container.append(table);
         }
 
 
         function renderSubcategories(subcategories, container) {
             var subs = $('div.subs', container);
-            if(subs.length == 0){
+            if (subs.length == 0) {
 
                 var subs = $('<div></div>').addClass('subs');
             }
@@ -125,10 +160,10 @@
 
                     }).attr('data', subCategory.id);
                     subs.append(formButton);
-                    for(var i = 1; i<subCategory.products_qty/50; i++){
+                    for (var i = 1; i < subCategory.products_qty / 50; i++) {
                         var formButtonPage = $('<input />')
                                 .attr('type', "button")
-                                .attr('value', i+1)
+                                .attr('value', i + 1)
                                 .click(function () {
                                     $('#title').text('loading...');
                                     var url = '/shop/';
@@ -143,62 +178,33 @@
                                     } else {
                                         $('#console').text('Error occured');
                                     }
-                                    $('#title').text('page '+$(this).attr('page'));
+                                    $('#title').text('page ' + $(this).attr('page'));
 
-                                }).attr('data', subCategory.id).attr('page', i+1);
+                                }).attr('data', subCategory.id).attr('page', i + 1);
                         subs.append(formButtonPage);
                     }
                 }
 
             }
-           // console.log(subs.html());
+            // console.log(subs.html());
             container.append(subs);
-
-        }
-
-        function ShowTree() {
-
-            var url = '/shop/';
-            var testBasic = jQuery.Zend.jsonrpc({url:url});
-            var resultobj = testBasic.getCategories();
-
-            var result=jQuery.parseJSON(resultobj);
-            var ul = $("<ul id='treeview'></ul>");
-            var li_class;
-
-            for (var i=0; i<result.categories.length; i++){
-                if(result.categories[i].parent_id==0){
-                    var li=$("<li></li>");
-                    li_class="tree"+result.categories[i].id;
-                    $(li).attr("id",li_class);
-                    $(li).text(result.categories[i].name);
-                    $(ul).append(li);
-                }
-            }
-            $('#tree').append('<label>Categories</label>')
-            $('#tree').append(ul);
-
-            for (var i=0; i<result.categories.length; i++){
-                if(result.categories[i].parent_id!=0){
-                    var ul=$("<ul></ul>");
-                    li_class="#tree"+result.categories[i].parent_id;
-                    var italic_text=result.categories[i].name+' ( <i>'+result.categories[i].keywords+'</i> )';
-                    $(ul).append(italic_text);
-                    $(li_class).append(ul);
-                }
-            }
 
         }
     </SCRIPT>
 
 </head>
 <body>
+<!--<select id="brands"></select>-->
+<label>Retailers</label>
+<select id="retailer">
+
+</select><br/>
 <input type="button" value="handsome gorgeous" onclick="getTheme(1)"/>
 <input type="button" value="Toys" onclick="getTheme(2)"/>
-<input type="button" value="Render Tree" onclick="ShowTree()"/>
 
 <div id="console"></div>
 <h4 id="title"></h4>
+
 <div id="container"></div>
 
 <div id="tree" style="border:2px solid;"></div>
