@@ -25,12 +25,12 @@ class Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserKeywords());
+        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
         $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
         $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
             if($category['object']->getParentId() === 0
-                && $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())){ // top category
+                && $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)){ // top category
                 $type = 1;
                 echo ', top_category_id='.$id;
                 // set top category

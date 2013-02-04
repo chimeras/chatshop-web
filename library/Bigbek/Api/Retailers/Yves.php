@@ -18,6 +18,8 @@ class Yves extends Common
 
     public function connectCategoryProduct($product)
     {
+        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
+        $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $topCategoryId = $this->_retailer->getCategoryId();
@@ -40,7 +42,7 @@ class Yves extends Common
             $type = 0;
          //   echo "\n\n". str_replace('/', ' ', $product->getAdvertiserKeywords()); exit();
             if ($category['object']->getParentId() > 0
-                && $this->_checkKwd($category['object']->getKeywords(), str_replace('/', ' ', $product->getAdvertiserKeywords()))){
+                && $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)){
                 $type = 4;
             }
             if ($type > 0) {
@@ -59,7 +61,7 @@ class Yves extends Common
 
         }
         if(!$isSet){
-            echo "\n#### skipping ". $product->getAdvertiserKeywords();
+            echo "\n#### skipping ". $prAdvCategory;
         }
     }
 }

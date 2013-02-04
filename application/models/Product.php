@@ -75,20 +75,49 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
 
     public function getKeywordsTranslated()
     {
+        return $this->_translate($this->getKeywords());
+    }
 
+    public function getAdvertiserCategoryTranslated()
+    {
+        return $this->_translate($this->getAdvertiserKeywords());
     }
 
     private function _getTranslations()
     {
-        $translations = false;
         $cache = \Zend_Registry::get('cache');
         $cacheID = 'translations';
+        $translations = $cache->load($cacheID);
         if ($translations === false) {
             // echo 'generating ';
             $table = new Application_Model_Translations;
-            $translations = $table->fetchAll();
+            $translations = array();
+            foreach($table->fetchAll() as $translation){
+                $translations[$translation->getReplacement()] = explode('|', $translation->getCombination());
+            }
+
             $cache->save($translations);
         }
         return $translations;
+    }
+
+
+    private function _translate($string)
+    {
+        foreach($this->_getTranslations() as $replacement => $translation){
+            $replace = array();
+            foreach($translation as $word){
+                if(strstr($string, $word)){
+                    $replace[] = $word;
+                }
+            }
+            if(count($replace) > 0){
+                foreach($replace as $replaceWord){
+                    $string = str_replace($replaceWord, '',  $string);
+                }
+                $string .= ', '.$replacement;
+            }
+        }
+        return $string;
     }
 }

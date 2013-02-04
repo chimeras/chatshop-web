@@ -15,28 +15,27 @@ class Pacific extends Common
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $isSet = false;
+        $prKeywords = str_replace('>', ' ', $product->getKeywordsTranslated());
+        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
 
             $type = 0;
             $topCategoryId = $product->getTopCategoryId();
-            if ($this->_checkName($category['object']->getKeywords() . $category['parentKeywords'], $product->getName())) {
-                $type = 1;
-            } elseif ($category['object']->getParentId() > 0
+            if ($category['object']->getParentId() > 0
                 && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getAdvertiserKeywords())
+                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $prAdvCategory)
             ) {
                 $type = 4;
             } elseif ($category['object']->getParentId() > 0
                 && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $product->getKeywords())
+                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $prKeywords)
             ) {
                 $type = 3;
             } elseif ($this->_retailer->getCategoryId() == $id) {
                 $type = 2;
             } elseif ($category['object']->getParentId() == 0 && (
-                $this->_checkKwd($category['object']->getKeywords(), $product->getAdvertiserKeywords())
-                    || $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
-                    || $this->_checkName($category['object']->getKeywords(), $product->getName())
+                $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)
+                    || $this->_checkKwd($category['object']->getKeywords(), $prKeywords)
             )
             ) {
                 if ($topCategoryId > 0) {
@@ -46,7 +45,7 @@ class Pacific extends Common
             }
 
             if ($type > 0) {
-                $connection = $connectionsTable->fetchNew();
+                $connection = $connectionsTable->createRow();
                 $connection->setFromArray(array(
                     'product_id' => $product->getId(),
                     'category_id' => $id,
@@ -66,7 +65,7 @@ class Pacific extends Common
 
         }
         if(!$isSet){
-            echo "\n#### skipping ". $product->getKeywords() .', NOR '. $product->getAdvertiserKeywords();
+            echo "\n#### skipping ". $prKeywords .', NOR '. $prAdvCategory;
         }
     }
 }

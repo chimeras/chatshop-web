@@ -14,8 +14,7 @@ class Rockport extends Common
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $globalCategoryIds = $this->_retailer->getCategoryIds();
-
-
+        $prKeywords = str_replace('>', ' ', $product->getKeywordsTranslated());
         $type = 0;
         foreach ($this->_processor->getProcessedCategories() as $categoryId => $category) {
             if (!in_array($categoryId, $globalCategoryIds)) {
@@ -26,8 +25,8 @@ class Rockport extends Common
 
                 if($topCategory['object']->getParentId() === 0
                     && $category['object']->getParentId() === $topCategory['object']->getId()
-                    && $this->_checkKwd($category['object']->getKeywords(), $product->getKeywords())
-                    && $this->_checkKwd($topCategory['object']->getKeywords(), $product->getKeywords())
+                    && $this->_checkKwd($category['object']->getKeywords(), $prKeywords)
+                    && $this->_checkKwd($topCategory['object']->getKeywords(), $prKeywords)
                 ){
 
                     $connection = $connectionsTable->createRow();
@@ -57,7 +56,7 @@ class Rockport extends Common
             }
         }
         if(!isset($type) || $type == 0){
-            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$product->getKeywords() ."\n";
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$prKeywords ."\n";
         }
     }
 }
