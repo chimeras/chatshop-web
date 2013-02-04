@@ -71,4 +71,24 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
         }
         return $array;
     }
+
+
+    public function getKeywordsTranslated()
+    {
+
+    }
+
+    private function _getTranslations()
+    {
+        $translations = false;
+        $cache = \Zend_Registry::get('cache');
+        $cacheID = 'translations';
+        if ($translations === false) {
+            // echo 'generating ';
+            $table = new Application_Model_Translations;
+            $translations = $table->fetchAll();
+            $cache->save($translations);
+        }
+        return $translations;
+    }
 }
