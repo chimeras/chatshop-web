@@ -47,6 +47,7 @@
 
 
         function getTheme() {
+            $('#loading').show();
             var url = '/shop/';
             var testBasic = jQuery.Zend.jsonrpc({url:url});
             var result = testBasic.getRetailerProducts($('#retailer').val());
@@ -56,6 +57,7 @@
             for (var i = 0; i < obj.category.length; i++) {
                 renderProducts(obj.category[i], divContainer, obj.name[i], obj.parentname[i],obj.id[i]);
                 $("#container").append(divContainer);
+                $('#loading').hide();
             }
         }
 

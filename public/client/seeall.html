@@ -22,7 +22,7 @@
             console.log(topName);
             var url = '/shop/';
             var testBasic = jQuery.Zend.jsonrpc({url:url});
-            var products = testBasic.getCategoryProducts(catId,1,500,retId,null);
+            var products = testBasic.getCategoryProducts(catId,1,2000,retId,null);
             var obj = jQuery.parseJSON(products);
             console.log(obj);
             clearContainer();
