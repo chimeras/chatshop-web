@@ -25,29 +25,16 @@ class Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
-        $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
-        $prAdvCategory = str_replace(',', ' ', $prAdvCategory);
+        $prAdvCategory =  $product->getAdvertiserCategoryTranslated();
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-            if($category['object']->getParentId() === 0
-                && $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)){ // top category
-                $type = 1;
-                echo ', top_category_id='.$id;
-                // set top category
-                $connection = $connectionsTable->createRow();
-                $connection->setFromArray(array(
-                    'product_id' => $product->getId(),
-                    'category_id' => $id,
-                    'retailer_id' => $product->getRetailerId(),
-                    'brand_id' => $product->getBrandId(),
-                    'type' => $type,
-                    'similarity' => $product->getSimilarity()));
-                $connection->save();
+            $type = 1;
+            if($category->getParentId() === 0
+                && $this->_checkKwd($category->getKeywords(), $prAdvCategory)){ // top category
 
 
                 foreach ($this->_processor->getProcessedCategories() as $subId => $subCategory) {
-                    if($subCategory['object']->getParentId() === $category['object']->getId()
-                    && $this->_checkKwd($subCategory['object']->getKeywords(), $prAdvCategory)){ // category
+                    if($subCategory->getParentId() === $category->getId()
+                    && $this->_checkKwd($subCategory->getKeywords(), $prAdvCategory)){ // category
                         $type = 4;
                         echo ', category_id='.$subId;
                         // set category
@@ -64,11 +51,24 @@ class Common
                 }
                 if($type==1){
                     echo "\n############################# skipping, no category ".$prAdvCategory ."\n";
+                }else{
+                    $type = 1;
+                    echo ', top_category_id='.$id;
+                    // set top category
+                    $connection = $connectionsTable->createRow();
+                    $connection->setFromArray(array(
+                        'product_id' => $product->getId(),
+                        'category_id' => $id,
+                        'retailer_id' => $product->getRetailerId(),
+                        'brand_id' => $product->getBrandId(),
+                        'type' => $type,
+                        'similarity' => $product->getSimilarity()));
+                    $connection->save();
                 }
             }
         }
         if(!isset($type)){
-            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$prAdvCategory ."\n";
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping (common) ".$prAdvCategory ."\n";
         }
     }
 
@@ -83,7 +83,8 @@ class Common
             }
             $nonMandatories = explode('|', $mandatory);
             foreach ($nonMandatories as $nonMandatory) {
-                if (strstr($haystack, ' ' . $nonMandatory) || strpos($haystack, $nonMandatory) === 0) {
+
+                if (strstr($haystack, ' ' . $nonMandatory) || strstr($haystack, '|' . $nonMandatory) || strpos($haystack, $nonMandatory) === 0) {
                     foreach ($this->_blacklistKeywords as $blacklistKwd) {
                         if(strstr($nonMandatory, 'shoes') && strstr($haystack, 'dc shoes')){
                             echo "\n #1##compare### blc:".$blacklistKwd." \t\t to nonmandatory:".$nonMandatory ."\t\t in haystack:".$haystack."\n";

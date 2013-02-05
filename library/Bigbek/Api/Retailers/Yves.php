@@ -18,41 +18,21 @@ class Yves extends Common
 
     public function connectCategoryProduct($product)
     {
-        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
-        $prAdvCategory = str_replace('/', ' ', $prAdvCategory);
+        $prAdvCategory = $product->getAdvertiserCategoryTranslated();
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $topCategoryId = $this->_retailer->getCategoryId();
-        $connection = $connectionsTable->createRow();
-        $connection->setFromArray(array(
-            'product_id' => $product->getId(),
-            'category_id' => $topCategoryId,
-            'retailer_id' => $product->getRetailerId(),
-            'brand_id' => $product->getBrandId(),
-            'type' => 2,
-            'similarity' => $product->getSimilarity()));
-        $connection->save();
-        echo ', top_category_id='.$topCategoryId;
         $isSet = false;
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-            if($category['object']->getParentId() != $topCategoryId){
-
-                continue;
-            }
-            $type = 0;
-         //   echo "\n\n". str_replace('/', ' ', $product->getAdvertiserKeywords()); exit();
-            if ($category['object']->getParentId() > 0
-                && $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)){
-                $type = 4;
-            }
-            if ($type > 0) {
+            if ($category->getParentId() == $topCategoryId
+                && $this->_checkKwd($category->getKeywords(), $prAdvCategory)){
                 $connection = $connectionsTable->createRow();
                 $connection->setFromArray(array(
                     'product_id' => $product->getId(),
                     'category_id' => $id,
                     'retailer_id' => $product->getRetailerId(),
                     'brand_id' => $product->getBrandId(),
-                    'type' => $type,
+                    'type' => 4,
                     'similarity' => $product->getSimilarity()));
                 $connection->save();
                 $isSet = true;
@@ -61,7 +41,18 @@ class Yves extends Common
 
         }
         if(!$isSet){
-            echo "\n#### skipping ". $prAdvCategory;
+            echo "\n#### skipping (Yves)". $prAdvCategory;
+        }else{
+            $connection = $connectionsTable->createRow();
+            $connection->setFromArray(array(
+                'product_id' => $product->getId(),
+                'category_id' => $topCategoryId,
+                'retailer_id' => $product->getRetailerId(),
+                'brand_id' => $product->getBrandId(),
+                'type' => 1,
+                'similarity' => $product->getSimilarity()));
+            $connection->save();
+            echo ', top_category_id='.$topCategoryId;
         }
     }
 }

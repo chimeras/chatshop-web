@@ -14,7 +14,7 @@ class Rockport extends Common
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
         $globalCategoryIds = $this->_retailer->getCategoryIds();
-        $prKeywords = str_replace('>', ' ', $product->getKeywordsTranslated());
+        $prKeywords = $product->getKeywordsTranslated();
         $type = 0;
         foreach ($this->_processor->getProcessedCategories() as $categoryId => $category) {
             if (!in_array($categoryId, $globalCategoryIds)) {
@@ -23,10 +23,10 @@ class Rockport extends Common
 
             foreach ($this->_processor->getProcessedCategories() as $topCategoryId => $topCategory) {
 
-                if($topCategory['object']->getParentId() === 0
-                    && $category['object']->getParentId() === $topCategory['object']->getId()
-                    && $this->_checkKwd($category['object']->getKeywords(), $prKeywords)
-                    && $this->_checkKwd($topCategory['object']->getKeywords(), $prKeywords)
+                if($topCategory->getParentId() === 0
+                    && $category->getParentId() === $topCategory->getId()
+                    && $this->_checkKwd($category->getKeywords(), $prKeywords)
+                    && $this->_checkKwd($topCategory->getKeywords(), $prKeywords)
                 ){
 
                     $connection = $connectionsTable->createRow();
@@ -51,12 +51,12 @@ class Rockport extends Common
                         'similarity' => $product->getSimilarity()));
                     $connection->save();
                     echo ', category_id='.$categoryId;
-
+                    break;
                 }
             }
         }
         if(!isset($type) || $type == 0){
-            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping ".$prKeywords ."\n";
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping (rockport)".$prKeywords ."\n";
         }
     }
 }

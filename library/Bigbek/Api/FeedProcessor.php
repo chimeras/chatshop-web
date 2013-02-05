@@ -68,14 +68,7 @@ class FeedProcessor
         $categoriesTable = new \Application_Model_Categories;
 
         foreach ($categoriesTable->fetchAll() as $obj) {
-            $parent = $obj->getParent();
-            if (is_object($parent) && $parent->getParentId() == 0) {
-                $parentAddition = ',' . $parent->getKeywords();
-            } else {
-                $parentAddition = '';
-            }
-
-            $this->_categories[$obj->getId()] = array('object'=>$obj, 'parentKeywords'=>$parentAddition);
+            $this->_categories[$obj->getId()] = $obj;
         }
     }
 
@@ -164,8 +157,17 @@ class FeedProcessor
             $count++;
             $product = $productTable->fetchUniqueBy(array('sku' => $row['SKU']));
             if (!is_object($product)) {
-                $product = $productTable->fetchNew();
-            } elseif (strtotime($product->getUpdatedAt()) + 3600 > time()) {
+                $product = $productTable->createRow();
+
+            } elseif (strtotime($product->getUpdatedAt()) + 7200 > time()) {
+                /**
+                 * skip products which are recently modified
+                 *
+                 */
+
+                if($count%100 == 0){
+                    echo "\n\t 100 products skipped ";
+                }
                 continue;
             }
 
@@ -177,6 +179,9 @@ class FeedProcessor
                 $product->$dbField = str_replace('""', '"', stripslashes($row[$cjField]));
             }
             $product->setBrandName($row[$this->_cjObjects['Brand']]);
+            /**
+             * set some unique string for similar items for the product to group later
+             */
             $product->setSimilarity();
 
 
@@ -185,14 +190,25 @@ class FeedProcessor
                     break;
                 }
                 $setterName = 'set' . $obj;
-
-                //$string = str_replace("\\'", '', $row[$cjField]);
-                //$string = str_replace('"', '', $string);
                 $string = stripslashes($row[$cjField]);
 
-                $product->$setterName($string);
+                /**
+                 * set related object and get that object as variable (e.g. $brand, $retailer)
+                 */
+                $$string = $product->$setterName($string);
             }
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
+
+            if(isset($brand) && $brand->getId() == $product->getBrandId()){
+                /**
+                 * add brand specific keywords to product data (e.g. for PEGABO->shoes)
+                 */
+                echo '### setting brand:'. $brand->getKeyword();
+                $product->setKeywords($brand->getKeyword() .', '. $product->getKeywords());
+                $product->setAdvertiserKeywords($brand->getAdvertiserKeywords() .', '. $product->getAdvertiserKeywords());
+            }
+            $product->setKeywords($this->_separateText($product->getKeywords(), $product->getBrandName()));
+            $product->setAdvertiserKeywords($this->_separateText($product->getAdvertiserKeywords(), $product->getBrandName()));
             $product->save();
             echo "\n\t\t ". $product->getId() ."\t". $product->getName();
 
@@ -227,6 +243,31 @@ class FeedProcessor
     }
 
 
+    /**
+     * replace some specific separators with some common one |
+     * replace brand name from keyword
+     *
+     * @param string $string
+     * @param string $replace
+     * @return string
+     */
+    private function _separateText($string, $replace = '')
+    {
+        $string = strtolower(trim(stripslashes($string)));
+        $string = str_replace(' - ', '|', $string);
+        $string = str_replace('>', '|', $string);
+        $string = str_replace('&gt;', '|', $string);
+        $string = str_replace('/', '|', $string);
+        $string = str_replace(',', '|', $string);
+        $string = str_replace('||', '|', $string);
+
+        $string = str_replace($replace, '', strtolower($string));
+        return $string;
+    }
+
+    /**
+     * make products with no image invisible
+     */
     public function cleanup()
     {
         echo "\n\n cleaning up \n";

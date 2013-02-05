@@ -14,58 +14,48 @@ class Pacific extends Common
     {
         $connectionsTable = new \Application_Model_CategoryXProducts;
         $connectionsTable->delete('product_id=' . $product->getId());
-        $isSet = false;
-        $prKeywords = str_replace('>', ' ', $product->getKeywordsTranslated());
-        $prAdvCategory = str_replace('>', ' ', $product->getAdvertiserCategoryTranslated());
+        $prKeywords =  $product->getKeywordsTranslated();
         foreach ($this->_processor->getProcessedCategories() as $id => $category) {
-
-            $type = 0;
-            $topCategoryId = $product->getTopCategoryId();
-            if ($category['object']->getParentId() > 0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $prAdvCategory)
-            ) {
-                $type = 4;
-            } elseif ($category['object']->getParentId() > 0
-                && $topCategoryId > 0
-                && $this->_checkKwd($category['object']->getKeywords() . $category['parentKeywords'], $prKeywords)
-            ) {
-                $type = 3;
-            } elseif ($this->_retailer->getCategoryId() == $id) {
-                $type = 2;
-            } elseif ($category['object']->getParentId() == 0 && (
-                $this->_checkKwd($category['object']->getKeywords(), $prAdvCategory)
-                    || $this->_checkKwd($category['object']->getKeywords(), $prKeywords)
-            )
-            ) {
-                if ($topCategoryId > 0) {
-                    $connectionsTable->delete("product_id=" . $product->getId() . " AND category_id=" . $topCategoryId);
+            $type = 2;
+            if($category->getParentId() === 0
+                && $this->_checkKwd($category->getKeywords(), $prKeywords)){ // top category
+                foreach ($this->_processor->getProcessedCategories() as $subId => $subCategory) {
+                    if($subCategory->getParentId() === $category->getId()
+                        && $this->_checkKwd($subCategory->getKeywords(), $prKeywords)){ // category
+                        $type = 4;
+                        echo ', category_id='.$subId;
+                        // set category
+                        $connection = $connectionsTable->createRow();
+                        $connection->setFromArray(array(
+                            'product_id' => $product->getId(),
+                            'category_id' => $subId,
+                            'retailer_id' => $product->getRetailerId(),
+                            'brand_id' => $product->getBrandId(),
+                            'type' => $type,
+                            'similarity' => $product->getSimilarity()));
+                        $connection->save();
+                    }
                 }
-                $type = 1;
-            }
-
-            if ($type > 0) {
-                $connection = $connectionsTable->createRow();
-                $connection->setFromArray(array(
-                    'product_id' => $product->getId(),
-                    'category_id' => $id,
-                    'retailer_id' => $product->getRetailerId(),
-                    'brand_id' => $product->getBrandId(),
-                    'type' => $type,
-                    'similarity' => $product->getSimilarity()));
-                $connection->save();
-                if($type > 2){
-                    $isSet = true;
-                    echo ', top_category_id='.$id;
+                if($type==2){
+                    echo "\n############################# skipping, no category ".$prKeywords ."\n";
                 }else{
+                    $type = 2;
                     echo ', top_category_id='.$id;
+                    // set top category
+                    $connection = $connectionsTable->createRow();
+                    $connection->setFromArray(array(
+                        'product_id' => $product->getId(),
+                        'category_id' => $id,
+                        'retailer_id' => $product->getRetailerId(),
+                        'brand_id' => $product->getBrandId(),
+                        'type' => $type,
+                        'similarity' => $product->getSimilarity()));
+                    $connection->save();
                 }
-
             }
-
         }
-        if(!$isSet){
-            echo "\n#### skipping ". $prKeywords .', NOR '. $prAdvCategory;
+        if(!isset($type)){
+            echo "\n\t###!!!!!!!!!!!!!!!!!!! skipping (pacific) ".$prKeywords ."\n";
         }
     }
 }
