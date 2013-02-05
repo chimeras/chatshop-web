@@ -145,6 +145,7 @@ class ShopWebservice extends BaseWebservice
         $data=array();
         $name=array();
         $parentName=array();
+        $catId=array();
         foreach($categories as $category)
         {
             if($category->getParentId()!=0)
@@ -152,12 +153,14 @@ class ShopWebservice extends BaseWebservice
             $data[]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
             $name[]=$category->getName();
             $parentName[]=$categoriesTable->fetch($category->getParentId())->getName();
+            $catId[]=$category->getId();
             }
         }
         return \Zend_Json::encode(
             array('category' => $data,
                 'name'=>$name,
                 'parentname'=>$parentName,
+                'id'=>$catId,
                 'message' => 'successfully retreived')
         );
     }
