@@ -7,7 +7,7 @@
 namespace Bigbek\Api\Retailers;
 
 
-class Common
+class Thebay
 {
     protected $_retailer, $_processor;
     protected $_blacklistKeywords = array('dc shoes', 'menage');
