@@ -150,7 +150,7 @@ class ShopWebservice extends BaseWebservice
         {
             if($category->getParentId()!=0)
             {
-            $data[]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
+            $data[]=$this->getCategoryProducts($category->getId(),1,10,$id,null);
             $name[]=$category->getName();
             $parentName[]=$categoriesTable->fetch($category->getParentId())->getName();
             $catId[]=$category->getId();
