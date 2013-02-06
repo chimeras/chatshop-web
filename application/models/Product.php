@@ -111,11 +111,13 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
                     $replace[] = $word;
                 }
             }
-            if(count($replace) > 0){
+            if(count($replace) == count($translation)){
+                echo "\n\n\t !!!!! translating:". $string .' to :';
                 foreach($replace as $replaceWord){
                     $string = str_replace($replaceWord, '',  $string);
                 }
                 $string .= ', '.$replacement;
+                echo $string;
             }
         }
         return $string;

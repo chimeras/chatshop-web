@@ -203,7 +203,7 @@ class FeedProcessor
                 /**
                  * add brand specific keywords to product data (e.g. for PEGABO->shoes)
                  */
-                echo '### setting brand:'. $brand->getKeyword();
+                echo "\n\n\t !!!! setting brand:". $brand->getKeyword();
                 $product->setKeywords($brand->getKeyword() .', '. $product->getKeywords());
                 $product->setAdvertiserKeywords($brand->getAdvertiserKeywords() .', '. $product->getAdvertiserKeywords());
             }
