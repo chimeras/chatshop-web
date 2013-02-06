@@ -96,7 +96,7 @@ class ShopWebservice extends BaseWebservice
     {
         $categoryTable= new \Application_Model_Categories;
         $category=$categoryTable->fetch($id);
-        return \Zend_Json::encode(array('name' => $category->getName(), 'message' => 'successfully retrieved'));
+        return $category->getName();
     }
 
     /**
@@ -143,11 +143,26 @@ class ShopWebservice extends BaseWebservice
         $categoriesTable=new \Application_Model_Categories;
         $categories=$categoriesTable->fetchAll();
         $data=array();
+        $name=array();
+        $parentName=array();
+        $catId=array();
         foreach($categories as $category)
         {
-            $data[$category->getName()]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
+            if($category->getParentId()!=0)
+            {
+            $data[]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
+            $name[]=$category->getName();
+            $parentName[]=$categoriesTable->fetch($category->getParentId())->getName();
+            $catId[]=$category->getId();
+            }
         }
-        return $data;
+        return \Zend_Json::encode(
+            array('category' => $data,
+                'name'=>$name,
+                'parentname'=>$parentName,
+                'id'=>$catId,
+                'message' => 'successfully retreived')
+        );
     }
 
     /**

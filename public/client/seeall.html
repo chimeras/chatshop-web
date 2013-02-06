@@ -14,50 +14,34 @@
 
         $(document).ready(function () {
 
-            $('#loading').hide();
-
+            var catId=GetURLParameter('id');
+            var retId=GetURLParameter('ret_id');
+            var catName=GetURLParameter('cat_name');
+            var topName=GetURLParameter('top_name');
+            console.log(catName);
+            console.log(topName);
             var url = '/shop/';
             var testBasic = jQuery.Zend.jsonrpc({url:url});
-            var retailers = testBasic.getRetailers();
-            var retailersobj = jQuery.parseJSON(retailers);
-
-            $('#retailer').append($("<option></option>")
-                    .attr("value", "0")
-                    .text("All"));
-
-            for (var i = 0; i < retailersobj.retailers.length; i++) {
-                $('#retailer').append($("<option></option>")
-                        .attr("value", retailersobj.retailers[i].id)
-                        .text(retailersobj.retailers[i].name));
-            }
-        });
-
-        function getParameters() {
-            var searchString = window.location.search.substring(1)
-                    , params = searchString.split("&")
-                    , hash = {}
-                    ;
-
-            for (var i = 0; i < params.length; i++) {
-                var val = params[i].split("=");
-                hash[unescape(val[0])] = unescape(val[1]);
-            }
-            return hash;
-        }
-
-
-        function getTheme() {
-            $('#loading').show();
-            var url = '/shop/';
-            var testBasic = jQuery.Zend.jsonrpc({url:url});
-            var result = testBasic.getRetailerProducts($('#retailer').val());
-            var obj = jQuery.parseJSON(result);
+            var products = testBasic.getCategoryProducts(catId,1,2000,retId,null);
+            var obj = jQuery.parseJSON(products);
+            console.log(obj);
             clearContainer();
             var divContainer = $('<div></div>');
-            for (var i = 0; i < obj.category.length; i++) {
-                renderProducts(obj.category[i], divContainer, obj.name[i], obj.parentname[i],obj.id[i]);
-                $("#container").append(divContainer);
-                $('#loading').hide();
+            renderProducts(obj, divContainer,catName,topName);
+            $("#container").append(divContainer);
+        });
+
+        function GetURLParameter(sParam)
+        {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++)
+            {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam)
+                {
+                    return sParameterName[1];
+                }
             }
         }
 
@@ -65,12 +49,12 @@
             $("#container").html('');
         }
 
-        function renderProducts(products1, container, categoryname, parentCatName,catid) {
+        function renderProducts(products, container, categoryname, parentCatName) {
 
             var table = $("<table class='table table table-striped table-bordered'></table>");
             table.append('<tr><td>Picture</td><td>Name</td><td>Advertiser keywords</td><td>Keywords</td><td>Retailer</td><td>Brand</td><td>Sale</td><td>In Stock</td><td>Category</td><td>Top-Category</td></tr>');
             var k = 0;
-            var products = jQuery.parseJSON(products1);
+            console.log(products.products.length);
             for (j = 0; j < products.products.length; j++) {
                 var row = $("<tr></tr>");
                 var a = $("<a></a>");
@@ -99,26 +83,12 @@
             }
             if (k != 0) {
                 container.append(table);
-                var see_all=$('<a>See All</a>');
-                see_all.attr("href","/client/seeall.html?id="+catid+"&ret_id="+$('#retailer').val()+"&cat_name="+categoryname+"&top_name="+parentCatName);
-                see_all.attr("target","_blank");
-                see_all.attr("style","float:right");
-                container.append(see_all);
-
             }
         }
     </SCRIPT>
 
 </head>
 <body>
-<!--<select id="brands"></select>-->
-<div id="loading" style="float:right; width:50px"><img src="images/loading.gif"></div>
-<label>Retailers</label>
-<select id="retailer">
-
-</select><br/>
-<input type="button" value="Go" onclick="getTheme()"/>
-
 <div id="console"></div>
 <h4 id="title"></h4>
 
