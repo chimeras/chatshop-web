@@ -124,7 +124,8 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
                         unset($parts[$i]);
                     }
                 }
-                echo implode('|', $string);
+                $string = implode('|', $parts);
+                echo $string;
             }
         }
         return $string;
