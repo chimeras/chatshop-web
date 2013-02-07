@@ -198,10 +198,9 @@ class FeedProcessor
                  */
                 $$obj = $product->$setterName($string);
             }
-            exit("\n\n\n");
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
 
-            if(isset($Brand) && $brand->getId() == $product->getBrandId()){
+            if(isset($Brand) && $Brand->getId() == $product->getBrandId()){
                 /**
                  * add brand specific keywords to product data (e.g. for PEGABO->shoes)
                  */
