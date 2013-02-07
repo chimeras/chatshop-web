@@ -100,7 +100,7 @@
             if (k != 0) {
                 container.append(table);
                 var see_all=$('<a>See All</a>');
-                see_all.attr("href","JavaScript:newPopup('/client/seeall.html?id="+catid+"&ret_id="+$('#retailer').val()+"&cat_name="+categoryname+"&top_name="+parentCatName+"')");
+                see_all.attr("href","JavaScript:newPopup('/client/seeall.html?id="+catid+"&ret_id="+$('#retailer').val()+"&cat_name="+categoryname.replace(' & ','|')+"&top_name="+parentCatName+"')");
                 see_all.attr("style","float:right");
                 container.append(see_all);
 
