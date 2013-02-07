@@ -8,7 +8,7 @@ class Application_Model_Theme extends Application_Model_Db_Row_Theme
 	public function __construct(array $config = array())
 	{
 		parent::__construct($config);
-		$this->categories = $this->_fetchCategories(true);
+		$this->categories = $this->_fetchCategories(false);
 	}
 
 	private function _fetchCategories($includeSubcategories)

@@ -66,17 +66,17 @@ class ShopWebservice extends BaseWebservice
     public function getThemeCategories($id)
     {
         $this->_logger->log('getThemeCategories for id=' . $id, \Zend_Log::INFO);
-        $cache = \Zend_Registry::get('cache');
-        $cacheID = 'theme_categories_' . $id . '_rand_' . rand(100, 101);
-        $categories = false; //$cache->load($cacheID);
-        if ($categories === false) {
+      //  $cache = \Zend_Registry::get('cache');
+       // $cacheID = 'theme_categories_' . $id . '_rand_' . rand(100, 101);
+       // $categories = false; //$cache->load($cacheID);
+       // if ($categories === false) {
             // echo 'generating ';
             $theme = $this->_themes->fetch($id);
             $categories = $theme->getCategoriesArray();
             //   $cache->save($categories); /////////////////////////////////////@@todo uncomment this to use cache
-        } else {
+       // } else {
             shuffle($categories);
-        }
+       // }
         return \Zend_Json::encode(array('categories' => $categories, 'message' => 'successfully retrieved'));
     }
 
@@ -96,7 +96,7 @@ class ShopWebservice extends BaseWebservice
     {
         $categoryTable= new \Application_Model_Categories;
         $category=$categoryTable->fetch($id);
-        return \Zend_Json::encode(array('name' => $category->getName(), 'message' => 'successfully retrieved'));
+        return $category->getName();
     }
 
     /**
@@ -143,11 +143,26 @@ class ShopWebservice extends BaseWebservice
         $categoriesTable=new \Application_Model_Categories;
         $categories=$categoriesTable->fetchAll();
         $data=array();
+        $name=array();
+        $parentName=array();
+        $catId=array();
         foreach($categories as $category)
         {
-            $data[$category->getName()]=$this->getCategoryProducts($category->getId(),1,50,$id,null);
+            if($category->getParentId()!=0)
+            {
+            $data[]=$this->getCategoryProducts($category->getId(),1,10,$id,null);
+            $name[]=$category->getName();
+            $parentName[]=$categoriesTable->fetch($category->getParentId())->getName();
+            $catId[]=$category->getId();
+            }
         }
-        return $data;
+        return \Zend_Json::encode(
+            array('category' => $data,
+                'name'=>$name,
+                'parentname'=>$parentName,
+                'id'=>$catId,
+                'message' => 'successfully retreived')
+        );
     }
 
     /**
