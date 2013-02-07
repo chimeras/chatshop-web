@@ -116,7 +116,15 @@ class Application_Model_Product extends Application_Model_Db_Row_Product
                 foreach($replace as $replaceWord){
                     $string = str_replace($replaceWord, '',  $string);
                 }
-                $string .= ', '.$replacement;
+                $parts = explode('|', $string);
+                $parts[] = $replacement;
+                foreach($parts as $i => $value){
+                    $parts[$i] = trim($value);
+                    if($parts[$i] == ''){
+                        unset($parts[$i]);
+                    }
+                }
+                $string = implode('|', $parts);
                 echo $string;
             }
         }

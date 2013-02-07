@@ -205,7 +205,7 @@ class FeedProcessor
                  */
                 echo "\n\n\t !!!! setting brand:". $brand->getKeyword();
                 $product->setKeywords($brand->getKeyword() .', '. $product->getKeywords());
-                $product->setAdvertiserKeywords($brand->getAdvertiserKeywords() .', '. $product->getAdvertiserKeywords());
+                $product->setAdvertiserKeywords($brand->getKeyword() .', '. $product->getAdvertiserKeywords());
             }
             $product->setKeywords($this->_separateText($product->getKeywords(), $product->getBrandName()));
             $product->setAdvertiserKeywords($this->_separateText($product->getAdvertiserKeywords(), $product->getBrandName()));
@@ -253,6 +253,7 @@ class FeedProcessor
      */
     private function _separateText($string, $replace = '')
     {
+
         $string = strtolower(trim(stripslashes($string)));
         $string = str_replace(' - ', '|', $string);
         $string = str_replace('>', '|', $string);
@@ -260,6 +261,7 @@ class FeedProcessor
         $string = str_replace('/', '|', $string);
         $string = str_replace(',', '|', $string);
         $string = str_replace('||', '|', $string);
+        $string = trim($string, '|');
 
         $string = str_replace($replace, '', strtolower($string));
         return $string;
