@@ -218,6 +218,19 @@ class ShopWebservice extends BaseWebservice
 
     }
 
+    public function getProducts($name)
+    {
+        $table=new \Application_Model_Products();
+        $data=array();
+        foreach($table->fetchAll("name like '%$name%'") as $product)
+        {
+            $data[]=$product->toArray();
+        }
+        return \Zend_Json::encode(
+            array('products'=>$data)
+        );
+    }
+
     /**
      * @todo finish this service
      *
