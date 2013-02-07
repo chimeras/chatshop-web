@@ -196,17 +196,18 @@ class FeedProcessor
                 /**
                  * set related object and get that object as variable (e.g. $brand, $retailer)
                  */
-                $$string = $product->$setterName($string);
+                $$obj = $product->$setterName($string);
             }
+            exit("\n\n\n");
             $product->setUpdatedAt(date("Y-m-d H:i:s"));
 
-            if(isset($brand) && $brand->getId() == $product->getBrandId()){
+            if(isset($Brand) && $brand->getId() == $product->getBrandId()){
                 /**
                  * add brand specific keywords to product data (e.g. for PEGABO->shoes)
                  */
-                echo "\n\n\t !!!! setting brand:". $brand->getKeyword();
-                $product->setKeywords($brand->getKeyword() .', '. $product->getKeywords());
-                $product->setAdvertiserKeywords($brand->getKeyword() .', '. $product->getAdvertiserKeywords());
+                echo "\n\n\t !!!! setting brand:". $Brand->getKeyword();
+                $product->setKeywords($Brand->getKeyword() .', '. $product->getKeywords());
+                $product->setAdvertiserKeywords($Brand->getKeyword() .', '. $product->getAdvertiserKeywords());
             }
             $product->setKeywords($this->_separateText($product->getKeywords(), $product->getBrandName()));
             $product->setAdvertiserKeywords($this->_separateText($product->getAdvertiserKeywords(), $product->getBrandName()));

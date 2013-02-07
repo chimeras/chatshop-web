@@ -11,6 +11,7 @@ abstract class Application_Model_BaseItem extends Zend_Db_Table_Row_Abstract
 				$methodName = 'set'.$this->toCamelCase($column);
 				$this->$methodName($object->getId());
 			}
+            return $object;
 		}
 	}
 
