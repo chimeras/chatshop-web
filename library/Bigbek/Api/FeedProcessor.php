@@ -144,6 +144,7 @@ class FeedProcessor
     {
         $productTable = new \Application_Model_Products;
         $retailersTable = new \Application_Model_Retailers;
+        $connectionsTable = new \Application_Model_CategoryXProducts;
 
         $max = 10000;
         $count = $source = 0;
@@ -210,6 +211,7 @@ class FeedProcessor
             $product->setKeywords($this->_separateText($product->getKeywords(), $product->getBrandName()));
             $product->setAdvertiserKeywords($this->_separateText($product->getAdvertiserKeywords(), $product->getBrandName()));
             $product->save();
+            $connectionsTable->delete('product_id=' . $product->getId());
             echo "\n\t\t ". $product->getId() ."\t". $product->getName();
 
             try {
@@ -218,7 +220,7 @@ class FeedProcessor
                 echo "\n" . 'ERROR ### cannot get image, '.$product->getImageUrl() .', skipping product';
                 $visible = false;
             }
-            if ($visible) {
+            if ($visible && $product->getInStock()=='yes') {
                 $retailer = $retailersTable->fetch($product->getRetailerId());
                 if($retailer->getState()=='disabled'){
                     continue;

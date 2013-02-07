@@ -26,9 +26,6 @@ class Common
     public function connectCategoryProduct($product)
     {
         $isSet = false;
-
-        $connectionsTable = new \Application_Model_CategoryXProducts;
-        $connectionsTable->delete('product_id=' . $product->getId());
         $prAdvCategory = $product->getAdvertiserCategoryTranslated();
         $prKeywords = $product->getKeywordsTranslated();
         $systemCategories = $this->_processor->getProcessedCategories();
